@@ -66,34 +66,30 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between; /* Distribute space */
+            justify-content: space-around; 
             text-align: center;
-            min-height: 100vh; /* Ensure it takes full viewport height */
-            padding-left: 2.5rem; /* Thicker margin (px-10 equivalent) */
-            padding-right: 2.5rem; /* Thicker margin (px-10 equivalent) */
-            padding-top: 2vh; /* Small top padding */
-            padding-bottom: 2vh; /* Small bottom padding, button is fixed */
+            min-height: 100vh; 
+            padding-left: 2.5rem; 
+            padding-right: 2.5rem; 
+            padding-top: 2vh; 
+            padding-bottom: 12vh; /* Increased bottom padding to push content up from fixed button */
             box-sizing: border-box;
             position: relative; 
         }
         .onboarding-image-container {
-            /* position: absolute; Removed absolute for flex flow */
-            /* top: 5vh;  */
-            /* left: 50%; */
-            /* transform: translateX(-50%); */
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 280px; /* Slightly reduced max-width for image area */
-            margin-top: 1vh; /* Adjust gap from top */
-            margin-bottom: 1vh; /* Gap between image and text block */
+            max-width: 340px; 
+            margin-top: 0; 
+            margin-bottom: 1vh; /* Minimized gap between image and text block */
         }
         .onboarding-image-shape {
-            width: 220px; /* Enlarged shape */
-            height: 220px;
+            width: 320px; 
+            height: 320px;
             background-color: #89B3D9;
-            border-radius: 55% 45% 38% 62% / 45% 58% 42% 55%; /* Another wavy shape */
+            border-radius: 55% 45% 38% 62% / 45% 58% 42% 55%; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -101,17 +97,16 @@
             position: relative; 
         }
         .onboarding-image {
-            width: 300px; /* Image centered in shape */
+            width: 300px; 
             height: 300px;
             object-fit: cover;
             border-radius: 0.75rem; 
             /* box-shadow removed */
         }
         .onboarding-content-block { 
-            /* margin-top: auto; Removed for more direct spacing control */
             width: 100%;
-            max-width: 30rem; /* max-w-lg for text content */
-            margin-bottom: 10vh; /* Push content up from fixed button */
+            max-width: 30rem; 
+            margin-bottom: 0; /* Let space-around and padding handle positioning */
         }
 
         .onboarding-svg-wrapper {
@@ -173,9 +168,9 @@
             font-size: 1rem; 
             line-height: 1.6;
             color: #5F7D97; 
-            margin-top: 0.5rem; /* Reduced margin */
-            margin-bottom: 0.5rem; /* Reduced margin to be same as above */
-            text-align: center; /* Re-centered */
+            margin-top: 0.25rem; 
+            margin-bottom: 0.25rem; 
+            text-align: center; 
             max-width: 28rem; 
             margin-left: auto;
             margin-right: auto;
@@ -183,12 +178,12 @@
 
         .fixed-button-container { 
             position: fixed;
-            bottom: 3vh; /* Adjusted bottom spacing */
+            bottom: 3vh; 
             left: 50%;
             transform: translateX(-50%);
-            width: calc(100% - 5rem); /* Corresponds to px-10 on onboarding screen */
+            width: calc(100% - 5rem); 
             max-width: 20rem; 
-            padding: 0.5rem; /* Increased padding for button scaling */
+            padding: 0.5rem; 
             z-index: 100; 
         }
 
@@ -209,7 +204,7 @@
         .home-header {
             font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif; 
             font-weight: 900; 
-            text-align: left; /* Aligned to the left */
+            text-align: left; 
             padding-top: 1.5rem; 
             padding-bottom: 1rem; 
             font-size: 1.875rem; 
@@ -278,13 +273,13 @@
             transform: scale(1.05);
         }
         
-        .card-button-secondary { /* Updated for "Join Now" */
+        .card-button-secondary { 
             display: inline-block;
             border-radius: 9999px; 
             padding: 0.5rem 1.5rem; 
             font-weight: 600; 
             font-size: 0.875rem; 
-            border: 2px solid #709cbf; /* Darker shade of #89B3D9 */
+            border: 2px solid #709cbf; 
             color: #709cbf;
             transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
         }
@@ -301,7 +296,6 @@
             color: #89B3D9; 
             transition: transform 0.2s ease-in-out;
         }
-        /* Removed .nav-item.active {} as it was empty or redundant */
         
         .nav-item:hover, .nav-item:focus { 
             transform: scale(1.15) translateY(-1px); 
@@ -326,7 +320,7 @@
             margin-top: 2rem; 
         }
         .social-icon-link svg {
-            width: 28px; /* Slightly larger social icons */
+            width: 28px; 
             height: 28px;
             color: #89B3D9; 
             transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
@@ -376,7 +370,7 @@
             <h2 class="onboarding-welcome-text" style="color: #89B3D9;">
                 Welcome to
             </h2>
-            <div class="onboarding-svg-wrapper svg-shimmer-wrapper w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto my-2"> 
+            <div class="onboarding-svg-wrapper svg-shimmer-wrapper w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto my-1"> 
                 <svg id="Layer_2_Tropical_Wave_Text_Onboarding" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2838.43 860.89">
                     <defs>
                         <linearGradient id="tropicalWaveTextGradientOnboarding" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -414,7 +408,7 @@
                 <div class="card">
                     <div class="card-image-placeholder">Placeholder Image</div>
                     <h3 class="card-title">Starlight Airlines: Onboarding</h3>
-                    <p class="event-details-text">Nov 15, Chadaa</p>
+                    <p class="event-details-text">Nov 16, CHADAA</p>
                     <p class="card-description">A day of music, dance, and fandom!</p>
                     <a href="event.html" class="card-button-primary bg-accent-gradient shimmer-wrapper">
                         Dive into the Details
