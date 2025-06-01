@@ -52,7 +52,7 @@
         .onboarding-screen, .home-screen-content {
             opacity: 0;
             transition: opacity 0.5s ease-in;
-            min-height: 100vh;
+            /* min-height: 100vh; Will be controlled by flex */
         }
         .onboarding-screen.visible, .home-screen-content.visible {
             opacity: 1;
@@ -61,53 +61,58 @@
             display: none !important; 
         }
 
+        /* Onboarding Screen Layout Adjustments */
         .onboarding-screen {
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; 
             align-items: center;
+            justify-content: space-between; /* Distribute space */
             text-align: center;
-            padding-left: 2rem; 
-            padding-right: 2rem; 
-            padding-bottom: 8rem; 
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            padding-left: 2.5rem; /* Thicker margin (px-10 equivalent) */
+            padding-right: 2.5rem; /* Thicker margin (px-10 equivalent) */
+            padding-top: 2vh; /* Small top padding */
+            padding-bottom: 2vh; /* Small bottom padding, button is fixed */
             box-sizing: border-box;
-            position: relative; /* Needed for absolute positioning of image container */
+            position: relative; 
         }
         .onboarding-image-container {
-            position: absolute;
-            top: 5vh; /* Positioned towards the top */
-            left: 50%;
-            transform: translateX(-50%);
+            /* position: absolute; Removed absolute for flex flow */
+            /* top: 5vh;  */
+            /* left: 50%; */
+            /* transform: translateX(-50%); */
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 320px; 
+            max-width: 280px; /* Slightly reduced max-width for image area */
+            margin-top: 1vh; /* Adjust gap from top */
+            margin-bottom: 1vh; /* Gap between image and text block */
         }
         .onboarding-image-shape {
-            width: 240px; /* Enlarged shape */
-            height: 240px;
+            width: 220px; /* Enlarged shape */
+            height: 220px;
             background-color: #89B3D9;
-            border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; /* Example of another wavy shape */
+            border-radius: 55% 45% 38% 62% / 45% 58% 42% 55%; /* Another wavy shape */
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(137, 179, 217, 0.3);
-            position: relative; /* To allow z-indexing if needed, and for image positioning */
+            box-shadow: 0 4px 15px rgba(137, 179, 217, 0.25);
+            position: relative; 
         }
         .onboarding-image {
-            width: 300px; /* Adjusted image size to fit well within enlarged shape */
+            width: 300px; /* Image centered in shape */
             height: 300px;
             object-fit: cover;
             border-radius: 0.75rem; 
-            /* box-shadow removed as requested */
+            /* box-shadow removed */
         }
-        .onboarding-content-block { /* Wrapper for text and SVG to manage spacing */
-            margin-top: auto; /* Pushes this block down if image container takes space */
-            padding-top: 1rem; /* Add some space if image is too close when screen is short */
-             width: 100%;
+        .onboarding-content-block { 
+            /* margin-top: auto; Removed for more direct spacing control */
+            width: 100%;
+            max-width: 30rem; /* max-w-lg for text content */
+            margin-bottom: 10vh; /* Push content up from fixed button */
         }
-
 
         .onboarding-svg-wrapper {
             position: relative; 
@@ -168,9 +173,9 @@
             font-size: 1rem; 
             line-height: 1.6;
             color: #5F7D97; 
-            margin-top: 0.75rem; 
-            margin-bottom: 1.5rem; 
-            text-align: center; 
+            margin-top: 0.5rem; /* Reduced margin */
+            margin-bottom: 0.5rem; /* Reduced margin to be same as above */
+            text-align: center; /* Re-centered */
             max-width: 28rem; 
             margin-left: auto;
             margin-right: auto;
@@ -178,12 +183,12 @@
 
         .fixed-button-container { 
             position: fixed;
-            bottom: 2.5rem; 
+            bottom: 3vh; /* Adjusted bottom spacing */
             left: 50%;
             transform: translateX(-50%);
-            width: calc(100% - 4rem); 
+            width: calc(100% - 5rem); /* Corresponds to px-10 on onboarding screen */
             max-width: 20rem; 
-            padding: 0.25rem; 
+            padding: 0.5rem; /* Increased padding for button scaling */
             z-index: 100; 
         }
 
@@ -204,7 +209,7 @@
         .home-header {
             font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif; 
             font-weight: 900; 
-            text-align: left; 
+            text-align: left; /* Aligned to the left */
             padding-top: 1.5rem; 
             padding-bottom: 1rem; 
             font-size: 1.875rem; 
@@ -273,13 +278,13 @@
             transform: scale(1.05);
         }
         
-        .card-button-secondary {
+        .card-button-secondary { /* Updated for "Join Now" */
             display: inline-block;
             border-radius: 9999px; 
             padding: 0.5rem 1.5rem; 
             font-weight: 600; 
             font-size: 0.875rem; 
-            border: 2px solid #709cbf; 
+            border: 2px solid #709cbf; /* Darker shade of #89B3D9 */
             color: #709cbf;
             transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
         }
@@ -296,6 +301,7 @@
             color: #89B3D9; 
             transition: transform 0.2s ease-in-out;
         }
+        /* Removed .nav-item.active {} as it was empty or redundant */
         
         .nav-item:hover, .nav-item:focus { 
             transform: scale(1.15) translateY(-1px); 
@@ -320,8 +326,8 @@
             margin-top: 2rem; 
         }
         .social-icon-link svg {
-            width: 26px; 
-            height: 26px;
+            width: 28px; /* Slightly larger social icons */
+            height: 28px;
             color: #89B3D9; 
             transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
         }
@@ -359,10 +365,10 @@
     <div id="onboardingScreen" class="onboarding-screen hidden-screen" style="background-color: #EEF7F6;">
         <div class="onboarding-image-container">
             <div class="onboarding-image-shape">
-                 <img src="Jeff_the_Land_Shark_Hero_Portrait.webp" 
+                 <img src="https://static.wikia.nocookie.net/marvel-rivals/images/d/de/Jeff_the_Land_Shark_Hero_Portrait.png/revision/latest?cb=20240819162642" 
                      alt="Onboarding Illustration - Jeff the Land Shark" 
                      class="onboarding-image"
-                     onerror="this.style.display='none'; this.parentElement.innerHTML+='<p class=\'text-white text-xs p-2\'>Image Not Found</p>';">
+                     onerror="this.style.display='none'; this.parentElement.innerHTML+='<p class=\'text-xs p-2\' style=\'color: #89B3D9;\'>Image Not Found</p>';">
             </div>
         </div>
 
@@ -370,7 +376,7 @@
             <h2 class="onboarding-welcome-text" style="color: #89B3D9;">
                 Welcome to
             </h2>
-            <div class="onboarding-svg-wrapper svg-shimmer-wrapper w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto my-3"> 
+            <div class="onboarding-svg-wrapper svg-shimmer-wrapper w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto my-2"> 
                 <svg id="Layer_2_Tropical_Wave_Text_Onboarding" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2838.43 860.89">
                     <defs>
                         <linearGradient id="tropicalWaveTextGradientOnboarding" x1="0%" y1="0%" x2="100%" y2="0%">
