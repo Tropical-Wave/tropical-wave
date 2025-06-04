@@ -15,80 +15,78 @@
             overflow-x: hidden; 
         }
 
-        /* SUIT Font for Headers - Applied via inline style or specific class */
+        /* SUIT Font for Headers */
         .font-suit-heavy {
             font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif;
-            font-weight: 900; /* Corresponds to Heavy */
+            font-weight: 900; 
         }
         
-        /* Page Header Style */
         .page-header {
             font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif;
             font-weight: 900; 
             text-align: left;
             padding-top: 1.5rem; 
             padding-bottom: 1.5rem; 
-            font-size: 2.25rem; /* text-4xl */
+            font-size: 2.25rem; 
             line-height: 2.5rem;
             color: #4A5568; 
             padding-left: 1rem;
             padding-right: 1rem;
         }
-        @media (min-width: 640px) { /* sm */
+        @media (min-width: 640px) { 
             .page-header {
                 padding-left: 1.5rem;
                 padding-right: 1.5rem;
             }
         }
-         @media (min-width: 1024px) { /* lg */
+         @media (min-width: 1024px) { 
             .page-header {
                 padding-left: 2rem;
                 padding-right: 2rem;
             }
         }
 
-        /* Card Styles (Consistent with index.html) */
         .card {
             background-color: white;
-            border-radius: 1rem; /* rounded-xl */
-            padding: 1.5rem; /* p-6 */
-            margin-bottom: 1.5rem; /* mb-6 */
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); /* Softer shadow */
+            border-radius: 1rem; 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); 
         }
         .card-title {
-            font-size: 1.5rem; /* text-2xl */
-            font-weight: 700; /* font-bold */
-            margin-bottom: 0.75rem; /* mb-3 */
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            margin-bottom: 0.75rem; 
             color: #2D3748; 
         }
         .card-image-placeholder {
             width: 100%;
-            height: 12rem; /* h-48, adjust as needed */
-            background-color: #E2E8F0; /* bg-gray-300 */
-            border-radius: 0.5rem; /* rounded-lg */
+            height: 12rem; 
+            background-color: #E2E8F0; 
+            border-radius: 0.5rem; 
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #A0AEC0; /* text-gray-500 */
-            margin-bottom: 1rem; /* mb-4 */
+            color: #A0AEC0; 
+            margin-bottom: 1rem; 
             font-style: italic;
         }
         .event-info-text {
-            font-size: 1rem; /* text-base */
-            color: #4A5568; /* Slightly darker for info */
-            margin-bottom: 0.25rem; /* mb-1 */
+            font-size: 1rem; 
+            color: #4A5568; 
+            margin-bottom: 0.25rem; 
         }
         .event-info-text strong {
-            font-weight: 600; /* semibold */
+            font-weight: 600; 
         }
         .event-address-text {
-            font-size: 0.875rem; /* text-sm */
-            color: #718096; /* text-gray-600 */
+            font-size: 0.875rem; 
+            color: #718096; 
             margin-bottom: 0.5rem;
         }
         .get-directions-link {
             font-size: 0.875rem;
-            color: #4BA7AD; /* Accent color for link */
+            color: #4BA7AD; 
             font-weight: 600;
             text-decoration: underline;
             transition: color 0.2s ease;
@@ -97,52 +95,76 @@
             color: #3b8589;
         }
         .card-description {
-            font-size: 0.875rem; /* text-sm */
+            font-size: 0.875rem; 
             color: #5F7D97; 
-            margin-top: 0.75rem; /* mt-3 */
+            margin-top: 0.75rem; 
             line-height: 1.6;
         }
 
         /* Accordion Styles */
         .accordion-item {
             background-color: white;
-            border-radius: 0.75rem; /* rounded-lg */
-            margin-bottom: 0.5rem;
+            border-radius: 0.75rem; 
+            margin-bottom: 0.75rem; /* Increased margin slightly */
             box-shadow: 0 2px 4px -1px rgba(0,0,0,0.04);
-            overflow: hidden; /* To ensure rounded corners clip content correctly */
+            overflow: hidden; 
         }
         .accordion-toggle {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding: 1rem 1.25rem; /* py-4 px-5 */
+            padding: 1rem 1.25rem; 
             text-align: left;
-            font-weight: 600; /* font-semibold */
-            color: #374151; /* text-gray-700 */
-            background-color: #f9fafb; /* bg-gray-50 slightly off-white for the button part */
-            border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+            font-weight: 600; 
+            color: #374151; 
+            background-color: #f9fafb; 
+            /* border-bottom: 1px solid #e5e7eb; Removed border for cleaner look when closed */
         }
         .accordion-toggle:hover {
-            background-color: #f3f4f6; /* bg-gray-100 */
+            background-color: #f3f4f6; 
         }
         .accordion-icon {
-            width: 1.25rem; /* w-5 h-5 */
+            width: 1.25rem; 
             height: 1.25rem;
             transition: transform 0.3s ease;
+            color: #6b7280; /* text-gray-500 */
         }
-        .accordion-icon.rotated {
+        .accordion-toggle[aria-expanded="true"] .accordion-icon { /* Style for when expanded */
             transform: rotate(180deg);
+            color: #4BA7AD; /* Accent color when open */
         }
         .accordion-content {
-            padding: 1rem 1.25rem; /* p-4 px-5 */
+            padding: 1.25rem; /* Increased padding */
             background-color: white;
             font-size: 0.875rem;
             line-height: 1.6;
             color: #5F7D97;
+            border-top: 1px solid #e5e7eb; /* Add border only when open */
+        }
+        
+        /* Improved NOTE text style */
+        .important-note {
+            background-color: #e0eaf3; /* Light blue, derived from #89B3D9 */
+            border-left: 4px solid #89B3D9; /* Accent border */
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            font-size: 0.875rem; /* text-sm */
+            color: #374151; /* text-gray-700 for better contrast */
+            line-height: 1.6;
+        }
+        .important-note strong {
+            font-weight: 700; /* font-bold */
+            color: #4A5568; /* Slightly darker for emphasis */
+        }
+        .important-note em {
+            font-style: italic;
+            color: #4BA7AD; /* Accent color for raffle mechanics */
         }
 
-        /* Navigation Bar (Copied and adapted from index.html previous turn) */
+
+        /* Navigation Bar */
         .bottom-nav {
             background-color: #EEF7F6; 
         }
@@ -165,6 +187,32 @@
             font-weight: 500;
         }
 
+        /* Footer Styles */
+        .site-footer {
+            text-align: center;
+            padding-top: 2rem; 
+            padding-bottom: 1.5rem; 
+            border-top: 1px solid #E2E8F0; 
+            margin-top: 2rem; 
+        }
+        .social-icon-link svg {
+            width: 28px; 
+            height: 28px;
+            color: #89B3D9; 
+            transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .social-icon-link:hover svg {
+            transform: scale(1.15) translateY(-1px); 
+            color: #4BA7AD; 
+        }
+        .footer-credit-link {
+            color: inherit; 
+            text-decoration: none; 
+        }
+        .footer-credit-link:hover {
+            text-decoration: underline; 
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #EEF7F6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #89B3D9; border-radius: 10px; }
@@ -177,7 +225,7 @@
         Events
     </header>
 
-    <main class="px-4 sm:px-6 lg:px-8 pb-28"> 
+    <main class="px-4 sm:px-6 lg:px-8 pb-6"> 
         <section class="mb-10">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">Upcoming Event</h2>
             <div class="card">
@@ -191,7 +239,7 @@
                 
                 <p class="event-info-text"><strong>Venue:</strong> CHADAA</p>
                 <p class="event-address-text">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=CHADAA%2C+112+Hibbard+Ave%2C+Dumaguete+City%2C+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="get-directions-link block mb-3">
+                <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="get-directions-link block mb-3">
                     Get directions
                 </a>
                 <p class="card-description">
@@ -204,7 +252,7 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-700">🎟️ Ticket FAQ</h2>
             <div class="space-y-2">
                 <div class="accordion-item">
-                    <button class="accordion-toggle">
+                    <button class="accordion-toggle" aria-expanded="false">
                         <span>I want to cancel my purchase. Is the ticket refundable?</span>
                         <svg class="accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -213,7 +261,7 @@
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <button class="accordion-toggle">
+                    <button class="accordion-toggle" aria-expanded="false">
                         <span>I bought the wrong TIER! Am I allowed to UPGRADE?</span>
                         <svg class="accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -222,7 +270,7 @@
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <button class="accordion-toggle">
+                    <button class="accordion-toggle" aria-expanded="false">
                         <span>I bought the wrong TIER! Am I allowed to DOWNGRADE?</span>
                         <svg class="accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -231,7 +279,7 @@
                     </div>
                 </div>
                 <div class="accordion-item">
-                    <button class="accordion-toggle">
+                    <button class="accordion-toggle" aria-expanded="false">
                         <span>I cannot attend the event, but I’ve already bought the ticket. Can I give it to someone else?</span>
                         <svg class="accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
@@ -240,13 +288,40 @@
                     </div>
                 </div>                
             </div>
-            <p>
-                <b>NOTE</b>: For all transactions that may involve <b>TICKET TRANSFER</b>, be sure to contact Tropical Wave to update the ticket information due to <b><i>raffle mechanics</i></b>.
-            </p>
+            <!-- Improved NOTE text layout -->
+            <div class="important-note">
+                <p><strong>NOTE:</strong> For all transactions that may involve <strong>TICKET TRANSFER</strong>, be sure to contact Tropical Wave to update the ticket information due to <em>raffle mechanics</em>.</p>
+            </div>
         </section>
     </main>
 
+    <!-- Footer Section -->
+    <footer class="site-footer px-4 sm:px-6 lg:px-8 pb-24"> 
+        <div class="flex justify-center space-x-5 sm:space-x-6 mb-4">
+            <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="Follow us on TikTok" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg>
+            </a>
+            <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="Follow us on YouTube" class="social-icon-link"> <!-- Corrected YouTube link from previous version -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
+            </a>
+            <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email us" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg>
+            </a>
+        </div>
+        <p class="text-xs text-gray-500 mt-4 text-center">
+            Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a>
+        </p>
+    </footer>
+
+    <!-- Navigation Bar -->
     <nav class="fixed bottom-0 left-0 right-0 h-20 bottom-nav flex justify-around items-center z-50">
+        <!-- Inactive Home Icon -->
         <a href="index.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
                 <g fill-rule="evenodd">
@@ -255,6 +330,7 @@
             </svg>
             <span>Home</span>
         </a>
+        <!-- Active Event Icon -->
         <a href="event.html" class="nav-item active flex flex-col items-center justify-center text-center px-1 sm:px-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
                 <g fill-rule="evenodd">
@@ -263,6 +339,7 @@
             </svg>
             <span>Event</span>
         </a>
+        <!-- Inactive Passport Icon -->
         <a href="passport.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
                 <g>
@@ -271,6 +348,7 @@
             </svg>
             <span>Passport</span>
         </a>
+        <!-- Inactive Join Icon -->
         <a href="join.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
                 <g fill-rule="evenodd">
@@ -279,6 +357,7 @@
             </svg>
             <span>Join</span>
         </a>
+        <!-- Inactive About Icon -->
         <a href="about.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
                 <g>
@@ -300,15 +379,10 @@
 
                 if (toggle && content && icon) {
                     toggle.addEventListener('click', () => {
+                        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+                        toggle.setAttribute('aria-expanded', !isExpanded);
                         content.classList.toggle('hidden');
                         icon.classList.toggle('rotated');
-                        // Optional: Close other accordions when one is opened
-                        // accordions.forEach(otherAccordion => {
-                        //     if (otherAccordion !== accordion) {
-                        //         otherAccordion.querySelector('.accordion-content').classList.add('hidden');
-                        //         otherAccordion.querySelector('.accordion-icon').classList.remove('rotated');
-                        //     }
-                        // });
                     });
                 }
             });
