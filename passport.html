@@ -63,7 +63,7 @@
 
 
         /* Card Styles */
-        .card {
+        .rewards-card, .terms-card, .policy-card {
             background-color: white;
             border-radius: 1rem; 
             padding: 1.5rem; 
@@ -76,117 +76,37 @@
             margin-bottom: 1rem; 
             color: #2D3748; 
         }
+        .card-subtitle {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #4A5568;
+            margin-bottom: 0.75rem;
+        }
         .card-content-text {
             font-size: 0.875rem;
             line-height: 1.6;
             color: #5F7D97;
         }
-        
-        /* Carousel Styles */
-        .carousel-container {
-            overflow: hidden;
-            position: relative;
-            border-radius: 1rem; /* Match card style */
-            background-color: white; /* Match card style */
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-        }
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .carousel-slide {
-            min-width: 100%;
-            box-sizing: border-box;
-            padding: 0 0.5rem; /* Some spacing between slides if visible during transition */
+        .rewards-explanation {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
             text-align: center;
+            sm:text-left;
         }
-        .passport-page-image {
-            width: 100%;
-            max-width: 220px; /* Control max width of passport page */
-            height: auto; /* Maintain aspect ratio */
-            /* Aspect ratio approx 2:3 for passport page (e.g., 200x300) */
-            aspect-ratio: 2 / 3; 
-            background-color: #E2E8F0;
-            border-radius: 0.25rem; /* Slight rounding for page edges */
-            margin: 0 auto 1rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #A0AEC0;
-            font-style: italic;
-            border: 1px solid #CBD5E0; /* Subtle border */
+
+        /* Styles for Policy Section */
+        .policy-list {
+            list-style-type: disc;
+            list-style-position: inside;
+            text-indent: -1.5em;
+            padding-left: 1.5em;
+            margin-bottom: 1rem;
         }
-        .passport-page-description {
-            font-size: 0.875rem;
-            color: #5F7D97;
-            margin-top: 0.5rem;
-            min-height: 3em; /* Ensure space for 2 lines of text */
-        }
-        .carousel-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-        }
-        .carousel-button {
-            background-color: #89B3D9;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+        .policy-list > li > strong {
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        .carousel-button:hover {
-            background-color: #709cbf; /* Darker shade */
-        }
-        .carousel-button:disabled {
-            background-color: #D1D5DB; /* bg-gray-300 */
-            cursor: not-allowed;
-        }
-
-
-        /* Accordion Styles */
-        .accordion-item {
-            background-color: white;
-            border-radius: 0.75rem; 
-            margin-bottom: 0.75rem; 
-            box-shadow: 0 2px 4px -1px rgba(0,0,0,0.04);
-            overflow: hidden; 
-        }
-        .accordion-toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 1rem 1.25rem; 
-            text-align: left;
-            font-weight: 600; 
-            color: #374151; 
-            background-color: #f9fafb; 
-        }
-        .accordion-toggle:hover {
-            background-color: #f3f4f6; 
-        }
-        .accordion-icon {
-            width: 1.25rem; 
-            height: 1.25rem;
-            transition: transform 0.3s ease;
-            color: #6b7280; 
-        }
-        .accordion-toggle[aria-expanded="true"] .accordion-icon { 
-            transform: rotate(180deg);
-            color: #4BA7AD; 
-        }
-        .accordion-content {
-            padding: 1.25rem; 
-            background-color: white;
-            font-size: 0.875rem;
-            line-height: 1.6;
-            color: #5F7D97;
-            border-top: 1px solid #e5e7eb; 
+            color: #374151;
         }
         
         /* Navigation Bar */
@@ -242,6 +162,158 @@
         ::-webkit-scrollbar-track { background: #EEF7F6; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #89B3D9; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #709cbf; }
+
+        /* --- STYLES FROM INTERACTIVE BOOKLET --- */
+        /* The user's interactive book styles are maintained from the uploaded file */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .book-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: calc(65vw + 20px);
+            max-height: calc(260px + 20px);
+        }
+        .book {
+            width: 45vw;
+            height: 65vw;
+            max-width: 180px;
+            max-height: 260px;
+            position: relative;
+            transition: transform 0.6s ease-in-out;
+            transform-style: preserve-3d;
+            perspective: 2000px;
+        }
+        .paper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            transition: transform 1.5s ease-in-out;
+            transform-origin: left center;
+            cursor: pointer;
+        }
+        .paper.flipped {
+            transform: rotateY(-180deg);
+        }
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .front img, .back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .back {
+            transform: rotateY(180deg);
+            background-color: #f8f9fa;
+        }
+        .front-content, .back-content {
+            padding: 10px;
+            text-align: center;
+            color: #343a40;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .front-content h1, .back-content h1 {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .front-content p, .back-content p {
+            font-size: 0.8em;
+            color: #d1d5db;
+        }
+        #cover-front .front-content, #cover-back .back-content {
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            color: white;
+        }
+        #p1 { z-index: 6; }
+        #p2 { z-index: 5; }
+        #p3 { z-index: 4; }
+        #p4 { z-index: 3; }
+        #p5 { z-index: 2; }
+        #p6 { z-index: 1; }
+        .swipe-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            opacity: 0.6;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            color: white;
+        }
+        .swipe-indicator.hidden {
+            opacity: 0;
+        }
+        .swipe-indicator svg {
+            width: 100px;
+            height: 100px;
+            animation: swipe 2s ease-in-out infinite;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+        }
+        @keyframes swipe {
+            0%, 100% {
+                transform: translateX(-30px) rotate(-5deg);
+            }
+            50% {
+                transform: translateX(30px) rotate(5deg);
+            }
+        }
+        .book-info {
+            text-align: left;
+            margin-top: 25px;
+            width: 100%;
+            max-width: 380px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .book-info h2 {
+            margin: 0 0 8px 0;
+            font-size: 1.4em;
+            color: #343a40;
+        }
+        .book-info p {
+            margin: 0;
+            font-size: 0.95em;
+            color: #6c757d;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -253,118 +325,108 @@
     <main class="px-4 sm:px-6 lg:px-8 pb-6"> 
         <section class="mb-8 text-center sm:text-left">
             <p class="passport-intro-text">
-                The Tropical Wave Passport is your ultimate event adventure tracker!
-                Every event you attend earns you a stamp, bringing you closer to exclusive rewards.
+                The Tropical Wave Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!
             </p>
             <p class="passport-tagline">
                 “Collect Stamps. Earn Rewards. Make Memories.”
             </p>
         </section>
 
-        <!-- Card-style Illustrated Carousel -->
+        <!-- Interactive Booklet Section (Structure maintained from your file) -->
         <section class="mb-10">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Your Passport Pages</h2>
-            <div id="passportCarousel" class="carousel-container">
-                <div class="carousel-track">
-                    <!-- Slide 1 -->
-                    <div class="carousel-slide">
-                        <img src="https://placehold.co/220x330/E2E8F0/A0AEC0?text=Page+1" alt="Passport Page 1" class="passport-page-image">
-                        <p class="passport-page-description">Page 1: Your journey begins! Get your first stamp at the main entrance.</p>
+            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Discover What’s Inside</h2>
+            <div class="card">
+                <div class="book-wrapper">
+                    <div id="book" class="book">
+                        <div id="p1" class="paper" data-page-num="1"><div class="front" id="cover-front"><div class="front-content"><h1>PASSPORT</h1><p>Image Carousel</p></div></div><div class="back"><img src="https://placehold.co/400x600/a2d2ff/ffffff?text=Page+1" alt="Page 1" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p2" class="paper" data-page-num="2"><div class="front"><img src="https://placehold.co/400x600/bde0fe/ffffff?text=Page+2" alt="Page 2" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/ffafcc/ffffff?text=Page+3" alt="Page 3" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p3" class="paper" data-page-num="3"><div class="front"><img src="https://placehold.co/400x600/ffc8dd/ffffff?text=Page+4" alt="Page 4" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/cdb4db/ffffff?text=Page+5" alt="Page 5" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p4" class="paper" data-page-num="4"><div class="front"><img src="https://placehold.co/400x600/d4a373/ffffff?text=Page+6" alt="Page 6" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/faedcd/ffffff?text=Page+7" alt="Page 7" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p5" class="paper" data-page-num="5"><div class="front"><img src="https://placehold.co/400x600/e9edc9/ffffff?text=Page+8" alt="Page 8" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/ccd5ae/ffffff?text=Page+9" alt="Page 9" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p6" class="paper" data-page-num="6"><div class="front"><img src="https://placehold.co/400x600/fefae0/ffffff?text=Page+10" alt="Page 10" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back" id="cover-back"><div class="back-content"><h1>THE END</h1></div></div></div>
                     </div>
-                    <!-- Slide 2 -->
-                    <div class="carousel-slide">
-                         <img src="https://placehold.co/220x330/D1FAE5/10B981?text=Page+2" alt="Passport Page 2" class="passport-page-image">
-                        <p class="passport-page-description">Page 2: Attend the Opening Ceremony and collect a special stamp.</p>
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="carousel-slide">
-                        <img src="https://placehold.co/220x330/DBEAFE/3B82F6?text=Page+3" alt="Passport Page 3" class="passport-page-image">
-                        <p class="passport-page-description">Page 3: Visit the Artist Alley and get a unique artist stamp!</p>
-                    </div>
-                    <!-- Add more slides up to 12 -->
-                     <div class="carousel-slide">
-                        <img src="https://placehold.co/220x330/FEE2E2/EF4444?text=Page+4" alt="Passport Page 4" class="passport-page-image">
-                        <p class="passport-page-description">Page 4: Participate in a workshop for a skill stamp.</p>
-                    </div>
-                     <div class="carousel-slide">
-                        <img src="https://placehold.co/220x330/FEF3C7/F59E0B?text=Page+5" alt="Passport Page 5" class="passport-page-image">
-                        <p class="passport-page-description">Page 5: Conquer the gaming tournament for a victory stamp.</p>
-                    </div>
+                    <div class="swipe-indicator"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7 4.5a2.5 2.5 0 0 1 5 0v4.605l5.442.605A4 4 0 0 1 21 13.685V14a8 8 0 0 1-8 8h-.674a8 8 0 0 1-7.155-4.422l-2.842-5.684c-.36-.72-.093-1.683.747-2.028c1.043-.427 2.034-.507 3.055.012c.296.15.584.347.869.584V4.5ZM9.5 4a.5.5 0 0 0-.5.5V13a1 1 0 0 1-1.78.625c-.925-1.156-1.517-1.72-1.995-1.964a1.214 1.214 0 0 0-.835-.117l2.57 5.14A6 6 0 0 0 12.326 20H13a6 6 0 0 0 6-6v-.315a2 2 0 0 0-1.78-1.988l-5.44-.604A2 2 0 0 1 10 9.105V4.5a.5.5 0 0 0-.5-.5Z"/></svg></div>
                 </div>
-                <div class="carousel-buttons">
-                    <button id="prevButton" class="carousel-button">&lt; Prev</button>
-                    <button id="nextButton" class="carousel-button">Next &gt;</button>
+                <div class="book-info"><h2 id="book-title"></h2><p id="book-description"></p></div>
+            </div>
+        </section>
+
+        <!-- UPDATED Rewards Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-700 text-center sm:text-left">Rewards You Can Earn</h2>
+            <p class="rewards-explanation text-center sm:text-left">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="rewards-card">
+                    <h3 class="card-title">Tier 1: Economy</h3>
+                    <ul class="list-disc list-inside card-content-text space-y-1">
+                        <li>Official Album</li>
+                        <li>1 Raffle entry</li>
+                    </ul>
+                </div>
+                <div class="rewards-card">
+                    <h3 class="card-title">Tier 2: Business Class</h3>
+                     <ul class="list-disc list-inside card-content-text space-y-1">
+                        <li>Album/Lightstick of their choice</li>
+                        <li>1 Raffle entry</li>
+                    </ul>
+                </div>
+                <div class="rewards-card md:col-span-2 lg:col-span-1">
+                    <h3 class="card-title">Tier 3: First Class</h3>
+                     <ul class="list-disc list-inside card-content-text space-y-1">
+                        <li>Ultimate Prize (TBD)</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Rewards You Can Earn -->
-        <section class="mb-10">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Rewards You Can Earn</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="card">
-                    <h3 class="card-title">Bronze Tier (3 Stamps)</h3>
-                    <p class="card-content-text">Unlock exclusive Tropical Wave digital wallpapers and a special mention on our social media!</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Silver Tier (6 Stamps)</h3>
-                    <p class="card-content-text">Receive a limited edition Tropical Wave sticker pack and a 10% discount voucher for official merchandise.</p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Gold Tier (9 Stamps)</h3>
-                    <p class="card-content-text">Get a free Tropical Wave keychain, priority access to one panel/workshop at the next event, and a shoutout during the closing ceremony!</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Terms and Conditions -->
+        <!-- UPDATED Terms and Conditions -->
         <section class="mb-10">
             <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Terms and Conditions</h2>
-            <div class="card">
+            <div class="terms-card">
                 <ul class="list-disc list-inside card-content-text space-y-2">
-                    <li>Stamps must be collected officially at designated event booths or activities.</li>
-                    <li>Passport is non-transferable. Rewards are for the passport holder only.</li>
-                    <li>Lost or stolen passports cannot be replaced. Keep it safe!</li>
-                    <li>Reward redemption details will be provided at the event or on our website.</li>
-                    <li>Tropical Wave reserves the right to modify rewards or terms with prior notice.</li>
-                    <li>Stamps are valid only for the event edition they were issued for.</li>
+                    <li>Only available for pre-sold ticket holders. (Not available for walk-ins)</li>
+                    <li>If walk-ins wish to avail, they may inform Tropical Wave organizers for their purchase AFTER the event.</li>
+                    <li>Passports will be stamped by organizers ONLY upon entry at the venue.</li>
+                    <li>Transferring of passport ownership is only allowed ONCE.</li>
+                    <li>If transferred to a new Starlight Airlines passport holder, the existing stamps are included upon transfer.</li>
+                    <li class="font-bold text-red-600">DO NOT DUPLICATE.</li>
                 </ul>
             </div>
         </section>
-
-        <!-- FAQ Section -->
-        <section>
-            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Passport FAQ</h2>
-            <div class="space-y-2">
-                <div class="accordion-item">
-                    <button class="accordion-toggle" aria-expanded="false">
-                        <span>Where do I get my passport?</span>
-                        <svg class="accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="accordion-content hidden">
-                        <p>You'll receive your Tropical Wave Passport upon entry to the event when you present your ticket. Look for the Passport Issuance booth near the main entrance.</p>
-                    </div>
+        
+        <!-- NEW Lost or Damaged Policy -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Lost or Damaged Starlight Airlines Passport Policy</h2>
+            <div class="policy-card card-content-text space-y-4">
+                <p class="no-indent">If an attendee loses or damages their Starlight Passport—especially if it affects the microchip—they may request a replacement under the following conditions:</p>
+                <div>
+                    <h4 class="card-subtitle text-lg">Replacement Process:</h4>
+                    <ul class="policy-list space-y-2">
+                        <li><strong>Report the Loss or Damage:</strong> Attendees must contact Tropical Wave organizers via social media before the next event.</li>
+                        <li><strong>Proof of Identity:</strong> Proof of identity must be provided.</li>
+                        <li><strong>Damaged Passport:</strong> If the passport is damaged but still physically present, it must be submitted for assessment.</li>
+                    </ul>
+                    <h4 class="card-subtitle text-lg mt-4">Verification:</h4>
+                    <ul class="policy-list space-y-2">
+                        <li>Organizers will verify the attendee’s past attendance records.</li>
+                        <li>If approved, a new passport will be issued with the same number of stamps.</li>
+                    </ul>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-toggle" aria-expanded="false">
-                        <span>How many stamps can I collect per event activity?</span>
-                        <svg class="accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="accordion-content hidden">
-                        <p>Typically, each designated activity or booth will offer one unique stamp. Some special challenges or workshops might offer bonus stamps. Check the event guide for details!</p>
-                    </div>
+                <div>
+                    <h4 class="card-subtitle text-lg">Replacement Fee:</h4>
+                    <p class="no-indent">A fee of <strong>₱100–₱300 (TBD)</strong> will be required to cover reprinting and chip reprogramming costs. This ensures only legitimate replacements are processed.</p>
                 </div>
-                <div class="accordion-item">
-                    <button class="accordion-toggle" aria-expanded="false">
-                        <span>What if I miss an event? Can I still get stamps?</span>
-                        <svg class="accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div class="accordion-content hidden">
-                        <p>Stamps are generally awarded for participation or attendance at specific activities during the event. Unfortunately, stamps cannot be awarded retroactively for missed activities.</p>
-                    </div>
+                 <div>
+                    <h4 class="card-subtitle text-lg">Final Disclaimer:</h4>
+                     <ul class="policy-list space-y-2">
+                         <li>Each attendee is only allowed <strong>ONE</strong> replacement throughout the three-event series.</li>
+                         <li>Lost or damaged passports cannot be transferred to another person once replaced.</li>
+                         <li>The passport is embedded with a microchip that provides exclusive interactive features during events; please handle with care, as physical damage may result in limited access.</li>
+                     </ul>
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer class="site-footer px-4 sm:px-6 lg:px-8 pb-24">
@@ -458,64 +520,88 @@
                 }
             });
 
-            // Carousel
-            const track = document.querySelector('.carousel-track');
-            const slides = Array.from(track.children);
-            const nextButton = document.getElementById('nextButton');
-            const prevButton = document.getElementById('prevButton');
-            const slideWidth = slides[0].getBoundingClientRect().width;
-            let currentIndex = 0;
+            // Interactive Booklet
+            const book = document.getElementById("book");
+            if (book) {
+                const swipeIndicator = document.querySelector('.swipe-indicator');
+                const bookTitle = document.getElementById('book-title');
+                const bookDescription = document.getElementById('book-description');
+                const papers = Array.from(book.querySelectorAll('.paper'));
+                const numOfPapers = papers.length;
+                const maxLocation = numOfPapers + 1;
+                let currentLocation = 1;
+                let isFlipping = false;
+                const pageInfo = [
+                    { title: "Front Cover", description: "A collection of moments from a journey far and wide. Swipe to explore the story within." },
+                    { title: "Pages 1 & 2", description: "The journey begins. A new stamp, a new adventure awaits." },
+                    { title: "Pages 3 & 4", description: "Venturing into bustling cityscapes and vibrant streets." },
+                    { title: "Pages 5 & 6", description: "Discovering hidden gems and local markets." },
+                    { title: "Pages 7 & 8", description: "Embracing the tranquility of nature's landscapes." },
+                    { title: "Pages 9 & 10", description: "Reflecting on the final leg of the journey." },
+                    { title: "Back Cover", description: "Every journey has an end, but the memories last a lifetime. The end." }
+                ];
 
-            const updateButtons = () => {
-                prevButton.disabled = currentIndex === 0;
-                nextButton.disabled = currentIndex === slides.length - 1;
-            };
-
-            const moveToSlide = (targetIndex) => {
-                track.style.transform = 'translateX(-' + slideWidth * targetIndex + 'px)';
-                currentIndex = targetIndex;
-                updateButtons();
-            };
-
-            nextButton.addEventListener('click', () => {
-                if (currentIndex < slides.length - 1) {
-                    moveToSlide(currentIndex + 1);
+                function updateBookInfo() {
+                    if (!bookTitle || !bookDescription) return;
+                    const info = pageInfo[currentLocation - 1];
+                    bookTitle.textContent = info.title;
+                    bookDescription.textContent = info.description;
                 }
-            });
 
-            prevButton.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    moveToSlide(currentIndex - 1);
+                function goNextPage() {
+                    if (currentLocation >= maxLocation || isFlipping) return;
+                    isFlipping = true;
+                    if(swipeIndicator) swipeIndicator.classList.add('hidden');
+                    if (currentLocation === 1) book.style.transform = "translateX(50%)";
+                    papers[currentLocation - 1].classList.add("flipped");
+                    papers[currentLocation - 1].style.zIndex = currentLocation;
+                    if (currentLocation === numOfPapers) book.style.transform = "translateX(100%)";
+                    currentLocation++;
+                    updateBookInfo();
+                    setTimeout(() => isFlipping = false, 1500);
                 }
-            });
-            
-            // Initialize button states
-            updateButtons();
 
-            // Basic Touch Swipe for Carousel (Optional Enhancement)
-            let touchstartX = 0;
-            let touchendX = 0;
+                function goPrevPage() {
+                    if (currentLocation <= 1 || isFlipping) return;
+                    isFlipping = true;
+                    if(swipeIndicator) swipeIndicator.classList.add('hidden');
+                    currentLocation--;
+                    if (currentLocation === 1) book.style.transform = "translateX(0%)";
+                    if (currentLocation === numOfPapers) book.style.transform = "translateX(50%)";
+                    const previousPaper = papers[currentLocation - 1];
+                    previousPaper.classList.remove("flipped");
+                    setTimeout(() => {
+                        previousPaper.style.zIndex = numOfPapers - (currentLocation - 1);
+                    }, 500);
+                    updateBookInfo();
+                    setTimeout(() => isFlipping = false, 1500);
+                }
 
-            track.addEventListener('touchstart', function(event) {
-                touchstartX = event.changedTouches[0].screenX;
-            }, false);
-
-            track.addEventListener('touchend', function(event) {
-                touchendX = event.changedTouches[0].screenX;
-                handleSwipe();
-            }, false); 
-
-            function handleSwipe() {
-                if (touchendX < touchstartX) { // Swiped left
-                    if (currentIndex < slides.length - 1) {
-                        moveToSlide(currentIndex + 1);
+                book.addEventListener('click', (e) => {
+                    if (isFlipping) return;
+                    const targetPaper = e.target.closest('.paper');
+                    if (!targetPaper) return;
+                    const paperRect = targetPaper.getBoundingClientRect();
+                    const clickX = e.clientX;
+                    if (!targetPaper.classList.contains('flipped') && clickX > paperRect.left + paperRect.width * 0.25) {
+                        goNextPage();
+                    } else if (targetPaper.classList.contains('flipped') && clickX < paperRect.left + paperRect.width * 0.75) {
+                        goPrevPage();
                     }
-                }
-                if (touchendX > touchstartX) { // Swiped right
-                     if (currentIndex > 0) {
-                        moveToSlide(currentIndex - 1);
-                    }
-                }
+                });
+                
+                let touchstartX = 0;
+                book.addEventListener('touchstart', (event) => {
+                    touchstartX = event.changedTouches[0].screenX;
+                }, { passive: true });
+                book.addEventListener('touchend', (event) => {
+                    const touchendX = event.changedTouches[0].screenX;
+                    const swipeThreshold = 50;
+                    if (touchendX < touchstartX - swipeThreshold) goNextPage();
+                    else if (touchendX > touchstartX + swipeThreshold) goPrevPage();
+                }, { passive: true });
+
+                updateBookInfo();
             }
         });
     </script>
