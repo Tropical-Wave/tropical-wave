@@ -56,7 +56,7 @@
         .card-title {
             font-size: 1.5rem; 
             font-weight: 700; 
-            margin-bottom: 0.75rem; 
+            margin-bottom: 1rem; 
             color: #2D3748; 
         }
         .card-image-placeholder {
@@ -101,41 +101,48 @@
             line-height: 1.6;
         }
 
-        /* Tier Card Styles */
-        .tier-card {
-            background-color: white;
+        /* MODIFIED Prize Card Styles (from passport.html) */
+        .prize-card {
             border-radius: 1rem;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-            border-left: 5px solid transparent;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden; /* Important for the shimmer effect */
+            display: flex;
+            flex-direction: column;
         }
-        .tier-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -2px rgba(0,0,0,0.04);
-        }
-        .tier-1 { border-color: #34D399; } /* Green-400 */
-        .tier-2 { border-color: #60A5FA; } /* Blue-400 */
-        .tier-3 { border-color: #FBBF24; } /* Amber-400 / Yellow */
-
-        .tier-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1F2937; /* Gray-800 */
-            margin-bottom: 0.5rem;
-        }
-        .tier-prize {
-            font-size: 1rem;
-            color: #4B5563; /* Gray-600 */
-            margin-bottom: 0.25rem;
-        }
-        .tier-raffle {
-            font-size: 0.875rem;
-            color: #6B7280; /* Gray-500 */
-            font-style: italic;
+        
+        /* Shimmer Animation */
+        .prize-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: left 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
+        .prize-card:hover::after, .prize-card:focus::after, .prize-card:active::after {
+            left: 150%;
+        }
+
+        .prize-card:hover, .prize-card:focus, .prize-card:active {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+        }
+        
+        /* Prize Card Tier Colors */
+        .tier-1 { background-color: #D1FAE5; } /* Tailwind green-200 */
+        .tier-2 { background-color: #DBEAFE; } /* Tailwind blue-200 */
+        .tier-3 { background-color: #FEF3C7; } /* Tailwind yellow-200 */
+
+        .card-content-text {
+             flex-grow: 1;
+        }
 
         /* Accordion Styles */
         .accordion-item {
@@ -155,7 +162,6 @@
             font-weight: 600; 
             color: #374151; 
             background-color: #f9fafb; 
-            /* border-bottom: 1px solid #e5e7eb; Removed border for cleaner look when closed */
         }
         .accordion-toggle:hover {
             background-color: #f3f4f6; 
@@ -258,7 +264,7 @@
 <body class="antialiased">
 
     <header class="page-header">
-        Events
+        Event
     </header>
 
     <main class="px-4 sm:px-6 lg:px-8 pb-6"> 
@@ -269,7 +275,7 @@
                 <h3 class="card-title mt-4">Starlight Airlines: Onboarding</h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2">
-                    <p class="event-info-text"><strong>Date:</strong> November 15, 2025</p>
+                    <p class="event-info-text"><strong>Date:</strong> November 16, 2025 Sunday</p>
                     <p class="event-info-text md:text-left"><strong>Time:</strong> 4pm - 9pm</p>
                 </div>
                 
@@ -284,27 +290,33 @@
             </div>
         </section>
 
-        <!-- Ticket Prize Section -->
+        <!-- UPDATED Ticket Prize Section -->
         <section class="mb-10">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">🏆 Ticket Prizes</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Tier 1: Economy -->
-                <div class="tier-card tier-1">
-                    <h3 class="tier-title">Tier 1: Economy</h3>
-                    <p class="tier-prize">Official Photocard</p>
-                    <p class="tier-raffle">(1 Raffle Entry)</p>
+                <!-- Tier 1 Card -->
+                <div class="prize-card tier-1">
+                    <h3 class="card-title">Tier 1: Economy</h3>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Official Photocard</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
                 </div>
-                <!-- Tier 2: Business Class -->
-                <div class="tier-card tier-2">
-                    <h3 class="tier-title">Tier 2: Business Class</h3>
-                    <p class="tier-prize">Official Album</p>
-                    <p class="tier-raffle">(1 Raffle Entry)</p>
+                <!-- Tier 2 Card -->
+                <div class="prize-card tier-2">
+                    <h3 class="card-title">Tier 2: Business Class</h3>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Official Album</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
                 </div>
-                <!-- Tier 3: First Class -->
-                <div class="tier-card tier-3">
-                    <h3 class="tier-title">Tier 3: First Class</h3>
-                    <p class="tier-prize">Album/Lightstick of their choice</p>
-                    <p class="tier-raffle">(1 Raffle Entry)</p>
+                <!-- Tier 3 Card -->
+                <div class="prize-card tier-3">
+                    <h3 class="card-title">Tier 3: First Class</h3>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Album/Lightstick of their choice</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -369,7 +381,7 @@
             <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="Follow us on TikTok" class="social-icon-link">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg>
             </a>
-            <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="Follow us on YouTube" class="social-icon-link"> <!-- Corrected YouTube link from previous version -->
+            <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="Follow us on YouTube" class="social-icon-link">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
             </a>
             <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email us" class="social-icon-link">

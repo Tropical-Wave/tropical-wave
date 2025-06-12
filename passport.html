@@ -63,13 +63,54 @@
 
 
         /* Card Styles */
-        .rewards-card, .terms-card, .policy-card {
+        .terms-card, .policy-card {
             background-color: white;
             border-radius: 1rem; 
             padding: 1.5rem; 
             margin-bottom: 1.5rem; 
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); 
         }
+
+        /* MODIFIED Rewards Card Styles */
+        .rewards-card {
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden; /* Important for the shimmer effect */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Shimmer Animation */
+        .rewards-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: left 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .rewards-card:hover::after, .rewards-card:focus::after, .rewards-card:active::after {
+            left: 150%;
+        }
+
+        .rewards-card:hover, .rewards-card:focus, .rewards-card:active {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+        }
+        
+        /* Card Tier Colors */
+        .tier-1 { background-color: #D1FAE5; } /* Tailwind green-200 */
+        .tier-2 { background-color: #DBEAFE; } /* Tailwind blue-200 */
+        .tier-3 { background-color: #FEF3C7; } /* Tailwind yellow-200 */
+
+
         .card-title {
             font-size: 1.5rem; 
             font-weight: 700; 
@@ -83,18 +124,20 @@
             margin-bottom: 0.75rem;
         }
         .card-content-text {
-            font-size: 0.875rem;
-            line-height: 1.6;
-            color: #5F7D97;
+             flex-grow: 1;
         }
         .rewards-explanation {
             font-size: 0.8rem;
             color: #718096;
-            margin-top: -0.5rem;
             margin-bottom: 1rem;
             text-align: center;
-            sm:text-left;
         }
+         @media (min-width: 640px) {
+            .rewards-explanation {
+                 text-align: left;
+            }
+         }
+
 
         /* Styles for Policy Section */
         .policy-list {
@@ -177,6 +220,7 @@
             align-items: center;
             margin-left: auto;
             margin-right: auto;
+            touch-action: pan-y; /* Allow vertical scroll by default */
         }
         .book-wrapper {
             position: relative;
@@ -319,20 +363,20 @@
 <body class="antialiased">
 
     <header class="page-header">
-        Tropical Wave Passport
+        Starlight Passport
     </header>
 
     <main class="px-4 sm:px-6 lg:px-8 pb-6"> 
         <section class="mb-8 text-center sm:text-left">
             <p class="passport-intro-text">
-                The Tropical Wave Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!
+                The Starlight Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!
             </p>
             <p class="passport-tagline">
                 “Collect Stamps. Earn Rewards. Make Memories.”
             </p>
         </section>
 
-        <!-- Interactive Booklet Section (Structure maintained from your file) -->
+        <!-- Interactive Booklet Section -->
         <section class="mb-10">
             <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Discover What’s Inside</h2>
             <div class="card">
@@ -353,33 +397,37 @@
 
         <!-- UPDATED Rewards Section -->
         <section class="mb-10">
-            <h2 class="text-2xl font-bold text-gray-700 text-center sm:text-left">Rewards You Can Earn</h2>
-            <p class="rewards-explanation text-center sm:text-left">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
+            <h2 class="text-2xl font-bold text-gray-700 text-center sm:text-left mb-2">Rewards You Can Earn</h2>
+            <p class="rewards-explanation">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="rewards-card">
+                <!-- Tier 1 Card -->
+                <div class="rewards-card tier-1">
                     <h3 class="card-title">Tier 1: Economy</h3>
-                    <ul class="list-disc list-inside card-content-text space-y-1">
-                        <li>Official Album</li>
-                        <li>1 Raffle entry</li>
-                    </ul>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Official Album</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
                 </div>
-                <div class="rewards-card">
+                <!-- Tier 2 Card -->
+                <div class="rewards-card tier-2">
                     <h3 class="card-title">Tier 2: Business Class</h3>
-                     <ul class="list-disc list-inside card-content-text space-y-1">
-                        <li>Album/Lightstick of their choice</li>
-                        <li>1 Raffle entry</li>
-                    </ul>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Official Album</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
                 </div>
-                <div class="rewards-card md:col-span-2 lg:col-span-1">
+                <!-- Tier 3 Card -->
+                <div class="rewards-card md:col-span-2 lg:col-span-1 tier-3">
                     <h3 class="card-title">Tier 3: First Class</h3>
-                     <ul class="list-disc list-inside card-content-text space-y-1">
-                        <li>Ultimate Prize (TBD)</li>
-                    </ul>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Album or Lightstick of your choice</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- UPDATED Terms and Conditions -->
+        <!-- Terms and Conditions -->
         <section class="mb-10">
             <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Terms and Conditions</h2>
             <div class="terms-card">
@@ -394,7 +442,7 @@
             </div>
         </section>
         
-        <!-- NEW Lost or Damaged Policy -->
+        <!-- Lost or Damaged Policy -->
         <section class="mb-10">
             <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Lost or Damaged Starlight Airlines Passport Policy</h2>
             <div class="policy-card card-content-text space-y-4">
@@ -503,26 +551,10 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Accordion
-            const accordions = document.querySelectorAll('.accordion-item');
-            accordions.forEach(accordion => {
-                const toggle = accordion.querySelector('.accordion-toggle');
-                const content = accordion.querySelector('.accordion-content');
-                const icon = accordion.querySelector('.accordion-icon');
-
-                if (toggle && content && icon) {
-                    toggle.addEventListener('click', () => {
-                        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-                        toggle.setAttribute('aria-expanded', !isExpanded);
-                        content.classList.toggle('hidden');
-                        icon.classList.toggle('rotated');
-                    });
-                }
-            });
-
             // Interactive Booklet
+            const bookContainer = document.querySelector('.card');
             const book = document.getElementById("book");
-            if (book) {
+            if (book && bookContainer) {
                 const swipeIndicator = document.querySelector('.swipe-indicator');
                 const bookTitle = document.getElementById('book-title');
                 const bookDescription = document.getElementById('book-description');
@@ -590,17 +622,42 @@
                     }
                 });
                 
+                // --- MODIFIED TOUCH LOGIC ---
                 let touchstartX = 0;
-                book.addEventListener('touchstart', (event) => {
+                let touchstartY = 0;
+                let touchendX = 0;
+                let touchendY = 0;
+
+                bookContainer.addEventListener('touchstart', (event) => {
                     touchstartX = event.changedTouches[0].screenX;
-                }, { passive: true });
-                book.addEventListener('touchend', (event) => {
-                    const touchendX = event.changedTouches[0].screenX;
-                    const swipeThreshold = 50;
-                    if (touchendX < touchstartX - swipeThreshold) goNextPage();
-                    else if (touchendX > touchstartX + swipeThreshold) goPrevPage();
+                    touchstartY = event.changedTouches[0].screenY;
                 }, { passive: true });
 
+                bookContainer.addEventListener('touchend', (event) => {
+                    touchendX = event.changedTouches[0].screenX;
+                    touchendY = event.changedTouches[0].screenY;
+                    handleSwipe();
+                }, { passive: true });
+                
+                function handleSwipe() {
+                    const deltaX = touchendX - touchstartX;
+                    const deltaY = touchendY - touchstartY;
+                    const swipeThreshold = 50; // Minimum distance for a swipe
+
+                    // Check if horizontal movement is greater than vertical movement
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                         if (Math.abs(deltaX) > swipeThreshold) {
+                            if (deltaX < 0) {
+                                // Swiped left
+                                goNextPage();
+                            } else {
+                                // Swiped right
+                                goPrevPage();
+                            }
+                        }
+                    }
+                }
+                
                 updateBookInfo();
             }
         });
