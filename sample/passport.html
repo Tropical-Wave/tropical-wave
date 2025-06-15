@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tropical Wave - Passport</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #EEF7F6; /* Main background */
+            color: #5F7D97; 
+            overflow-x: hidden; 
+        }
+
+        /* SUIT Font for Headers */
+        .font-suit-heavy {
+            font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif;
+            font-weight: 900; 
+        }
+        
+        /* Page Header Style */
+        .page-header {
+            font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif;
+            font-weight: 900; 
+            text-align: left;
+            padding-top: 1.5rem; 
+            padding-bottom: 1rem; /* Reduced bottom padding */
+            font-size: 2.25rem; 
+            line-height: 2.5rem;
+            color: #4A5568; 
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        @media (min-width: 640px) { 
+            .page-header {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+         @media (min-width: 1024px) { 
+            .page-header {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+
+        /* Intro Text Styling */
+        .passport-intro-text {
+            font-size: 1rem; /* text-base */
+            line-height: 1.75;
+            color: #4A5568; /* Slightly darker for readability */
+            margin-bottom: 0.5rem;
+        }
+        .passport-tagline {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* semibold */
+            color: #89B3D9; /* Accent color */
+            margin-bottom: 2rem; /* mb-8 */
+        }
+
+
+        /* Card Styles */
+        .terms-card, .policy-card {
+            background-color: white;
+            border-radius: 1rem; 
+            padding: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); 
+        }
+
+        /* MODIFIED Rewards Card Styles */
+        .rewards-card {
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden; /* Important for the shimmer effect */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Shimmer Animation */
+        .rewards-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: left 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .rewards-card:hover::after, .rewards-card:focus::after, .rewards-card:active::after {
+            left: 150%;
+        }
+
+        .rewards-card:hover, .rewards-card:focus, .rewards-card:active {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+        }
+        
+        /* Card Tier Colors */
+        .tier-1 { background-color: #D1FAE5; } /* Tailwind green-200 */
+        .tier-2 { background-color: #DBEAFE; } /* Tailwind blue-200 */
+        .tier-3 { background-color: #FEF3C7; } /* Tailwind yellow-200 */
+
+
+        .card-title {
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            margin-bottom: 1rem; 
+            color: #2D3748; 
+        }
+        .card-subtitle {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #4A5568;
+            margin-bottom: 0.75rem;
+        }
+        .card-content-text {
+             flex-grow: 1;
+        }
+        .rewards-explanation {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+         @media (min-width: 640px) {
+            .rewards-explanation {
+                 text-align: left;
+            }
+         }
+
+
+        /* Styles for Policy Section */
+        .policy-list {
+            list-style-type: disc;
+            list-style-position: inside;
+            text-indent: -1.5em;
+            padding-left: 1.5em;
+            margin-bottom: 1rem;
+        }
+        .policy-list > li > strong {
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        /* Navigation Bar */
+        .bottom-nav {
+            background-color: #EEF7F6; 
+        }
+        .nav-item {
+            color: #89B3D9; 
+            transition: transform 0.2s ease-in-out;
+        }
+        .nav-item:hover, .nav-item:focus { 
+            transform: scale(1.15) translateY(-1px); 
+            color: #4BA7AD; 
+        }
+        .nav-item svg { 
+            width: 28px; 
+            height: 28px;
+            margin-bottom: 3px;
+        }
+        .nav-item span {
+            font-size: 0.65rem; 
+            line-height: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Footer Styles */
+        .site-footer {
+            text-align: center;
+            padding-top: 2rem; 
+            padding-bottom: 1.5rem; 
+            border-top: 1px solid #E2E8F0; 
+            margin-top: 2rem; 
+        }
+        .social-icon-link svg {
+            width: 28px; 
+            height: 28px;
+            color: #89B3D9; 
+            transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .social-icon-link:hover svg {
+            transform: scale(1.15) translateY(-1px); 
+            color: #4BA7AD; 
+        }
+        .footer-credit-link {
+            color: inherit; 
+            text-decoration: none; 
+        }
+        .footer-credit-link:hover {
+            text-decoration: underline; 
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #EEF7F6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #89B3D9; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #709cbf; }
+
+        /* --- STYLES FROM INTERACTIVE BOOKLET --- */
+        /* The user's interactive book styles are maintained from the uploaded file */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            touch-action: pan-y; /* Allow vertical scroll by default */
+        }
+        .book-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: calc(65vw + 20px);
+            max-height: calc(260px + 20px);
+        }
+        .book {
+            width: 45vw;
+            height: 65vw;
+            max-width: 180px;
+            max-height: 260px;
+            position: relative;
+            transition: transform 0.6s ease-in-out;
+            transform-style: preserve-3d;
+            perspective: 2000px;
+        }
+        .paper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            transition: transform 1.5s ease-in-out;
+            transform-origin: left center;
+            cursor: pointer;
+        }
+        .paper.flipped {
+            transform: rotateY(-180deg);
+        }
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .front img, .back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .back {
+            transform: rotateY(180deg);
+            background-color: #f8f9fa;
+        }
+        .front-content, .back-content {
+            padding: 10px;
+            text-align: center;
+            color: #343a40;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .front-content h1, .back-content h1 {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .front-content p, .back-content p {
+            font-size: 0.8em;
+            color: #d1d5db;
+        }
+        #cover-front .front-content, #cover-back .back-content {
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            color: white;
+        }
+        #p1 { z-index: 6; }
+        #p2 { z-index: 5; }
+        #p3 { z-index: 4; }
+        #p4 { z-index: 3; }
+        #p5 { z-index: 2; }
+        #p6 { z-index: 1; }
+        .swipe-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            opacity: 0.6;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            color: white;
+        }
+        .swipe-indicator.hidden {
+            opacity: 0;
+        }
+        .swipe-indicator svg {
+            width: 100px;
+            height: 100px;
+            animation: swipe 2s ease-in-out infinite;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+        }
+        @keyframes swipe {
+            0%, 100% {
+                transform: translateX(-30px) rotate(-5deg);
+            }
+            50% {
+                transform: translateX(30px) rotate(5deg);
+            }
+        }
+        .book-info {
+            text-align: left;
+            margin-top: 25px;
+            width: 100%;
+            max-width: 380px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .book-info h2 {
+            margin: 0 0 8px 0;
+            font-size: 1.4em;
+            color: #343a40;
+        }
+        .book-info p {
+            margin: 0;
+            font-size: 0.95em;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="page-header">
+        Starlight Passport
+    </header>
+
+    <main class="px-4 sm:px-6 lg:px-8 pb-6"> 
+        <section class="mb-8 text-center sm:text-left">
+            <p class="passport-intro-text">
+                The Starlight Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!
+            </p>
+            <p class="passport-tagline">
+                “Collect Stamps. Earn Rewards. Make Memories.”
+            </p>
+        </section>
+
+        <!-- Interactive Booklet Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Discover What’s Inside</h2>
+            <div class="card">
+                <div class="book-wrapper">
+                    <div id="book" class="book">
+                        <div id="p1" class="paper" data-page-num="1"><div class="front" id="cover-front"><div class="front-content"><h1>PASSPORT</h1><p>Image Carousel</p></div></div><div class="back"><img src="https://placehold.co/400x600/a2d2ff/ffffff?text=Page+1" alt="Page 1" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p2" class="paper" data-page-num="2"><div class="front"><img src="https://placehold.co/400x600/bde0fe/ffffff?text=Page+2" alt="Page 2" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/ffafcc/ffffff?text=Page+3" alt="Page 3" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p3" class="paper" data-page-num="3"><div class="front"><img src="https://placehold.co/400x600/ffc8dd/ffffff?text=Page+4" alt="Page 4" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/cdb4db/ffffff?text=Page+5" alt="Page 5" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p4" class="paper" data-page-num="4"><div class="front"><img src="https://placehold.co/400x600/d4a373/ffffff?text=Page+6" alt="Page 6" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/faedcd/ffffff?text=Page+7" alt="Page 7" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p5" class="paper" data-page-num="5"><div class="front"><img src="https://placehold.co/400x600/e9edc9/ffffff?text=Page+8" alt="Page 8" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back"><img src="https://placehold.co/400x600/ccd5ae/ffffff?text=Page+9" alt="Page 9" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div></div>
+                        <div id="p6" class="paper" data-page-num="6"><div class="front"><img src="https://placehold.co/400x600/fefae0/ffffff?text=Page+10" alt="Page 10" onerror="this.onerror=null;this.src='https://placehold.co/400x600/cccccc/ffffff?text=Image+Not+Found';"></div><div class="back" id="cover-back"><div class="back-content"><h1>THE END</h1></div></div></div>
+                    </div>
+                    <div class="swipe-indicator"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7 4.5a2.5 2.5 0 0 1 5 0v4.605l5.442.605A4 4 0 0 1 21 13.685V14a8 8 0 0 1-8 8h-.674a8 8 0 0 1-7.155-4.422l-2.842-5.684c-.36-.72-.093-1.683.747-2.028c1.043-.427 2.034-.507 3.055.012c.296.15.584.347.869.584V4.5ZM9.5 4a.5.5 0 0 0-.5.5V13a1 1 0 0 1-1.78.625c-.925-1.156-1.517-1.72-1.995-1.964a1.214 1.214 0 0 0-.835-.117l2.57 5.14A6 6 0 0 0 12.326 20H13a6 6 0 0 0 6-6v-.315a2 2 0 0 0-1.78-1.988l-5.44-.604A2 2 0 0 1 10 9.105V4.5a.5.5 0 0 0-.5-.5Z"/></svg></div>
+                </div>
+                <div class="book-info"><h2 id="book-title"></h2><p id="book-description"></p></div>
+            </div>
+        </section>
+
+        <!-- UPDATED Rewards Section -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-gray-700 text-center sm:text-left mb-2">Rewards You Can Earn</h2>
+            <p class="rewards-explanation">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tier 1 Card -->
+                <div class="rewards-card tier-1">
+                    <h3 class="card-title">Tier 1: Economy</h3>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Official Album</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
+                </div>
+                <!-- Tier 2 Card -->
+                <div class="rewards-card tier-2">
+                    <h3 class="card-title">Tier 2: Business Class</h3>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Official Album</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
+                </div>
+                <!-- Tier 3 Card -->
+                <div class="rewards-card md:col-span-2 lg:col-span-1 tier-3">
+                    <h3 class="card-title">Tier 3: First Class</h3>
+                    <div class="card-content-text">
+                        <p class="text-lg font-semibold text-gray-800">Album or Lightstick of your choice</p>
+                        <p class="text-sm text-gray-600 mt-1">(1 Raffle Entry)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terms and Conditions -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Terms and Conditions</h2>
+            <div class="terms-card">
+                <ul class="list-disc list-inside card-content-text space-y-2">
+                    <li>Only available for pre-sold ticket holders. (Not available for walk-ins)</li>
+                    <li>If walk-ins wish to avail, they may inform Tropical Wave organizers for their purchase AFTER the event.</li>
+                    <li>Passports will be stamped by organizers ONLY upon entry at the venue.</li>
+                    <li>Transferring of passport ownership is only allowed ONCE.</li>
+                    <li>If transferred to a new Starlight Airlines passport holder, the existing stamps are included upon transfer.</li>
+                    <li class="font-bold text-red-600">DO NOT DUPLICATE.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Lost or Damaged Policy -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Lost or Damaged Starlight Airlines Passport Policy</h2>
+            <div class="policy-card card-content-text space-y-4">
+                <p class="no-indent">If an attendee loses or damages their Starlight Passport—especially if it affects the microchip—they may request a replacement under the following conditions:</p>
+                <div>
+                    <h4 class="card-subtitle text-lg">Replacement Process:</h4>
+                    <ul class="policy-list space-y-2">
+                        <li><strong>Report the Loss or Damage:</strong> Attendees must contact Tropical Wave organizers via social media before the next event.</li>
+                        <li><strong>Proof of Identity:</strong> Proof of identity must be provided.</li>
+                        <li><strong>Damaged Passport:</strong> If the passport is damaged but still physically present, it must be submitted for assessment.</li>
+                    </ul>
+                    <h4 class="card-subtitle text-lg mt-4">Verification:</h4>
+                    <ul class="policy-list space-y-2">
+                        <li>Organizers will verify the attendee’s past attendance records.</li>
+                        <li>If approved, a new passport will be issued with the same number of stamps.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="card-subtitle text-lg">Replacement Fee:</h4>
+                    <p class="no-indent">A fee of <strong>₱100–₱300 (TBD)</strong> will be required to cover reprinting and chip reprogramming costs. This ensures only legitimate replacements are processed.</p>
+                </div>
+                 <div>
+                    <h4 class="card-subtitle text-lg">Final Disclaimer:</h4>
+                     <ul class="policy-list space-y-2">
+                         <li>Each attendee is only allowed <strong>ONE</strong> replacement throughout the three-event series.</li>
+                         <li>Lost or damaged passports cannot be transferred to another person once replaced.</li>
+                         <li>The passport is embedded with a microchip that provides exclusive interactive features during events; please handle with care, as physical damage may result in limited access.</li>
+                     </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer px-4 sm:px-6 lg:px-8 pb-24">
+        <div class="flex justify-center space-x-5 sm:space-x-6 mb-4">
+            <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="Follow us on TikTok" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg>
+            </a>
+            <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="Follow us on YouTube" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
+            </a>
+            <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email us" class="social-icon-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg>
+            </a>
+        </div>
+        <p class="text-xs text-gray-500 mt-4 text-center">
+            Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a>
+        </p>
+    </footer>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 h-20 bottom-nav flex justify-around items-center z-50">
+        <!-- Inactive Home Icon -->
+        <a href="index.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
+                <g fill-rule="evenodd">
+                    <path fill="currentColor" d="M10.671 2.843a2 2 0 0 1 2.658 0l3.934 3.497l.25-1.504a1 1 0 1 1 1.973.328L19.03 7.91l2.635 2.343a1 1 0 0 1-1.328 1.494l-.464-.412l-.787 7.864A2 2 0 0 1 17.095 21H6.905a2 2 0 0 1-1.99-1.801l-.786-7.864l-.465.412a1 1 0 0 1-1.328-1.494l2.635-2.343L4.97 5.168a1 1 0 1 1 1.973-.328l.25 1.504L10.67 2.843ZM5.957 9.71c.019.062.031.125.038.191l.91 9.1h10.19l.91-9.1c.007-.066.02-.13.038-.19L12 4.337Z"/>
+                </g>
+            </svg>
+            <span>Home</span>
+        </a>
+        <!-- Inactive Event Icon -->
+        <a href="event.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
+                <g fill-rule="evenodd">
+                    <path fill="currentColor" d="M16 3a1 1 0 0 1 1 1v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2V4a1 1 0 0 1 2 0v1h6V4a1 1 0 0 1 1-1ZM8 7H5v2h14V7H8Zm-3 4v8h14v-8H5Zm2 2a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H8a1 1 0 0 1-1-1Zm1 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H8Zm3-2a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H12a1 1 0 0 1-1-1Zm1 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H12Zm3-2a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H16a1 1 0 0 1-1-1Zm1 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H16Z"/>
+                </g>
+            </svg>
+            <span>Event</span>
+        </a>
+        <!-- Active Passport Icon -->
+        <a href="passport.html" class="nav-item active flex flex-col items-center justify-center text-center px-1 sm:px-2">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
+                <g>
+                    <path fill="currentColor" d="M8 2v19H6c-1.054 0-2-.95-2-2V4c0-1.054.95-2 2-2h2Zm9 0c1.598 0 3 1.3 3 3v13c0 1.7-1.4 3-3 3h-7V2h7Z"/>
+                </g>
+            </svg>
+            <span>Passport</span>
+        </a>
+        <!-- Inactive Join Icon -->
+        <a href="join.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
+                <g fill-rule="evenodd">
+                    <path fill="currentColor" d="M5 2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h3v-2H5V4h12v4h2V4a2 2 0 0 0-2-2H5Zm3 5a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H8Zm7.949 3.811a3 3 0 0 1 4.242 4.243l-5.656 5.657a1 1 0 0 1-.707.293h-2.829a1 1 0 0 1-1-1v-2.829a1 1 0 0 1 .293-.707l5.657-5.657Zm2.828 1.414a1 1 0 0 0-1.414 0l1.414 1.415a1 1 0 0 0 0-1.415Zm-1.414 2.829l-1.414-1.414l-3.95 3.95v1.414h1.414l3.95-3.95Z"/>
+                </g>
+            </svg>
+            <span>Join</span>
+        </a>
+        <!-- Inactive About Icon -->
+        <a href="about.html" class="nav-item flex flex-col items-center justify-center text-center px-1 sm:px-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 mb-0.5">
+                <g>
+                    <path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2Zm0 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16Zm-.01 6c.558 0 1.01.452 1.01 1.01v5.124A1 1 0 0 1 12.5 18h-.49A1.01 1.01 0 0 1 11 16.99V12a1 1 0 1 1 0-2h.99ZM12 7a1 1 0 1 1 0 2a1 1 0 0 1 0-2Z"/>
+                </g>
+            </svg>
+            <span>About</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Interactive Booklet
+            const bookContainer = document.querySelector('.card');
+            const book = document.getElementById("book");
+            if (book && bookContainer) {
+                const swipeIndicator = document.querySelector('.swipe-indicator');
+                const bookTitle = document.getElementById('book-title');
+                const bookDescription = document.getElementById('book-description');
+                const papers = Array.from(book.querySelectorAll('.paper'));
+                const numOfPapers = papers.length;
+                const maxLocation = numOfPapers + 1;
+                let currentLocation = 1;
+                let isFlipping = false;
+                const pageInfo = [
+                    { title: "Front Cover", description: "A collection of moments from a journey far and wide. Swipe to explore the story within." },
+                    { title: "Pages 1 & 2", description: "The journey begins. A new stamp, a new adventure awaits." },
+                    { title: "Pages 3 & 4", description: "Venturing into bustling cityscapes and vibrant streets." },
+                    { title: "Pages 5 & 6", description: "Discovering hidden gems and local markets." },
+                    { title: "Pages 7 & 8", description: "Embracing the tranquility of nature's landscapes." },
+                    { title: "Pages 9 & 10", description: "Reflecting on the final leg of the journey." },
+                    { title: "Back Cover", description: "Every journey has an end, but the memories last a lifetime. The end." }
+                ];
+
+                function updateBookInfo() {
+                    if (!bookTitle || !bookDescription) return;
+                    const info = pageInfo[currentLocation - 1];
+                    bookTitle.textContent = info.title;
+                    bookDescription.textContent = info.description;
+                }
+
+                function goNextPage() {
+                    if (currentLocation >= maxLocation || isFlipping) return;
+                    isFlipping = true;
+                    if(swipeIndicator) swipeIndicator.classList.add('hidden');
+                    if (currentLocation === 1) book.style.transform = "translateX(50%)";
+                    papers[currentLocation - 1].classList.add("flipped");
+                    papers[currentLocation - 1].style.zIndex = currentLocation;
+                    if (currentLocation === numOfPapers) book.style.transform = "translateX(100%)";
+                    currentLocation++;
+                    updateBookInfo();
+                    setTimeout(() => isFlipping = false, 1500);
+                }
+
+                function goPrevPage() {
+                    if (currentLocation <= 1 || isFlipping) return;
+                    isFlipping = true;
+                    if(swipeIndicator) swipeIndicator.classList.add('hidden');
+                    currentLocation--;
+                    if (currentLocation === 1) book.style.transform = "translateX(0%)";
+                    if (currentLocation === numOfPapers) book.style.transform = "translateX(50%)";
+                    const previousPaper = papers[currentLocation - 1];
+                    previousPaper.classList.remove("flipped");
+                    setTimeout(() => {
+                        previousPaper.style.zIndex = numOfPapers - (currentLocation - 1);
+                    }, 500);
+                    updateBookInfo();
+                    setTimeout(() => isFlipping = false, 1500);
+                }
+
+                book.addEventListener('click', (e) => {
+                    if (isFlipping) return;
+                    const targetPaper = e.target.closest('.paper');
+                    if (!targetPaper) return;
+                    const paperRect = targetPaper.getBoundingClientRect();
+                    const clickX = e.clientX;
+                    if (!targetPaper.classList.contains('flipped') && clickX > paperRect.left + paperRect.width * 0.25) {
+                        goNextPage();
+                    } else if (targetPaper.classList.contains('flipped') && clickX < paperRect.left + paperRect.width * 0.75) {
+                        goPrevPage();
+                    }
+                });
+                
+                // --- MODIFIED TOUCH LOGIC ---
+                let touchstartX = 0;
+                let touchstartY = 0;
+                let touchendX = 0;
+                let touchendY = 0;
+
+                bookContainer.addEventListener('touchstart', (event) => {
+                    touchstartX = event.changedTouches[0].screenX;
+                    touchstartY = event.changedTouches[0].screenY;
+                }, { passive: true });
+
+                bookContainer.addEventListener('touchend', (event) => {
+                    touchendX = event.changedTouches[0].screenX;
+                    touchendY = event.changedTouches[0].screenY;
+                    handleSwipe();
+                }, { passive: true });
+                
+                function handleSwipe() {
+                    const deltaX = touchendX - touchstartX;
+                    const deltaY = touchendY - touchstartY;
+                    const swipeThreshold = 50; // Minimum distance for a swipe
+
+                    // Check if horizontal movement is greater than vertical movement
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                         if (Math.abs(deltaX) > swipeThreshold) {
+                            if (deltaX < 0) {
+                                // Swiped left
+                                goNextPage();
+                            } else {
+                                // Swiped right
+                                goPrevPage();
+                            }
+                        }
+                    }
+                }
+                
+                updateBookInfo();
+            }
+        });
+    </script>
+
+</body>
+</html>
