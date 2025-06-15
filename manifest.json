@@ -1,0 +1,22 @@
+{
+  "name": "Tropical Wave",
+  "short_name": "Tropical Wave",
+  "description": "Uniting fans through the love of Asian pop music. Catch the wave. Feel the vibe.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#EEF7F6",
+  "theme_color": "#4BA7AD",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

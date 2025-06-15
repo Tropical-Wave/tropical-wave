@@ -2,8 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Tropical Wave</title>
+
+    <meta name="theme-color" content="#4BA7AD"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tropical Wave">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,11 +19,11 @@
     <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
     <style>
         :root {
-            --nav-height: 68px; /* Height of the nav bar */
-            --nav-bottom-gap: 24px; /* Space between nav and bottom of screen */
+            --nav-height: 58px; /* Height of the nav bar */
+            --nav-bottom-gap: 20px; /* Space between nav and bottom of screen */
             --nav-horizontal-padding: 8px; /* Padding inside the nav bar */
-            --nav-indicator-height: 52px; /* Height of the active indicator */
-            --nav-indicator-width: 68px;  /* Width of the active indicator */
+            --nav-indicator-height: 46px; /* Height of the active indicator */
+            --nav-indicator-width: 60px;  /* Width of the active indicator */
         }
         
         html, body {
@@ -51,6 +59,8 @@
             scroll-snap-align: start;
             overflow-y: auto; /* Allow vertical scrolling within each page */
             overflow-x: hidden; /* Prevent horizontal scroll within a page */
+            /* Added padding for safe areas */
+            padding-top: env(safe-area-inset-top);
             padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 80px);
             box-sizing: border-box;
         }
@@ -105,6 +115,7 @@
             justify-content: center; /* Vertically center content */
             text-align: center;
             padding: 1rem 1.5rem; 
+            padding-top: env(safe-area-inset-top); /* Safe area for onboarding */
             box-sizing: border-box;
         }
         .onboarding-screen.visible {
@@ -140,7 +151,8 @@
         }
         .fixed-button-container {
             position: absolute;
-            bottom: 5vh;
+            /* Adjust for safe area on bottom */
+            bottom: calc(5vh + env(safe-area-inset-bottom));
             left: 50%;
             transform: translateX(-50%);
             width: 100%; /* Take full width */
@@ -247,7 +259,8 @@
             position: fixed;
             left: 50%;
             transform: translateX(-50%);
-            bottom: var(--nav-bottom-gap);
+            /* Adjusted for safe area */
+            bottom: calc(var(--nav-bottom-gap) + env(safe-area-inset-bottom));
             width: calc(100% - 2rem);
             max-width: 380px;
             height: var(--nav-height);
@@ -261,6 +274,8 @@
             justify-content: space-around;
             align-items: center;
             padding: 0 var(--nav-horizontal-padding);
+            /* Add transition for bottom positioning */
+            transition: bottom 0.3s ease-out;
         }
 
         .nav-items-container {
@@ -289,12 +304,12 @@
             color: #ffffff; /* Active icon/text color */
         }
         .nav-item svg {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             margin-bottom: 1px;
         }
         .nav-item span {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             line-height: 0.8rem;
             font-weight: 600;
         }
@@ -396,7 +411,6 @@
             </svg>
         </div>
     </div>
-
     <div id="onboardingScreen" class="onboarding-screen">
         <div class="onboarding-image-container">
             <img src="Jeff_the_Land_Shark_Hero_Portrait.webp" alt="Onboarding Illustration - Jeff the Land Shark" class="onboarding-image" onerror="this.onerror=null; this.src='https://placehold.co/300x300/eef7f6/5f7d97?text=Image+Error';">
@@ -421,7 +435,6 @@
             <button id="letsGoButton" class="lets-go-button">Let’s Go!</button>
         </div>
     </div>
-
     <div class="page-container" id="page-container">
         
         <section id="home" class="page-section">
@@ -667,12 +680,13 @@
         </section>
 
     </div>
-
     <nav class="floating-nav">
         <div class="nav-items-container">
             <div id="nav-indicator" class="nav-indicator"></div>
             <a class="nav-item active" data-index="0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill-rule="evenodd"><path fill="currentColor" d="M10.671 2.843a2 2 0 0 1 2.658 0l3.934 3.497l.25-1.504a1 1 0 1 1 1.973.328L19.03 7.91l2.635 2.343a1 1 0 0 1-1.328 1.494l-.464-.412l-.787 7.864A2 2 0 0 1 17.095 21H6.905a2 2 0 0 1-1.99-1.801l-.786-7.864l-.465.412a1 1 0 0 1-1.328-1.494l2.635-2.343L4.97 5.168a1 1 0 1 1 1.973-.328l.25 1.504L10.67 2.843Z"/></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M13.228 2.688a2 2 0 0 0-2.456 0l-8.384 6.52C1.636 9.795 2.05 11 3.003 11H4v8a2 2 0 0 0 2 2h4v-6a2 2 0 1 1 4 0v6h4a2 2 0 0 0 2-2v-8h.997c.952 0 1.368-1.205.615-1.791l-8.384-6.52Z"/>
+                </svg>
                 <span>Home</span>
             </a>
             <a class="nav-item" data-index="1">
@@ -695,6 +709,19 @@
     </nav>
     
     <script>
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered: ', registration);
+                })
+                .catch(registrationError => {
+                    console.log('Service Worker registration failed: ', registrationError);
+                });
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         // --- Element References ---
         const splashScreen = document.getElementById('splashScreen');
