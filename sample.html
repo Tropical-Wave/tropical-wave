@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tropical Wave</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
     <style>
         :root {
@@ -48,7 +50,8 @@
             height: 100vh;
             scroll-snap-align: start;
             overflow-y: auto; /* Allow vertical scrolling within each page */
-            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 20px); /* Space for nav bar */
+            /* Increased padding-bottom to ensure last elements are fully visible */
+            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 60px);
             box-sizing: border-box;
         }
 
@@ -101,7 +104,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 1rem 2.5rem;
+            padding: 1rem 1.5rem; /* Adjusted padding */
             box-sizing: border-box;
         }
         .onboarding-screen.visible {
@@ -135,15 +138,27 @@
             font-size: 1rem; line-height: 1.6; color: #5F7D97; margin-top: 1em;
         }
         .fixed-button-container {
-            position: absolute; bottom: 5vh; left: 50%; transform: translateX(-50%); width: calc(100% - 5rem); max-width: 20rem;
+            position: absolute;
+            bottom: 5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%; /* Take full width */
+            max-width: 22rem; /* Increased max-width to allow for hover effect */
+            display: flex;
+            justify-content: center;
         }
         .lets-go-button {
-            width: 100%; border-radius: 9999px; padding: 0.75rem 2rem; font-weight: 700; color: white;
+            width: 100%;
+            max-width: 20rem; /* Button max width */
+            border-radius: 9999px; padding: 0.75rem 2rem; font-weight: 700; color: white;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            transition: transform 0.2s ease-out;
+            transition: transform 0.2s ease-out, filter 0.2s ease-out;
             background-image: linear-gradient(135deg, #4BA7AD, #89B3D9, #837FD9);
         }
-        .lets-go-button:hover { transform: scale(1.08); }
+        .lets-go-button:hover { 
+            transform: scale(1.05); /* Restore scale effect, container is now larger */
+            filter: brightness(1.1);
+        }
 
         /* Shimmer Effect */
         .shimmer-wrapper { position: relative; display: inline-block; overflow: hidden; }
@@ -156,8 +171,23 @@
         
         /* General Page Styles */
         .page-header {
-            font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif; font-weight: 900; text-align: left;
-            padding: 1.5rem 1rem; font-size: 2.25rem; line-height: 2.5rem; color: #4A5568;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            font-size: 2.5rem; /* Larger font size */
+            line-height: 2.75rem;
+            color: #4A6A8A; /* A fitting shade of blue */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            /* Sticky Header Styles */
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: rgba(238, 247, 246, 0.85); /* Slightly transparent background */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         @media (min-width: 640px) { .page-header { padding-left: 1.5rem; padding-right: 1.5rem; } }
         @media (min-width: 1024px) { .page-header { padding-left: 2rem; padding-right: 2rem; } }
@@ -242,7 +272,8 @@
             background-image: linear-gradient(135deg, #4BA7AD, #89B3D9, #837FD9);
             border-radius: 9999px;
             z-index: 1;
-            transition: left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            /* Smoother animation for long-distance taps */
+            transition: left 0.4s cubic-bezier(0.42, 0, 0.58, 1);
         }
 
         /* Scrollbar styles for webkit browsers */
@@ -252,7 +283,6 @@
         ::-webkit-scrollbar-thumb:hover { background: #709cbf; }
 
         /* Other page-specific styles */
-        .font-suit-heavy { font-family: 'SUIT Variable Heavy', 'Poppins', sans-serif; font-weight: 900; }
         .site-footer {
             text-align: center; padding: 2rem 1rem 1.5rem;
             border-top: 1px solid #E2E8F0; margin-top: 2rem;
@@ -300,7 +330,7 @@
     <!-- Onboarding Screen -->
     <div id="onboardingScreen" class="onboarding-screen">
         <div class="onboarding-image-container">
-            <img src="https://i.imgur.com/nJm3h1y.jpeg" alt="Onboarding Illustration - Jeff the Land Shark" class="onboarding-image" onerror="this.onerror=null; this.src='https://placehold.co/300x300/eef7f6/5f7d97?text=Image+Error';">
+            <img src="Jeff_the_Land_Shark_Hero_Portrait.webp" alt="Onboarding Illustration - Jeff the Land Shark" class="onboarding-image" onerror="this.onerror=null; this.src='https://placehold.co/300x300/eef7f6/5f7d97?text=Image+Error';">
         </div>
         <div class="onboarding-content-block">
             <h2 class="onboarding-welcome-text">Welcome to</h2>
@@ -318,7 +348,7 @@
                 Uniting fans through the love of Asian pop music.<br>Catch the wave. Feel the vibe.
             </p>
         </div>
-        <div class="fixed-button-container shimmer-wrapper">
+        <div class="fixed-button-container">
             <button id="letsGoButton" class="lets-go-button">Let’s Go!</button>
         </div>
     </div>
@@ -328,7 +358,7 @@
         
         <!-- Section 1: Home -->
         <section id="home" class="page-section">
-            <header class="page-header">Tropical Wave</header>
+            <header class="page-header">Home</header>
             <main class="px-4 sm:px-6 lg:px-8">
                 <section class="mb-8">
                     <h2 class="text-2xl font-bold mb-4 text-gray-700">Featured Event</h2>
@@ -406,7 +436,7 @@
 
         <!-- Section 3: Passport -->
         <section id="passport" class="page-section">
-            <header class="page-header">Starlight Passport</header>
+            <header class="page-header">Passport</header>
             <main class="px-4 sm:px-6 lg:px-8">
                 <section class="mb-8 text-center sm:text-left">
                     <p class="text-base leading-relaxed text-gray-700 mb-2">The Starlight Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!</p>
@@ -445,16 +475,18 @@
         </section>
 
         <!-- Section 4: Join -->
-        <section id="join" class="page-section flex flex-col items-center justify-center">
-            <header class="page-header absolute top-0 left-0 w-full">Join Us</header>
-            <main class="px-4 sm:px-6 lg:px-8 w-full max-w-lg">
-                <div class="card text-center">
-                    <h2 class="text-2xl font-extrabold text-gray-800 mb-4">Tropical Wave is holding auditions!</h2>
-                    <p class="text-lg text-gray-700 leading-relaxed mb-4">Bring the energy and show us what you’ve got. This is your chance to shine and be part of the wave! 🌊✨</p>
-                    <p class="text-base text-gray-600 mb-6">Click below to submit your application.</p>
-                    <a href="https://forms.gle/EQcXNsdsKTGqFMJE6" target="_blank" rel="noopener noreferrer" class="card-button-primary shimmer-wrapper !px-10 !py-3">
-                        Join the Wave
-                    </a>
+        <section id="join" class="page-section flex flex-col">
+            <header class="page-header">Join Us</header>
+            <main class="px-4 sm:px-6 lg:px-8 w-full flex-grow flex items-center justify-center">
+                <div class="w-full max-w-lg">
+                    <div class="card text-center">
+                        <h2 class="text-2xl font-extrabold text-gray-800 mb-4">Tropical Wave is holding auditions!</h2>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-4">Bring the energy and show us what you’ve got. This is your chance to shine and be part of the wave! 🌊✨</p>
+                        <p class="text-base text-gray-600 mb-6">Click below to submit your application.</p>
+                        <a href="https://forms.gle/EQcXNsdsKTGqFMJE6" target="_blank" rel="noopener noreferrer" class="card-button-primary shimmer-wrapper !px-10 !py-3">
+                            Join the Wave
+                        </a>
+                    </div>
                 </div>
             </main>
         </section>
@@ -565,8 +597,11 @@
 
             // Update nav indicator and active class on scroll
             pageContainer.addEventListener('scroll', () => {
-                const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
-                updateActiveNav(currentPageIndex);
+                // Use a timeout to avoid performance issues on rapid scroll
+                requestAnimationFrame(() => {
+                    const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
+                    updateActiveNav(currentPageIndex);
+                });
             });
         }
         
@@ -581,7 +616,6 @@
             if (activeItem && navIndicator) {
                  const containerRect = navIndicator.parentElement.getBoundingClientRect();
                  const itemRect = activeItem.getBoundingClientRect();
-                 // Calculate the position relative to the container
                  const indicatorLeft = itemRect.left - containerRect.left + (itemRect.width / 2) - (navIndicator.offsetWidth / 2);
                  navIndicator.style.left = `${indicatorLeft}px`;
             }
@@ -590,29 +624,36 @@
         // --- Swipe Navigation Logic ---
         function setupSwipeNavigation() {
             let touchstartX = 0;
+            let touchstartY = 0;
             let touchendX = 0;
+            let touchendY = 0;
             const swipeThreshold = 50; // Minimum pixels for a swipe
 
             pageContainer.addEventListener('touchstart', (event) => {
                 touchstartX = event.changedTouches[0].screenX;
+                touchstartY = event.changedTouches[0].screenY;
             }, { passive: true });
 
             pageContainer.addEventListener('touchend', (event) => {
                 touchendX = event.changedTouches[0].screenX;
+                touchendY = event.changedTouches[0].screenY;
                 handleSwipe();
             }, { passive: true });
 
             function handleSwipe() {
                 const deltaX = touchendX - touchstartX;
-                if (Math.abs(deltaX) < swipeThreshold) return; // Not a swipe
+                const deltaY = touchendY - touchstartY;
 
-                const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
-                if (deltaX < 0 && currentPageIndex < navItems.length - 1) {
-                    // Swipe Left - Go to Next Page
-                    pageContainer.scrollLeft = (currentPageIndex + 1) * window.innerWidth;
-                } else if (deltaX > 0 && currentPageIndex > 0) {
-                    // Swipe Right - Go to Previous Page
-                    pageContainer.scrollLeft = (currentPageIndex - 1) * window.innerWidth;
+                // Only trigger horizontal swipe if movement is more horizontal than vertical
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+                    const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
+                    if (deltaX < 0 && currentPageIndex < navItems.length - 1) {
+                        // Swipe Left - Go to Next Page
+                        pageContainer.scrollLeft = (currentPageIndex + 1) * window.innerWidth;
+                    } else if (deltaX > 0 && currentPageIndex > 0) {
+                        // Swipe Right - Go to Previous Page
+                        pageContainer.scrollLeft = (currentPageIndex - 1) * window.innerWidth;
+                    }
                 }
             }
         }
@@ -633,6 +674,13 @@
 
                 toggle.setAttribute('aria-expanded', String(!isExpanded));
                 content.classList.toggle('hidden');
+                
+                // If we just opened the accordion, scroll it into view
+                if (!isExpanded) {
+                    setTimeout(() => {
+                        toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 200); // Small delay to allow the 'hidden' class to be removed
+                }
             });
         }
 
@@ -721,7 +769,7 @@
         // Recalculate indicator on resize
         window.addEventListener('resize', () => {
             const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
-            updateActiveNav(currentPageIndex)
+            updateActiveNav(currentPageIndex);
         });
     });
     </script>
