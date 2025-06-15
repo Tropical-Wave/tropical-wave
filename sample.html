@@ -26,7 +26,7 @@
             overflow: hidden; /* Prevent body scrolling */
             background-color: #EEF7F6;
             font-family: 'Poppins', sans-serif;
-            color: #5F7D97;
+            color: #5F7D97; /* Consistent base font color */
         }
 
         /* Main container for horizontally scrollable pages */
@@ -50,8 +50,8 @@
             height: 100vh;
             scroll-snap-align: start;
             overflow-y: auto; /* Allow vertical scrolling within each page */
-            /* Increased padding-bottom to ensure last elements are fully visible */
-            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 60px);
+            /* Increased padding-bottom to ensure last elements are fully visible above nav bar */
+            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 80px);
             box-sizing: border-box;
         }
 
@@ -102,9 +102,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: center; /* Vertically center content */
             text-align: center;
-            padding: 1rem 1.5rem; /* Adjusted padding */
+            padding: 1rem 1.5rem; 
             box-sizing: border-box;
         }
         .onboarding-screen.visible {
@@ -113,10 +113,11 @@
         }
         .onboarding-image-container {
             flex-shrink: 0;
+            margin-bottom: 1rem; /* Reduced space below image */
         }
         .onboarding-image {
-            width: 300px; 
-            height: 300px;
+            width: 280px;  /* Slightly smaller image for better fit */
+            height: 280px;
             object-fit: cover;
             border-radius: 0.75rem; 
         }
@@ -124,12 +125,12 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* Align content to the top of the block */
             width: 100%;
             max-width: 30rem;
         }
         .onboarding-welcome-text {
-            font-size: 1.5rem; color: #89B3D9;
+            font-size: 1.5rem; color: #2D3748; /* Consistent title color */
         }
         .onboarding-svg-wrapper {
             position: relative; overflow: hidden; display: block;
@@ -156,7 +157,7 @@
             background-image: linear-gradient(135deg, #4BA7AD, #89B3D9, #837FD9);
         }
         .lets-go-button:hover { 
-            transform: scale(1.05); /* Restore scale effect, container is now larger */
+            transform: scale(1.05);
             filter: brightness(1.1);
         }
 
@@ -175,18 +176,13 @@
             font-weight: 700;
             text-align: left;
             padding: 1rem 1.5rem;
-            font-size: 2.5rem; /* Larger font size */
+            font-size: 2.5rem; 
             line-height: 2.75rem;
-            color: #4A6A8A; /* A fitting shade of blue */
+            color: #2D3748; /* Consistent header color */
             text-transform: uppercase;
             letter-spacing: 1px;
-            /* Sticky Header Styles */
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background-color: rgba(238, 247, 246, 0.85); /* Slightly transparent background */
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            /* REMOVED sticky positioning */
+            background-color: #EEF7F6; /* Match page background */
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         @media (min-width: 640px) { .page-header { padding-left: 1.5rem; padding-right: 1.5rem; } }
@@ -196,7 +192,7 @@
             background-color: white; border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
         }
-        .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #2D3748; }
+        .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #2D3748; } /* Consistent Title Color */
         .card-description { font-size: 0.875rem; color: #5F7D97; margin-bottom: 1rem; }
         .card-button-primary {
             display: inline-block; border-radius: 9999px; padding: 0.5rem 1.5rem; font-weight: 600;
@@ -204,6 +200,18 @@
             background-image: linear-gradient(135deg, #4BA7AD, #89B3D9, #837FD9);
         }
         .card-button-primary:hover { transform: scale(1.05); }
+        .section-title {
+            font-size: 1.75rem; /* 28px */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2D3748;
+        }
+        .section-subtitle {
+            font-size: 1rem; /* 16px */
+            color: #5F7D97;
+            margin-bottom: 1.5rem;
+        }
+
 
         /* Floating Navigation Bar */
         .floating-nav {
@@ -272,7 +280,6 @@
             background-image: linear-gradient(135deg, #4BA7AD, #89B3D9, #837FD9);
             border-radius: 9999px;
             z-index: 1;
-            /* Smoother animation for long-distance taps */
             transition: left 0.4s cubic-bezier(0.42, 0, 0.58, 1);
         }
 
@@ -303,20 +310,28 @@
         .front, .back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
         .front img, .back img { width: 100%; height: 100%; object-fit: cover; }
         .back { transform: rotateY(180deg); background-color: #f8f9fa; }
-        .front-content, .back-content { padding: 10px; text-align: center; color: #343a40; height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        #cover-front .front-content, #cover-back .back-content { background: linear-gradient(45deg, #4a5568, #2d3748); color: white; }
+        .front-content, .back-content { padding: 10px; text-align: center; color: #fff; height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #cover-front .front-content, #cover-back .back-content { background: linear-gradient(45deg, #4a5568, #2d3748); }
         #p1 { z-index: 6; } #p2 { z-index: 5; } #p3 { z-index: 4; } #p4 { z-index: 3; } #p5 { z-index: 2; } #p6 { z-index: 1; }
         .book-info { text-align: left; margin-top: 25px; width: 100%; max-width: 380px; padding: 0 10px; box-sizing: border-box; transition: opacity 0.5s ease-in-out; }
+        .book-info h2 { color: #2D3748; } /* Consistent Title Color */
 
         /* Accordion styles */
         .accordion-item { background-color: white; border-radius: 0.75rem; margin-bottom: 0.75rem; box-shadow: 0 2px 4px -1px rgba(0,0,0,0.04); overflow: hidden; }
-        .accordion-toggle { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 1rem 1.25rem; text-align: left; font-weight: 600; color: #374151; background-color: #f9fafb; cursor: pointer;}
+        .accordion-toggle { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 1rem 1.25rem; text-align: left; font-weight: 600; color: #2D3748; background-color: #f9fafb; cursor: pointer;}
         .accordion-content { padding: 1.25rem; background-color: white; border-top: 1px solid #e5e7eb; }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            color: #89B3D9;
+        }
+        .accordion-toggle[aria-expanded="true"] .accordion-icon {
+            transform: rotate(180deg);
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- Splash Screen -->
     <div id="splashScreen" class="splash-screen">
         <div class="splash-logo">
             <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1052.89 770.27">
@@ -327,7 +342,6 @@
         </div>
     </div>
 
-    <!-- Onboarding Screen -->
     <div id="onboardingScreen" class="onboarding-screen">
         <div class="onboarding-image-container">
             <img src="Jeff_the_Land_Shark_Hero_Portrait.webp" alt="Onboarding Illustration - Jeff the Land Shark" class="onboarding-image" onerror="this.onerror=null; this.src='https://placehold.co/300x300/eef7f6/5f7d97?text=Image+Error';">
@@ -353,15 +367,13 @@
         </div>
     </div>
 
-    <!-- Main Page Container -->
     <div class="page-container" id="page-container">
         
-        <!-- Section 1: Home -->
         <section id="home" class="page-section">
             <header class="page-header">Home</header>
             <main class="px-4 sm:px-6 lg:px-8">
                 <section class="mb-8">
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700">Featured Event</h2>
+                    <h2 class="section-title">Featured Event</h2>
                     <div class="card">
                         <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Placeholder Image</div>
                         <h3 class="text-xl font-bold mb-2 text-gray-800">Starlight Airlines: Onboarding</h3>
@@ -373,7 +385,7 @@
                     </div>
                 </section>
                 <section>
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700">Announcements</h2>
+                    <h2 class="section-title">Announcements</h2>
                     <div class="card">
                         <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
                         <p class="card-description">Show us what you've got! Click below to submit your application.</p>
@@ -395,12 +407,11 @@
             </main>
         </section>
 
-        <!-- Section 2: Event -->
         <section id="event" class="page-section">
             <header class="page-header">Event</header>
             <main class="px-4 sm:px-6 lg:px-8">
                  <section class="mb-10">
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700">Upcoming Event</h2>
+                    <h2 class="section-title">Upcoming Event</h2>
                     <div class="card">
                         <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Event Image / Thumbnail Placeholder</div>
                         <h3 class="card-title mt-4">Starlight Airlines: Onboarding</h3>
@@ -415,26 +426,51 @@
                     </div>
                 </section>
                 <section class="mb-10">
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700">🏆 Ticket Prizes</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="card bg-green-100"><h3 class="card-title">Tier 1: Economy</h3><p>Official Photocard (1 Raffle Entry)</p></div>
-                        <div class="card bg-blue-100"><h3 class="card-title">Tier 2: Business Class</h3><p>Official Album (1 Raffle Entry)</p></div>
-                        <div class="card bg-yellow-100"><h3 class="card-title">Tier 3: First Class</h3><p>Album/Lightstick of their choice (1 Raffle Entry)</p></div>
+                    <h2 class="section-title">🏆 Ticket Prizes</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4"> <div class="card bg-green-100/60 p-4 text-center"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Photocard<br>(1 Raffle Entry)</p></div>
+                        <div class="card bg-blue-100/60 p-4 text-center"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
+                        <div class="card bg-yellow-100/60 p-4 text-center"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
                     </div>
                 </section>
                 <section>
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700">🎟️ Ticket FAQ</h2>
+                    <h2 class="section-title">🎟️ Ticket FAQ</h2>
                     <div class="space-y-2" id="faq-accordion">
-                         <div class="accordion-item"><button class="accordion-toggle w-full text-left">Is the ticket refundable?</button><div class="accordion-content hidden"><p>Unfortunately, <b>NO</b>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div></div>
-                         <div class="accordion-item"><button class="accordion-toggle w-full text-left">Can I upgrade my ticket tier?</button><div class="accordion-content hidden"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div></div>
-                         <div class="accordion-item"><button class="accordion-toggle w-full text-left">Can I downgrade my ticket tier?</button><div class="accordion-content hidden"><p>Unfortunately, <b>NO</b>. As tickets are <b>NON-REFUNDABLE</b>, we will not be offering downgrades, as well.</p></div></div>
-                         <div class="accordion-item"><button class="accordion-toggle w-full text-left">Can I give my ticket to someone else?</button><div class="accordion-content hidden"><p>YES! You may give the ticket to someone who will be interested to attend. Be sure to contact Tropical Wave to update the ticket information due to <em>raffle mechanics</em>.</p></div></div>
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Is the ticket refundable?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden"><p>Unfortunately, <b>NO</b>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div>
+                        </div>
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Can I upgrade my ticket tier?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div>
+                        </div>
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Can I downgrade my ticket tier?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden"><p>Unfortunately, <b>NO</b>. As tickets are <b>NON-REFUNDABLE</b>, we will not be offering downgrades, as well.</p></div>
+                        </div>
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Can I give my ticket to someone else?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden"><p>YES! You may give the ticket to someone who will be interested to attend.</p></div>
+                        </div>
                     </div>
+                    <p class="text-xs text-gray-600 mt-4 text-left">
+                        <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
+                    </p>
                 </section>
             </main>
         </section>
 
-        <!-- Section 3: Passport -->
         <section id="passport" class="page-section">
             <header class="page-header">Passport</header>
             <main class="px-4 sm:px-6 lg:px-8">
@@ -443,7 +479,7 @@
                     <p class="text-lg font-semibold text-[#89B3D9]">“Collect Stamps. Earn Rewards. Make Memories.”</p>
                 </section>
                 <section class="mb-10">
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center sm:text-left">Discover What’s Inside</h2>
+                    <h2 class="section-title text-center sm:text-left">Discover What’s Inside</h2>
                     <div class="card !p-5">
                         <div class="book-wrapper">
                             <div id="book" class="book">
@@ -455,26 +491,63 @@
                                 <div id="p6" class="paper"><div class="front"><img src="https://placehold.co/400x600/fefae0/ffffff?text=Page+10" alt="Page 10"></div><div class="back" id="cover-back"><div class="back-content"><h1>THE END</h1></div></div></div>
                             </div>
                         </div>
-                        <div class="book-info"><h2 id="book-title" class="text-xl font-bold text-gray-800"></h2><p id="book-description" class="text-sm text-gray-600"></p></div>
+                        <div class="book-info"><h2 id="book-title" class="text-xl font-bold"></h2><p id="book-description" class="text-sm text-gray-600"></p></div>
                     </div>
                 </section>
                 <section class="mb-10">
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700">Terms & Conditions</h2>
+                    <h2 class="section-title">Rewards You Can Earn</h2>
+                    <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="card bg-green-100/60 p-4 text-center"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Photocard<br>(1 Raffle Entry)</p></div>
+                        <div class="card bg-blue-100/60 p-4 text-center"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
+                        <div class="card bg-yellow-100/60 p-4 text-center"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
+                    </div>
+                </section>
+                <section class="mb-10">
+                    <h2 class="section-title">Terms & Conditions</h2>
                     <div class="card text-left">
-                        <ul class="list-disc list-inside space-y-2 text-sm">
+                        <ul class="list-disc list-inside space-y-2 text-sm text-gray-600">
                             <li>Only available for pre-sold ticket holders. (Not available for walk-ins)</li>
                             <li>If walk-ins wish to avail, they may inform organizers AFTER the event.</li>
                             <li>Passports will be stamped by organizers ONLY upon entry at the venue.</li>
                             <li>Transferring of passport ownership is only allowed ONCE.</li>
-                            <li>If transferred, existing stamps are included.</li>
-                            <li class="font-bold text-red-600">DO NOT DUPLICATE. The passport is embedded with a microchip.</li>
+                            <li>If transferred to a new Starlight Airlines passport holder, the existing stamps are included upon transfer.</li>
+                            <li class="font-bold text-red-600">DO NOT DUPLICATE.</li>
+                        </ul>
+                    </div>
+                </section>
+                 <section class="mb-10">
+                    <h2 class="section-title">Lost or Damaged Starlight Passport Policy</h2>
+                    <div class="card text-left text-sm text-gray-600">
+                        <p class="mb-4">If an attendee loses or damages their Starlight Passport—especially if it affects the microchip—they may request a replacement under the following conditions:</p>
+                        
+                        <h4 class="font-bold text-gray-800 mb-2">Replacement Process:</h4>
+                        <ul class="list-disc list-inside space-y-2 mb-4">
+                            <li><strong>Report the Loss or Damage:</strong> Attendees must contact Tropical Wave organizers via social media before the next event.</li>
+                            <li><strong>Proof of Identity:</strong> Proof of identity must be provided.</li>
+                            <li><strong>Damaged Passport:</strong> If the passport is damaged but still physically present, it must be submitted for assessment.</li>
+                        </ul>
+
+                        <h4 class="font-bold text-gray-800 mb-2">Verification:</h4>
+                        <ul class="list-disc list-inside space-y-2 mb-4">
+                            <li>Organizers will verify the attendee’s past attendance records.</li>
+                            <li>If approved, a new passport will be issued with the same number of stamps.</li>
+                        </ul>
+
+                        <h4 class="font-bold text-gray-800 mb-2">Replacement Fee:</h4>
+                        <p class="mb-4">A fee of ₱100–₱300 (TBD) will be required to cover reprinting and chip reprogramming costs. This ensures only legitimate replacements are processed.</p>
+
+                        <h4 class="font-bold text-gray-800 mb-2">Final Disclaimer:</h4>
+                         <ul class="list-disc list-inside space-y-2">
+                            <li>Each attendee is only allowed ONE replacement throughout the three-event series.</li>
+                            <li>Lost or damaged passports cannot be transferred to another person once replaced.</li>
+                            <li>The passport is embedded with a microchip that provides exclusive interactive features during events; please handle with care, as physical damage may result in limited access.</li>
                         </ul>
                     </div>
                 </section>
             </main>
         </section>
 
-        <!-- Section 4: Join -->
         <section id="join" class="page-section flex flex-col">
             <header class="page-header">Join Us</header>
             <main class="px-4 sm:px-6 lg:px-8 w-full flex-grow flex items-center justify-center">
@@ -491,7 +564,6 @@
             </main>
         </section>
 
-        <!-- Section 5: About -->
         <section id="about" class="page-section">
             <header class="page-header">About Us</header>
             <main class="px-4 sm:px-6 lg:px-8">
@@ -507,11 +579,29 @@
                     <div class="card"><h2 class="card-title text-left">Mission</h2><p class="text-base text-left leading-relaxed text-gray-600">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
                 </section>
                 <section>
-                    <h2 class="text-2xl font-bold mb-4 text-gray-700">Our Core Values</h2>
+                    <h2 class="section-title">Our Core Values</h2>
                     <div class="space-y-2" id="values-accordion">
-                        <div class="accordion-item"><button class="accordion-toggle w-full text-left">Inclusivity</button><div class="accordion-content hidden"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div></div>
-                        <div class="accordion-item"><button class="accordion-toggle w-full text-left">Passion for Performance</button><div class="accordion-content hidden"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div></div>
-                        <div class="accordion-item"><button class="accordion-toggle w-full text-left">Community and Unity</button><div class="accordion-content hidden"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div></div>
+                        <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Inclusivity</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Passion for Performance</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Community and Unity</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
+                        </div>
                     </div>
                 </section>
             </main>
@@ -519,7 +609,6 @@
 
     </div>
 
-    <!-- Floating Navigation -->
     <nav class="floating-nav">
         <div class="nav-items-container">
             <div id="nav-indicator" class="nav-indicator"></div>
@@ -679,7 +768,7 @@
                 if (!isExpanded) {
                     setTimeout(() => {
                         toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 200); // Small delay to allow the 'hidden' class to be removed
+                    }, 200);
                 }
             });
         }
