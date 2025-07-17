@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma Embed Example</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the Inter font and basic body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            margin: 0;
+            padding: 20px; /* Add some padding around the content */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+
+    <!-- Main container for the content, centered and with rounded corners -->
+    <div class="bg-white p-6 rounded-lg shadow-xl max-w-full lg:max-w-4xl w-full text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Figma Prototype Showcase</h1>
+        <p class="text-gray-600 mb-8">
+            Below is an embedded Figma prototype. You can interact with it directly within this page.
+        </p>
+
+        <!-- Iframe container for responsiveness -->
+        <div class="relative overflow-hidden w-full" style="padding-top: 56.25%;"> <!-- 16:9 Aspect Ratio (height/width = 9/16 = 0.5625) -->
+            <iframe
+                class="absolute top-0 left-0 w-full h-full rounded-lg"
+                style="border: 1px solid rgba(0, 0, 0, 0.1);"
+                src="https://embed.figma.com/proto/f5G3DGGY0DR2FvaoJla56O/Tropical-Wave-Website?page-id=0%3A1&node-id=3-2&p=f&viewport=5%2C141%2C0.5&scaling=scale-down&content-scaling=fixed&embed-host=share"
+                allowfullscreen
+            ></iframe>
+        </div>
+
+        <p class="text-sm text-gray-500 mt-8">
+            This prototype is embedded directly from Figma.
+        </p>
+    </div>
+
+</body>
+</html>
