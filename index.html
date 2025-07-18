@@ -320,7 +320,7 @@
             left: 0;
             transform: translateY(-50%);
             height: 44px; /* Updated indicator height */
-            width: 60px;  /* Changed indicator width as requested */
+            width: 66px;  /* Changed indicator width as requested */
             background-color: #F3F8F4; /* Updated indicator background color */
             border-radius: 9999px;
             z-index: 1;
@@ -422,6 +422,15 @@
             color: #2A4365;
         }
 
+        /* Added styles for the Let's Go! button */
+        #letsGoButton {
+            transition: transform 0.2s ease-out; /* Smooth transition for scale effect */
+        }
+
+        #letsGoButton:hover {
+            transform: scale(1.05); /* Scale up on hover */
+        }
+
     </style>
 </head>
 <body>
@@ -515,7 +524,7 @@
                     <div class="card">
                         <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
                         <p class="card-description">Show us what you've got! Click below to submit your application.</p>
-                        <a href="#" class="inline-block rounded-full py-2 px-6 font-semibold text-sm border-2 border-[#F4D35E] text-[#F4D35E] hover:bg-[#F4D35E] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
+                        <a href="#" class="inline-block rounded-full py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
                             Join the Wave
                         </a>
                     </div>
