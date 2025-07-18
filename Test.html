@@ -23,15 +23,25 @@
         position: relative;
       }
 
-      /* Keyframes for a calm rotation animation */
+      /* Keyframes for a calm rotation animation (mobile-first) */
       @keyframes calm-rotate {
         from {
-          /* Updated transform to center the shape and match its initial state */
-          transform: translate(-50%, -72%) rotate(12.25deg);
+          transform: translate(-50%, -45%) rotate(12.25deg);
         }
         to {
-          /* Animate the rotation over 360 degrees while maintaining the translation */
-          transform: translate(-50%, -72%) rotate(372.25deg);
+          transform: translate(-50%, -45%) rotate(372.25deg);
+        }
+      }
+
+      /* On desktop screens, adjust the animation to prevent overlap */
+      @media (min-width: 640px) { /* Tailwind's 'sm' breakpoint */
+        @keyframes calm-rotate {
+          from {
+            transform: translate(-50%, -70%) rotate(12.25deg);
+          }
+          to {
+            transform: translate(-50%, -70%) rotate(372.25deg);
+          }
         }
       }
 
@@ -42,11 +52,10 @@
     </style>
   </head>
   <body>
-    <!-- Scallop Shape covering the top half of the screen. -->
-    <!-- Updated to center the shape to the top edge of the screen. -->
+    <!-- Scallop Shape container with responsive classes for mobile and desktop. -->
     <div
-      class="absolute top-0 left-1/2 w-[110vw] animate-calm-rotate"
-      style="transform: translate(-50%, -72%) rotate(12.25deg);">
+      class="absolute top-0 left-1/2 w-[165vw] sm:w-[110vw] sm:[transform:translate(-50%,-65%)_rotate(12.25deg)] animate-calm-rotate"
+      style="transform: translate(-50%, -55%) rotate(12.25deg);">
       <svg id="scallop-top" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456.44 446.05" class="w-full h-auto">
         <g id="Layer_1-2" data-name="Layer 1">
           <g>
@@ -58,15 +67,16 @@
       </svg>
     </div>
 
-    <!-- Outer container updated with mt-auto to push content to the bottom half. -->
-    <div class="flex flex-col items-center gap-6 mb-11 mt-auto">
+    <!-- Outer container updated with mt-auto and reduced bottom margin. -->
+    <div class="flex flex-col items-center gap-6 mb-4 mt-auto">
       <!-- Onboarding Message Group: Contains "Welcome to", SVG, and Tagline. -->
-      <div class="flex flex-col items-center gap-6">
+      <div class="flex flex-col items-center gap-2">
         <!-- Inner group for "Welcome to" text and SVG icon. -->
-        <div class="flex flex-col items-center gap-2.5">
-          <!-- "Welcome to" text. -->
+        <div class="flex flex-col items-center gap-2">
+          <!-- "Welcome to" text with responsive font size. -->
           <p
-            class="text-[#2D3A3F] text-2xl font-['Inter'] text-center font-bold">
+            class="text-[#2D3A3F] text-2xl font-['Inter'] text-center font-bold"
+            style="font-size: clamp(1.5rem, 4vw, 2.5rem);">
             Welcome to
           </p>
           <!-- SVG Logo for Tropical Wave Stack. -->
@@ -79,8 +89,8 @@
             </svg>
           </div>
         </div>
-        <!-- Tagline text. -->
-        <span class="text-left">
+        <!-- Tagline text with responsive font size. -->
+        <span class="text-left" style="font-size: clamp(1rem, 2.5vw, 1.25rem);">
           <span class="text-[#2D3A3F] font-['Inter'] font-bold">
             Uniting fans through the love
             <br />
@@ -93,10 +103,14 @@
         </span>
       </div>
 
-      <!-- CTA Button. -->
+      <!-- CTA Button with responsive dimensions. -->
       <div
-        class="w-[225px] h-[48px] flex justify-center items-center flex-row gap-2.5 py-3 px-[24px] bg-[#F4D35E] rounded-full cursor-pointer">
-        <span class="text-[#2D3A3F] text-lg text-center font-bold">
+        class="flex justify-center items-center flex-row gap-2.5 py-3 px-[24px] bg-[#F4D35E] rounded-full cursor-pointer"
+        style="width: clamp(200px, 30vw, 275px); height: clamp(44px, 6.5vw, 56px);">
+        <!-- CTA button text with responsive font size. -->
+        <span
+          class="text-[#2D3A3F] text-lg text-center font-bold"
+          style="font-size: clamp(1rem, 2.8vw, 1.5rem);">
           Let’s Go!
         </span>
       </div>
