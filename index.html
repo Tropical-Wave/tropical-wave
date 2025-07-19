@@ -452,7 +452,7 @@
           <div class="flex flex-col justify-center items-center gap-6 bg-transparent rounded-lg">
             <!-- Section for welcome text and logo. Adapted from trial.html -->
             <div class="flex flex-col justify-center items-center gap-2.5 w-full">
-              <div class="flex flex-col justify-center items-center gap-[clamp(20px,3.5vh,48px)] w-full">
+              <div class="flex flex-col justify-center items-center gap-[clamp(10px,2vh,48px)] w-full">
                 <p class="text-[#2D3A3F] text-center font-bold text-2xl md:text-[clamp(2rem,6vw,2.75rem)]">
                   Welcome to
                 </p>
@@ -465,20 +465,11 @@
                   </svg>
                 </div>
               </div>
-                <span class="text-left text-[clamp(1rem,2.5vw,1.25rem)]">
-                    <span class="text-[#2D3A3F] font-['Inter'] font-bold">
-                    Where fans converge.
-                    <br />
-                    </span>
-                    <span class="text-[#89B3D9] font-['Inter'] font-semibold">
-                    The wave begins.
-                    </span>
-                </span>
             </div>
           </div>
     
-          <!-- CTA Button with responsive dimensions. Adapted from trial.html -->
-          <div id="letsGoButton" class="flex justify-center items-center flex-row gap-2.5 py-4 px-[32px] bg-[#F4D35E] rounded-full cursor-pointer w-[clamp(240px,38vw,280px)] md:w-[clamp(400px,48vw,520px)] h-[clamp(50px,7vw,64px)] md:h-[clamp(64px,8vw,80px)]">
+          <!-- CTA Button with responsive dimensions and new hover animation. -->
+          <div id="letsGoButton" class="flex justify-center items-center flex-row gap-2.5 py-4 px-[32px] bg-[#F4D35E] rounded-full cursor-pointer w-[clamp(240px,38vw,280px)] md:w-[clamp(400px,48vw,520px)] h-[clamp(50px,7vw,64px)] md:h-[clamp(64px,8vw,80px)] transition-transform duration-200 ease-out hover:scale-105">
             <!-- CTA button text with responsive font size. Adapted from trial.html -->
             <span class="text-[#2D3A3F] text-center font-bold text-[clamp(1.2rem,3vw,1.6rem)] md:text-[clamp(1.75rem,4vw,2.25rem)]">
               Let’s Go!
@@ -509,7 +500,8 @@
                     <div class="card">
                         <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
                         <p class="card-description">Show us what you've got! Click below to submit your application.</p>
-                        <a href="#" class="inline-block rounded-full py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
+                        <!-- MODIFIED: Changed rounded-full to rounded-xl to match other buttons -->
+                        <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
                             Join the Wave
                         </a>
                     </div>
@@ -586,7 +578,7 @@
                         </div>
                     </div>
                     <div class="note-box">
-                        <svg class="note-box-icon" xmlns="http://www.w3.org/2000/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                        <svg class="note-box-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
                         <p class="note-box-text">
                             <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
                         </p>
@@ -757,14 +749,14 @@
                         <div class="accordion-item">
                             <button class="accordion-toggle w-full text-left">
                                 <span>Passion for Performance</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
                             <div class="accordion-content hidden prose-text"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
                         </div>
                         <div class="accordion-item">
                             <button class="accordion-toggle w-full text-left">
                                 <span>Community and Unity</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
                             <div class="accordion-content hidden prose-text"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
                         </div>
