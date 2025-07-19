@@ -66,7 +66,7 @@
             overflow-x: hidden; /* Prevent horizontal scroll within a page */
             /* Added padding for safe areas */
             padding-top: env(safe-area-inset-top);
-            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 80px);
+            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 40px); /* Reduced bottom padding */
             box-sizing: border-box;
             background-color: #F5F7F6; /* Updated background color */
         }
@@ -343,7 +343,15 @@
         .footer-credit-link:hover { text-decoration: underline; }
 
         /* Passport book styles */
-        .book-wrapper { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; min-height: calc(65vw + 20px); max-height: calc(260px + 20px); touch-action: pan-y; }
+        .book-wrapper { 
+            position: relative; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 100%; 
+            max-height: calc(260px + 20px); 
+            touch-action: pan-y; 
+        }
         .book { width: 45vw; height: 65vw; max-width: 180px; max-height: 260px; position: relative; transition: transform 0.6s ease-in-out; transform-style: preserve-3d; perspective: 2000px; }
         .paper { position: absolute; width: 100%; height: 100%; top: 0; left: 0; transform-style: preserve-3d; transition: transform 1.5s ease-in-out; transform-origin: left center; cursor: pointer; }
         .paper.flipped { transform: rotateY(-180deg); }
@@ -476,28 +484,37 @@
         <section id="home" class="page-section">
             <header class="page-header">Home</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                <section class="mb-8">
-                    <h2 class="section-title">Featured Event</h2>
-                    <div class="card">
-                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Placeholder Image</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Starlight Airlines: Onboarding</h3>
-                        <p class="text-sm text-gray-500 mb-2">Nov 16, CHADAA</p>
-                        <p class="card-description">A day of music, dance, and fandom!</p>
-                        <a href="#" class="card-button-primary shimmer-wrapper" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth;">
-                            Dive into the Details
-                        </a>
+                <!-- Responsive 2-column layout for large screens -->
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+                    <!-- Left Column -->
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <h2 class="section-title">Featured Event</h2>
+                            <div class="card">
+                                <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Placeholder Image</div>
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">Starlight Airlines: Onboarding</h3>
+                                <p class="text-sm text-gray-500 mb-2">Nov 16, CHADAA</p>
+                                <p class="card-description">A day of music, dance, and fandom!</p>
+                                <a href="#" class="card-button-primary shimmer-wrapper" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth;">
+                                    Dive into the Details
+                                </a>
+                            </div>
+                        </section>
                     </div>
-                </section>
-                <section>
-                    <h2 class="section-title">Announcements</h2>
-                    <div class="card">
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
-                        <p class="card-description">Show us what you've got! Click below to submit your application.</p>
-                        <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
-                            Join the Wave
-                        </a>
+                    <!-- Right Column -->
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <h2 class="section-title">Announcements</h2>
+                            <div class="card">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
+                                <p class="card-description">Show us what you've got! Click below to submit your application.</p>
+                                <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
+                                    Join the Wave
+                                </a>
+                            </div>
+                        </section>
                     </div>
-                </section>
+                </div>
                 <footer class="site-footer">
                     <div class="flex justify-center space-x-6 mb-4">
                         <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
@@ -514,172 +531,180 @@
         <section id="event" class="page-section">
             <header class="page-header">Event</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                 <section class="mb-10">
-                    <h2 class="section-title">Upcoming Event</h2>
-                    <div class="card">
-                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Event Image / Thumbnail Placeholder</div>
-                        <h3 class="card-title mt-4">Starlight Airlines: Onboarding</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
-                            <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
-                            <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
-                            <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
-                            <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
-                        </div>
-                        <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#4BA7AD] font-semibold underline block mb-3 text-left">Get directions</a>
-                        <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
-                    </div>
-                </section>
-                <!-- === TICKET TIER ACCORDION (UPDATED) === -->
-                <section class="mb-10">
-                    <h2 class="section-title">🎟️ Ticket Tiers & Inclusions</h2>
-                    <div class="space-y-3" id="ticket-accordion">
-                        <!-- Economy Tier -->
-                        <div class="accordion-item" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
-                            <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
-                                <div class="flex flex-col items-start text-left">
-                                    <span class="text-lg font-bold text-gray-800">Economy</span>
-                                    <span class="text-base font-bold text-gray-800">₱200</span>
+                <!-- Responsive 2-column layout for large screens -->
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+                    <!-- Left Column -->
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <h2 class="section-title">Upcoming Event</h2>
+                            <div class="card">
+                                <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Event Image / Thumbnail Placeholder</div>
+                                <h3 class="card-title mt-4">Starlight Airlines: Onboarding</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
+                                    <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
+                                    <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
+                                    <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
+                                    <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
                                 </div>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #C8E2D0;">
-                                <div class="flex justify-between items-start gap-4 pt-4 text-sm">
-                                    <div class="space-y-2">
-                                        <div>
-                                            <p class="font-semibold text-gray-700">Prize:</p>
-                                            <div class="pl-4 space-y-1">
-                                                <p>1 Raffle Entry</p>
-                                                <p>Official Photocard</p>
-                                                <p class="italic text-xs">(Random)</p>
-                                                <p><span class="font-bold">10</span> Winners</p>
-                                            </div>
+                                <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#4BA7AD] font-semibold underline block mb-3 text-left">Get directions</a>
+                                <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- Right Column -->
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <h2 class="section-title">Choose your Ticket</h2>
+                            <p class="section-subtitle">Explore tier perks.</p>
+                            <div class="space-y-3" id="ticket-accordion">
+                                <!-- Economy Tier -->
+                                <div class="accordion-item" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                                    <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
+                                        <div class="flex flex-col items-start text-left">
+                                            <span class="text-lg font-bold text-gray-800">Economy</span>
+                                            <span class="text-base font-bold text-gray-800">₱200</span>
                                         </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-700">Goodies:</p>
-                                            <div class="pl-4 space-y-1">
-                                                <p>Surprise Freebies</p>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #C8E2D0;">
+                                        <div class="flex justify-between items-start gap-4 pt-4 text-sm">
+                                            <div class="space-y-2">
+                                                <div>
+                                                    <p class="font-semibold text-gray-700">Prize:</p>
+                                                    <div class="pl-4 space-y-1">
+                                                        <p>1 Raffle Entry</p>
+                                                        <p>Official Photocard</p>
+                                                        <p class="italic text-xs">(Random)</p>
+                                                        <p><span class="font-bold">10</span> Winners</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-gray-700">Goodies:</p>
+                                                    <div class="pl-4 space-y-1">
+                                                        <p>Surprise Freebies</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right flex-shrink-0">
+                                                <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                                <span class="text-lg font-bold text-gray-800">100</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-right flex-shrink-0">
-                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
-                                        <span class="text-lg font-bold text-gray-800">100</span>
+                                </div>
+                                <!-- Business Class Tier -->
+                                <div class="accordion-item" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
+                                    <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
+                                        <div class="flex flex-col items-start text-left">
+                                            <span class="text-lg font-bold text-gray-800">Business Class</span>
+                                            <span class="text-base font-bold text-gray-800">₱300</span>
+                                        </div>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #BFD7E5;">
+                                        <div class="flex justify-between items-start gap-4 pt-4 text-sm">
+                                            <div class="space-y-2">
+                                                <div>
+                                                    <p class="font-semibold text-gray-700">Prize:</p>
+                                                    <div class="pl-4 space-y-1">
+                                                        <p>1 Raffle Entry</p>
+                                                        <p>Official Album</p>
+                                                        <p class="italic text-xs">(Random)</p>
+                                                        <p><span class="font-bold">5</span> Winners</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-gray-700">Goodies:</p>
+                                                    <div class="pl-4 space-y-1">
+                                                        <p>Surprise Freebies</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right flex-shrink-0">
+                                                <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                                <span class="text-lg font-bold text-gray-800">75</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- First Class Tier -->
+                                <div class="accordion-item" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
+                                    <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
+                                        <div class="flex flex-col items-start text-left">
+                                            <span class="text-lg font-bold text-gray-800">First Class</span>
+                                            <span class="text-base font-bold text-gray-800">₱400</span>
+                                        </div>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #FFE8AC;">
+                                       <div class="flex justify-between items-start gap-4 pt-4 text-sm">
+                                            <div class="space-y-2">
+                                                <div>
+                                                    <p class="font-semibold text-gray-700">Prize:</p>
+                                                    <div class="pl-4 space-y-1">
+                                                        <p>1 Raffle Entry</p>
+                                                        <p>Official Album / Lightstick</p>
+                                                        <p class="italic text-xs">(Choice)</p>
+                                                        <p><span class="font-bold">1</span> Winner</p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-gray-700">Goodies:</p>
+                                                    <div class="pl-4 space-y-1">
+                                                        <p>Surprise Freebie</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-right flex-shrink-0">
+                                                <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                                <span class="text-lg font-bold text-gray-800">25</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Business Class Tier -->
-                        <div class="accordion-item" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
-                            <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
-                                <div class="flex flex-col items-start text-left">
-                                    <span class="text-lg font-bold text-gray-800">Business Class</span>
-                                    <span class="text-base font-bold text-gray-800">₱300</span>
+                        </section>
+                        <section class="mb-8">
+                            <h2 class="section-title">🎟️ Ticket FAQ</h2>
+                            <div class="space-y-2" id="faq-accordion">
+                                 <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Is the ticket refundable?</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div>
                                 </div>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #BFD7E5;">
-                                <div class="flex justify-between items-start gap-4 pt-4 text-sm">
-                                    <div class="space-y-2">
-                                        <div>
-                                            <p class="font-semibold text-gray-700">Prize:</p>
-                                            <div class="pl-4 space-y-1">
-                                                <p>1 Raffle Entry</p>
-                                                <p>Official Album</p>
-                                                <p class="italic text-xs">(Random)</p>
-                                                <p><span class="font-bold">5</span> Winners</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-700">Goodies:</p>
-                                            <div class="pl-4 space-y-1">
-                                                <p>Surprise Freebies</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-right flex-shrink-0">
-                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
-                                        <span class="text-lg font-bold text-gray-800">75</span>
-                                    </div>
+                                 <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Can I upgrade my ticket tier?</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div>
+                                </div>
+                                 <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Can I downgrade my ticket tier?</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. As tickets are <strong>NON-REFUNDABLE</strong>, we will not be offering downgrades, as well.</p></div>
+                                </div>
+                                 <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Can I give my ticket to someone else?</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>YES! You may give the ticket to someone who will be interested to attend.</p></div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- First Class Tier -->
-                        <div class="accordion-item" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
-                            <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
-                                <div class="flex flex-col items-start text-left">
-                                    <span class="text-lg font-bold text-gray-800">First Class</span>
-                                    <span class="text-base font-bold text-gray-800">₱400</span>
-                                </div>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #FFE8AC;">
-                               <div class="flex justify-between items-start gap-4 pt-4 text-sm">
-                                    <div class="space-y-2">
-                                        <div>
-                                            <p class="font-semibold text-gray-700">Prize:</p>
-                                            <div class="pl-4 space-y-1">
-                                                <p>1 Raffle Entry</p>
-                                                <p>Official Album / Lightstick</p>
-                                                <p class="italic text-xs">(Choice)</p>
-                                                <p><span class="font-bold">1</span> Winner</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-700">Goodies:</p>
-                                            <div class="pl-4 space-y-1">
-                                                <p>Surprise Freebie</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-right flex-shrink-0">
-                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
-                                        <span class="text-lg font-bold text-gray-800">25</span>
-                                    </div>
-                                </div>
+                            <div class="note-box">
+                                <svg class="note-box-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                                <p class="note-box-text">
+                                    <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
+                                </p>
                             </div>
-                        </div>
+                        </section>
                     </div>
-                </section>
-                <!-- === END TICKET TIER ACCORDION === -->
-                <section>
-                    <h2 class="section-title">🎟️ Ticket FAQ</h2>
-                    <div class="space-y-2" id="faq-accordion">
-                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
-                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
-                                <span>Is the ticket refundable?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div>
-                        </div>
-                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
-                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
-                                <span>Can I upgrade my ticket tier?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div>
-                        </div>
-                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
-                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
-                                <span>Can I downgrade my ticket tier?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. As tickets are <strong>NON-REFUNDABLE</strong>, we will not be offering downgrades, as well.</p></div>
-                        </div>
-                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
-                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
-                                <span>Can I give my ticket to someone else?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>YES! You may give the ticket to someone who will be interested to attend.</p></div>
-                        </div>
-                    </div>
-                    <div class="note-box">
-                        <svg class="note-box-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-                        <p class="note-box-text">
-                            <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
-                        </p>
-                    </div>
-                </section>
+                </div>
             </main>
         </section>
 
@@ -690,7 +715,7 @@
                     <p class="text-base leading-relaxed text-gray-700 mb-2 text-justify w-full">The Starlight Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!</p>
                     <p class="text-lg font-semibold text-[#89B3D9]">“Collect Stamps. Earn Rewards. Make Memories.”</p>
                 </section>
-                <section class="mb-10">
+                <section class="mb-8">
                     <h2 class="section-title text-center sm:text-left">Discover What’s Inside</h2>
                     <div class="card !p-5">
                         <div class="book-wrapper">
@@ -748,7 +773,7 @@
                         <div class="book-info"><h2 id="book-title" class="text-xl font-bold"></h2><p id="book-description" class="text-sm text-gray-600"></p></div>
                     </div>
                 </section>
-                <section class="mb-10">
+                <section class="mb-8">
                     <h2 class="section-title">Rewards You Can Earn</h2>
                     <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -757,7 +782,7 @@
                         <div class="card bg-yellow-100/60 p-4 text-center"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
                     </div>
                 </section>
-                <section class="mb-10">
+                <section class="mb-8">
                     <h2 class="section-title">Terms & Conditions</h2>
                     <div class="card text-left prose-text">
                         <ul class="list-disc">
@@ -770,7 +795,7 @@
                         </ul>
                     </div>
                 </section>
-                 <section class="mb-10">
+                 <section class="mb-8">
                     <h2 class="section-title">Lost or Damaged Starlight Passport Policy</h2>
                     <div class="card text-left prose-text">
                         <p>If an attendee loses or damages their Starlight Passport—especially if it affects the microchip—they may request a replacement under the following conditions:</p>
@@ -821,43 +846,52 @@
         <section id="about" class="page-section">
             <header class="page-header">About Us</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                <section class="mb-8">
-                    <div class="card">
-                        <p class="prose-about">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
+                <!-- Responsive 2-column layout for large screens -->
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+                    <!-- Left Column -->
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <div class="card">
+                                <p class="prose-about">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
+                            </div>
+                        </section>
+                        <section class="mb-8">
+                            <div class="card"><h2 class="card-title text-left">Vision</h2><p class="prose-about">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
+                        </section>
+                        <section class="mb-8 lg:mb-0">
+                            <div class="card"><h2 class="card-title text-left">Mission</h2><p class="prose-about">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
+                        </section>
                     </div>
-                </section>
-                <section class="mb-8">
-                    <div class="card"><h2 class="card-title text-left">Vision</h2><p class="prose-about">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
-                </section>
-                <section class="mb-8">
-                    <div class="card"><h2 class="card-title text-left">Mission</h2><p class="prose-about">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
-                </section>
-                <section>
-                    <h2 class="section-title">Our Core Values</h2>
-                    <div class="space-y-2" id="values-accordion">
-                        <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
-                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
-                                <span>Inclusivity</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div>
-                        </div>
-                        <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
-                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
-                                <span>Passion for Performance</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
-                        </div>
-                        <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
-                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
-                                <span>Community and Unity</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
-                        </div>
+                    <!-- Right Column -->
+                    <div class="flex flex-col">
+                        <section>
+                            <h2 class="section-title">Our Core Values</h2>
+                            <div class="space-y-2" id="values-accordion">
+                                <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Inclusivity</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div>
+                                </div>
+                                <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Passion for Performance</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
+                                </div>
+                                <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Community and Unity</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </section>
+                </div>
             </main>
         </section>
 
