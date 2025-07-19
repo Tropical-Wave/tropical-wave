@@ -104,7 +104,6 @@
         }
 
         /* --- Onboarding Screen (New) --- */
-        /* Styles for the onboarding screen container, adapted from trial.html's body styles */
         #onboardingScreen {
             position: fixed;
             top: 0;
@@ -112,18 +111,16 @@
             width: 100%;
             height: 100dvh; /* Use dvh for full viewport height */
             z-index: 9999;
-            background-color: #F3F8F4; /* From trial.html body */
+            background-color: #F3F8F4;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease-in, visibility 0.5s;
-            
-            /* Layout from trial.html body */
             display: flex;
             flex-direction: column;
             justify-content: flex-end; /* Aligns content to the bottom */
             align-items: center;
             overflow: hidden; /* Hide overflow from scallop animation */
-            font-family: 'Inter', sans-serif; /* Apply Inter font */
+            font-family: 'Inter', sans-serif;
         }
 
         #onboardingScreen.visible {
@@ -131,7 +128,6 @@
             visibility: visible;
         }
 
-        /* Keyframes for a calm rotation animation (from trial.html) */
         @keyframes calm-rotate {
           from {
             transform: translate(-50%, -50%) rotate(12.25deg);
@@ -141,12 +137,10 @@
           }
         }
 
-        /* Apply the animation to the scallop shape container (from trial.html) */
         .animate-calm-rotate {
-          animation: calm-rotate 30s linear infinite; /* 30 seconds duration, linear timing, infinite loop */
+          animation: calm-rotate 30s linear infinite;
         }
 
-        /* Fill color for the logo SVG paths (from trial.html) */
         .cls-1 {
             fill: #89B3D9; 
         }
@@ -162,44 +156,44 @@
         
         /* General Page Styles */
         .page-header {
-            font-family: 'Inter', sans-serif; /* Updated font */
+            font-family: 'Inter', sans-serif;
             font-weight: 700;
             text-align: left;
             padding: 1rem 1.5rem;
             font-size: 2.5rem; 
             line-height: 2.75rem;
-            color: #F3F8F4; /* Updated header text color */
+            color: #F3F8F4;
             text-transform: uppercase;
             letter-spacing: 1px;
-            background-color: #89B3D9; /* Updated header background color */
+            background-color: #89B3D9;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         @media (min-width: 640px) { .page-header { padding-left: 1.5rem; padding-right: 1.5rem; } }
         @media (min-width: 1024px) { .page-header { padding-left: 2rem; padding-right: 2rem; } }
 
         .card {
-            background-color: #F3F8F4; /* Updated card background color */
+            background-color: #F3F8F4;
             border-radius: 1rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-            border: 1px solid #E1E5E3; /* Added card border */
+            border: 1px solid #E1E5E3;
         }
         .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #2D3748; }
         .card-description { font-size: 0.875rem; color: #5F7D97; margin-bottom: 1rem; }
         .card-button-primary {
-            display: inline-flex; /* Changed to inline-flex to hug content */
-            justify-content: center; /* Centered text horizontally */
-            align-items: center; /* Centered text vertically */
-            border-radius: 12px; /* Updated border radius */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
             padding: 0.5rem 1.5rem;
             font-weight: 600;
-            color: #1C2B26; /* Updated CTA button text color */
+            color: #1C2B26;
             font-size: 0.875rem;
             transition: transform 0.2s ease-out;
-            background-color: #F4D35E; /* Updated CTA button background color */
-            white-space: nowrap; /* Ensures text stays on one line */
-            text-decoration: none; /* Removes underline from anchor tag */
+            background-color: #F4D35E;
+            white-space: nowrap;
+            text-decoration: none;
         }
         .card-button-primary:hover { transform: scale(1.05); }
         .section-title {
@@ -216,26 +210,26 @@
 
         /* Unified Prose Text Styling */
         .prose-text {
-            color: #4A5568; /* Softer, low-contrast color for reading */
-            font-size: 0.9rem; /* 14.4px - Consistent reading size */
+            color: #4A5568;
+            font-size: 0.9rem;
             line-height: 1.6;
         }
         .prose-text p, .prose-text li {
             text-align: justify;
         }
         .prose-text p {
-           text-indent: 1.5em; /* Indent start of each paragraph */
+           text-indent: 1.5em;
            margin-bottom: 0.75em;
         }
         .prose-text p:first-child, .prose-text h4 + p {
-            text-indent: 0; /* Do not indent first paragraphs */
+            text-indent: 0;
         }
         .prose-text ul {
             list-style-position: outside;
-            padding-left: 1.5em; /* Align list with text */
+            padding-left: 1.5em;
         }
         .prose-text strong {
-            color: #2D3748; /* Slightly stronger color for bold text */
+            color: #2D3748;
         }
         .prose-text h4 {
             font-size: 1rem;
@@ -244,34 +238,40 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Custom class for About Us paragraphs */
+        .prose-about {
+            text-align: justify;
+            text-indent: 1.5em;
+            color: #4A5568;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.75em;
+        }
+
 
         /* Floating Navigation Bar */
         .floating-nav {
             position: fixed;
             left: 50%;
             transform: translateX(-50%);
-            /* Adjusted for safe area */
             bottom: calc(var(--nav-bottom-gap) + env(safe-area-inset-bottom));
-            width: calc(100% - 2rem); /* Responsive width */
-            max-width: 343px; /* Max width for larger screens */
-            height: 58px; /* Explicitly set height */
-            background-color: #89B3D9; /* Updated background color */
-            /* Removed backdrop-filter */
-            border-radius: 9999px; /* Pill shape */
+            width: calc(100% - 2rem);
+            max-width: 343px;
+            height: 58px;
+            background-color: #89B3D9;
+            border-radius: 9999px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 0 var(--nav-horizontal-padding);
-            /* Add transition for bottom positioning */
             transition: bottom 0.3s ease-out;
         }
 
-        /* Added new class for hiding the navigation bar */
         .floating-nav.hidden-nav {
             opacity: 0;
-            pointer-events: none; /* Prevents interaction when hidden */
+            pointer-events: none;
         }
 
         .nav-items-container {
@@ -294,10 +294,10 @@
             position: relative;
             z-index: 2;
             transition: color 0.3s ease;
-            color: #F3F8F4; /* Updated inactive icon/text color */
+            color: #F3F8F4;
         }
         .nav-item.active {
-            color: #89B3D9; /* Updated active icon/text color */
+            color: #89B3D9;
         }
         .nav-item svg {
             width: 24px;
@@ -315,9 +315,9 @@
             top: 50%;
             left: 0;
             transform: translateY(-50%);
-            height: 44px; /* Updated indicator height */
-            width: 66px;  /* Changed indicator width as requested */
-            background-color: #F3F8F4; /* Updated indicator background color */
+            height: 44px;
+            width: 66px;
+            background-color: #F3F8F4;
             border-radius: 9999px;
             z-index: 1;
             transition: left 0.4s cubic-bezier(0.42, 0, 0.58, 1);
@@ -358,12 +358,10 @@
 
         /* Accordion styles */
         .accordion-item {
-            background-color: #F3F8F4; /* Updated accordion background color */
             border-radius: 0.75rem;
             margin-bottom: 0.75rem;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,0.04);
             overflow: hidden;
-            border: 1px solid #E1E5E3; /* Added accordion border */
         }
         .accordion-toggle {
             display: flex;
@@ -374,19 +372,16 @@
             text-align: left;
             font-weight: 600;
             color: #2D3748;
-            background-color: #F3F8F4; /* Updated accordion toggle background color */
             cursor: pointer;
-            font-family: 'Inter', sans-serif; /* Updated font */
+            font-family: 'Inter', sans-serif;
         }
         .accordion-content {
-            padding: 1.25rem;
-            background-color: #F3F8F4; /* Updated accordion content background color */
-            border-top: 1px solid #E1E5E3; /* Updated accordion content border */
-            font-family: 'Inter', sans-serif; /* Updated font */
+            padding: 0 1.25rem 1.25rem 1.25rem; /* Adjusted padding */
+            font-family: 'Inter', sans-serif;
+            color: #4A5568; /* Base text color for content */
         }
         .accordion-icon {
             transition: transform 0.3s ease;
-            color: #89B3D9;
         }
         .accordion-toggle[aria-expanded="true"] .accordion-icon {
             transform: rotate(180deg);
@@ -417,8 +412,6 @@
         .note-box-text strong {
             color: #2A4365;
         }
-
-        /* Removed old #letsGoButton styles as they are now handled by Tailwind clamp classes */
 
     </style>
 </head>
@@ -500,7 +493,6 @@
                     <div class="card">
                         <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
                         <p class="card-description">Show us what you've got! Click below to submit your application.</p>
-                        <!-- MODIFIED: Changed rounded-full to rounded-xl to match other buttons -->
                         <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
                             Join the Wave
                         </a>
@@ -537,44 +529,148 @@
                         <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
                     </div>
                 </section>
+                <!-- === TICKET TIER ACCORDION (UPDATED) === -->
                 <section class="mb-10">
-                    <h2 class="section-title">🏆 Ticket Prizes</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="card bg-green-100/60 p-4 text-center"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Photocard<br>(1 Raffle Entry)</p></div>
-                        <div class="card bg-blue-100/60 p-4 text-center"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
-                        <div class="card bg-yellow-100/60 p-4 text-center"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
+                    <h2 class="section-title">🎟️ Ticket Tiers & Inclusions</h2>
+                    <div class="space-y-3" id="ticket-accordion">
+                        <!-- Economy Tier -->
+                        <div class="accordion-item" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                            <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
+                                <div class="flex flex-col items-start text-left">
+                                    <span class="text-lg font-bold text-gray-800">Economy</span>
+                                    <span class="text-base font-bold text-gray-800">₱200</span>
+                                </div>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #C8E2D0;">
+                                <div class="flex justify-between items-start gap-4 pt-4 text-sm">
+                                    <div class="space-y-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Prize:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>1 Raffle Entry</p>
+                                                <p>Official Photocard</p>
+                                                <p class="italic text-xs">(Random)</p>
+                                                <p><span class="font-bold">10</span> Winners</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Goodies:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>Surprise Freebies</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex-shrink-0">
+                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                        <span class="text-lg font-bold text-gray-800">100</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Business Class Tier -->
+                        <div class="accordion-item" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
+                            <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
+                                <div class="flex flex-col items-start text-left">
+                                    <span class="text-lg font-bold text-gray-800">Business Class</span>
+                                    <span class="text-base font-bold text-gray-800">₱300</span>
+                                </div>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #BFD7E5;">
+                                <div class="flex justify-between items-start gap-4 pt-4 text-sm">
+                                    <div class="space-y-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Prize:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>1 Raffle Entry</p>
+                                                <p>Official Album</p>
+                                                <p class="italic text-xs">(Random)</p>
+                                                <p><span class="font-bold">5</span> Winners</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Goodies:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>Surprise Freebies</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex-shrink-0">
+                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                        <span class="text-lg font-bold text-gray-800">75</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- First Class Tier -->
+                        <div class="accordion-item" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
+                            <button class="accordion-toggle w-full" aria-expanded="false" style="background-color: transparent;">
+                                <div class="flex flex-col items-start text-left">
+                                    <span class="text-lg font-bold text-gray-800">First Class</span>
+                                    <span class="text-base font-bold text-gray-800">₱400</span>
+                                </div>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#2D3748"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden" style="background-color: transparent; border-top: 1px solid #FFE8AC;">
+                               <div class="flex justify-between items-start gap-4 pt-4 text-sm">
+                                    <div class="space-y-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Prize:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>1 Raffle Entry</p>
+                                                <p>Official Album / Lightstick</p>
+                                                <p class="italic text-xs">(Choice)</p>
+                                                <p><span class="font-bold">1</span> Winner</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Goodies:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>Surprise Freebie</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex-shrink-0">
+                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                        <span class="text-lg font-bold text-gray-800">25</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
+                <!-- === END TICKET TIER ACCORDION === -->
                 <section>
                     <h2 class="section-title">🎟️ Ticket FAQ</h2>
                     <div class="space-y-2" id="faq-accordion">
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
+                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
                                 <span>Is the ticket refundable?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
-                            <div class="accordion-content hidden prose-text"><p>Unfortunately, <strong>NO</strong>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div>
+                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div>
                         </div>
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
+                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
                                 <span>Can I upgrade my ticket tier?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
-                            <div class="accordion-content hidden prose-text"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div>
+                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div>
                         </div>
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
+                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
                                 <span>Can I downgrade my ticket tier?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
-                            <div class="accordion-content hidden prose-text"><p>Unfortunately, <strong>NO</strong>. As tickets are <strong>NON-REFUNDABLE</strong>, we will not be offering downgrades, as well.</p></div>
+                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. As tickets are <strong>NON-REFUNDABLE</strong>, we will not be offering downgrades, as well.</p></div>
                         </div>
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
+                         <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
                                 <span>Can I give my ticket to someone else?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
-                            <div class="accordion-content hidden prose-text"><p>YES! You may give the ticket to someone who will be interested to attend.</p></div>
+                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>YES! You may give the ticket to someone who will be interested to attend.</p></div>
                         </div>
                     </div>
                     <div class="note-box">
@@ -727,38 +823,38 @@
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
                 <section class="mb-8">
                     <div class="card">
-                        <p class="prose-text">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
+                        <p class="prose-about">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
                     </div>
                 </section>
                 <section class="mb-8">
-                    <div class="card"><h2 class="card-title text-left">Vision</h2><p class="prose-text">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
+                    <div class="card"><h2 class="card-title text-left">Vision</h2><p class="prose-about">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
                 </section>
                 <section class="mb-8">
-                    <div class="card"><h2 class="card-title text-left">Mission</h2><p class="prose-text">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
+                    <div class="card"><h2 class="card-title text-left">Mission</h2><p class="prose-about">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
                 </section>
                 <section>
                     <h2 class="section-title">Our Core Values</h2>
                     <div class="space-y-2" id="values-accordion">
-                        <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
+                        <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
                                 <span>Inclusivity</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
-                            <div class="accordion-content hidden prose-text"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div>
+                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div>
                         </div>
-                        <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
+                        <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
                                 <span>Passion for Performance</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
-                            <div class="accordion-content hidden prose-text"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
+                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
                         </div>
-                        <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
+                        <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                            <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
                                 <span>Community and Unity</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
-                            <div class="accordion-content hidden prose-text"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
+                            <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
                         </div>
                     </div>
                 </section>
@@ -766,7 +862,7 @@
         </section>
 
     </div>
-    <nav class="floating-nav hidden-nav"> <!-- Added hidden-nav class initially -->
+    <nav class="floating-nav hidden-nav">
         <div class="nav-items-container">
             <div id="nav-indicator" class="nav-indicator"></div>
             <a class="nav-item active" data-index="0">
@@ -816,16 +912,14 @@
         const pageContainer = document.getElementById('page-container');
         const navItems = document.querySelectorAll('.nav-item');
         const navIndicator = document.getElementById('nav-indicator');
-        const floatingNav = document.querySelector('.floating-nav'); // Added reference to floating nav
+        const floatingNav = document.querySelector('.floating-nav');
 
         // --- Initial Setup ---
         function initializeAppState() {
-            // Splash Screen Logic
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
-                // Always show onboarding after splash screen, regardless of device size
                 onboardingScreen.classList.add('visible');
-            }, 2500); // Keep splash screen duration
+            }, 2500);
         }
         
         // --- Navigation Logic ---
@@ -841,9 +935,7 @@
                 });
             });
 
-            // Update nav indicator and active class on scroll
             pageContainer.addEventListener('scroll', () => {
-                // Use a timeout to avoid performance issues on rapid scroll
                 requestAnimationFrame(() => {
                     const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
                     updateActiveNav(currentPageIndex);
@@ -852,17 +944,14 @@
         }
         
         function updateActiveNav(index) {
-            // Update active class on items
             navItems.forEach((item, i) => {
                 item.classList.toggle('active', i === index);
             });
 
-            // Move the indicator
             const activeItem = navItems[index];
             if (activeItem && navIndicator) {
                  const containerRect = navIndicator.parentElement.getBoundingClientRect();
                  const itemRect = activeItem.getBoundingClientRect();
-                 // Calculate indicator position to center it under the active item
                  const indicatorLeft = itemRect.left - containerRect.left + (itemRect.width / 2) - (navIndicator.offsetWidth / 2);
                  navIndicator.style.left = `${indicatorLeft}px`;
             }
@@ -874,7 +963,7 @@
             let touchstartY = 0;
             let touchendX = 0;
             let touchendY = 0;
-            const swipeThreshold = 50; // Minimum pixels for a swipe
+            const swipeThreshold = 50;
 
             pageContainer.addEventListener('touchstart', (event) => {
                 touchstartX = event.changedTouches[0].screenX;
@@ -891,14 +980,11 @@
                 const deltaX = touchendX - touchstartX;
                 const deltaY = touchendY - touchstartY;
 
-                // Only trigger horizontal swipe if movement is more horizontal than vertical
                 if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
                     const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
                     if (deltaX < 0 && currentPageIndex < navItems.length - 1) {
-                        // Swipe Left - Go to Next Page
                         pageContainer.scrollLeft = (currentPageIndex + 1) * window.innerWidth;
                     } else if (deltaX > 0 && currentPageIndex > 0) {
-                        // Swipe Right - Go to Previous Page
                         pageContainer.scrollLeft = (currentPageIndex - 1) * window.innerWidth;
                     }
                 }
@@ -922,11 +1008,11 @@
                 toggle.setAttribute('aria-expanded', String(!isExpanded));
                 content.classList.toggle('hidden');
                 
-                // If we just opened the accordion, scroll it into view
                 if (!isExpanded) {
-                    setTimeout(() => {
-                        toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 200);
+                    // Optional: scroll into view when opened
+                    // setTimeout(() => {
+                    //     toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // }, 200);
                 }
             });
         }
@@ -1007,28 +1093,26 @@
         initializeAppState();
         setupNavigation();
         setupSwipeNavigation();
+        setupAccordions('ticket-accordion');
         setupAccordions('faq-accordion');
         setupAccordions('values-accordion');
         setupPassportBook();
 
         // Initial Nav State
         updateActiveNav(0);
-        // Recalculate indicator on resize
+        
         window.addEventListener('resize', () => {
             const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
             updateActiveNav(currentPageIndex);
         });
 
-        // Event listener for the "Let's Go!" button
         if(letsGoButton) {
             letsGoButton.addEventListener('click', () => {
-                // No localStorage.setItem('hasSeenOnboarding', 'true'); // Removed localStorage logic
                 onboardingScreen.classList.remove('visible');
                 setTimeout(() => {
-                    onboardingScreen.style.display = 'none'; // fully remove from layout
+                    onboardingScreen.style.display = 'none';
                     pageContainer.style.visibility = 'visible';
-                    floatingNav.classList.remove('hidden-nav'); // Show nav bar
-                    // Scroll to home page (index 0)
+                    floatingNav.classList.remove('hidden-nav');
                     pageContainer.scrollTo({
                         left: 0,
                         behavior: 'smooth'
