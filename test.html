@@ -48,25 +48,24 @@
             flex-direction: row;
             width: 100%;
             height: 100vh;
-            overflow-x: scroll;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
+            /* FIX: Removed horizontal page scrolling */
+            overflow: hidden; 
             scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             visibility: hidden; /* Initially hidden until splash/onboarding is done */
         }
 
         /* Each individual page/section */
         .page-section {
-            flex: 0 0 100vw;
-            width: 100vw;
+            /* FIX: Replaced 100vw with 100% to prevent horizontal overflow on iOS Chrome */
+            flex: 0 0 100%;
+            width: 100%;
             height: 100vh;
-            scroll-snap-align: start;
+            /* FIX: Removed page snapping */
             overflow-y: auto; /* Allow vertical scrolling within each page */
             overflow-x: hidden; /* Prevent horizontal scroll within a page */
             /* Added padding for safe areas */
             padding-top: env(safe-area-inset-top);
-            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 80px);
+            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 40px); /* Reduced bottom padding */
             box-sizing: border-box;
             background-color: #F5F7F6; /* Updated background color */
         }
@@ -104,7 +103,6 @@
         }
 
         /* --- Onboarding Screen (New) --- */
-        /* Styles for the onboarding screen container, adapted from trial.html's body styles */
         #onboardingScreen {
             position: fixed;
             top: 0;
@@ -112,18 +110,16 @@
             width: 100%;
             height: 100dvh; /* Use dvh for full viewport height */
             z-index: 9999;
-            background-color: #F3F8F4; /* From trial.html body */
+            background-color: #F3F8F4;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.5s ease-in, visibility 0.5s;
-            
-            /* Layout from trial.html body */
             display: flex;
             flex-direction: column;
             justify-content: flex-end; /* Aligns content to the bottom */
             align-items: center;
             overflow: hidden; /* Hide overflow from scallop animation */
-            font-family: 'Inter', sans-serif; /* Apply Inter font */
+            font-family: 'Inter', sans-serif;
         }
 
         #onboardingScreen.visible {
@@ -131,7 +127,6 @@
             visibility: visible;
         }
 
-        /* Keyframes for a calm rotation animation (from trial.html) */
         @keyframes calm-rotate {
           from {
             transform: translate(-50%, -50%) rotate(12.25deg);
@@ -141,12 +136,10 @@
           }
         }
 
-        /* Apply the animation to the scallop shape container (from trial.html) */
         .animate-calm-rotate {
-          animation: calm-rotate 30s linear infinite; /* 30 seconds duration, linear timing, infinite loop */
+          animation: calm-rotate 30s linear infinite;
         }
 
-        /* Fill color for the logo SVG paths (from trial.html) */
         .cls-1 {
             fill: #89B3D9; 
         }
@@ -162,44 +155,46 @@
         
         /* General Page Styles */
         .page-header {
-            font-family: 'Inter', sans-serif; /* Updated font */
+            font-family: 'Inter', sans-serif;
             font-weight: 700;
             text-align: left;
             padding: 1rem 1.5rem;
+            /* FIX: Added padding-top to account for iOS status bar/notch */
+            padding-top: calc(env(safe-area-inset-top) + 1rem);
             font-size: 2.5rem; 
             line-height: 2.75rem;
-            color: #F3F8F4; /* Updated header text color */
+            color: #F3F8F4;
             text-transform: uppercase;
             letter-spacing: 1px;
-            background-color: #89B3D9; /* Updated header background color */
+            background-color: #89B3D9;
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
         @media (min-width: 640px) { .page-header { padding-left: 1.5rem; padding-right: 1.5rem; } }
         @media (min-width: 1024px) { .page-header { padding-left: 2rem; padding-right: 2rem; } }
 
         .card {
-            background-color: #F3F8F4; /* Updated card background color */
+            background-color: #F3F8F4;
             border-radius: 1rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-            border: 1px solid #E1E5E3; /* Added card border */
+            border: 1px solid #E1E5E3;
         }
         .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #2D3748; }
         .card-description { font-size: 0.875rem; color: #5F7D97; margin-bottom: 1rem; }
         .card-button-primary {
-            display: inline-flex; /* Changed to inline-flex to hug content */
-            justify-content: center; /* Centered text horizontally */
-            align-items: center; /* Centered text vertically */
-            border-radius: 12px; /* Updated border radius */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
             padding: 0.5rem 1.5rem;
             font-weight: 600;
-            color: #1C2B26; /* Updated CTA button text color */
+            color: #1C2B26;
             font-size: 0.875rem;
             transition: transform 0.2s ease-out;
-            background-color: #F4D35E; /* Updated CTA button background color */
-            white-space: nowrap; /* Ensures text stays on one line */
-            text-decoration: none; /* Removes underline from anchor tag */
+            background-color: #F4D35E;
+            white-space: nowrap;
+            text-decoration: none;
         }
         .card-button-primary:hover { transform: scale(1.05); }
         .section-title {
@@ -216,26 +211,26 @@
 
         /* Unified Prose Text Styling */
         .prose-text {
-            color: #4A5568; /* Softer, low-contrast color for reading */
-            font-size: 0.9rem; /* 14.4px - Consistent reading size */
+            color: #4A5568;
+            font-size: 0.9rem;
             line-height: 1.6;
         }
         .prose-text p, .prose-text li {
             text-align: justify;
         }
         .prose-text p {
-           text-indent: 1.5em; /* Indent start of each paragraph */
+           text-indent: 1.5em;
            margin-bottom: 0.75em;
         }
         .prose-text p:first-child, .prose-text h4 + p {
-            text-indent: 0; /* Do not indent first paragraphs */
+            text-indent: 0;
         }
         .prose-text ul {
             list-style-position: outside;
-            padding-left: 1.5em; /* Align list with text */
+            padding-left: 1.5em;
         }
         .prose-text strong {
-            color: #2D3748; /* Slightly stronger color for bold text */
+            color: #2D3748;
         }
         .prose-text h4 {
             font-size: 1rem;
@@ -244,34 +239,40 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Custom class for About Us paragraphs */
+        .prose-about {
+            text-align: justify;
+            text-indent: 1.5em;
+            color: #4A5568;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.75em;
+        }
+
 
         /* Floating Navigation Bar */
         .floating-nav {
             position: fixed;
             left: 50%;
             transform: translateX(-50%);
-            /* Adjusted for safe area */
             bottom: calc(var(--nav-bottom-gap) + env(safe-area-inset-bottom));
-            width: calc(100% - 2rem); /* Responsive width */
-            max-width: 343px; /* Max width for larger screens */
-            height: 58px; /* Explicitly set height */
-            background-color: #89B3D9; /* Updated background color */
-            /* Removed backdrop-filter */
-            border-radius: 9999px; /* Pill shape */
+            width: calc(100% - 2rem);
+            max-width: 343px;
+            height: 58px;
+            background-color: #89B3D9;
+            border-radius: 9999px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 0 var(--nav-horizontal-padding);
-            /* Add transition for bottom positioning */
             transition: bottom 0.3s ease-out;
         }
 
-        /* Added new class for hiding the navigation bar */
         .floating-nav.hidden-nav {
             opacity: 0;
-            pointer-events: none; /* Prevents interaction when hidden */
+            pointer-events: none;
         }
 
         .nav-items-container {
@@ -294,10 +295,10 @@
             position: relative;
             z-index: 2;
             transition: color 0.3s ease;
-            color: #F3F8F4; /* Updated inactive icon/text color */
+            color: #F3F8F4;
         }
         .nav-item.active {
-            color: #89B3D9; /* Updated active icon/text color */
+            color: #89B3D9;
         }
         .nav-item svg {
             width: 24px;
@@ -315,16 +316,18 @@
             top: 50%;
             left: 0;
             transform: translateY(-50%);
-            height: 44px; /* Updated indicator height */
-            width: 66px;  /* Changed indicator width as requested */
-            background-color: #F3F8F4; /* Updated indicator background color */
+            height: 44px;
+            width: 66px;
+            background-color: #F3F8F4;
             border-radius: 9999px;
             z-index: 1;
             transition: left 0.4s cubic-bezier(0.42, 0, 0.58, 1);
         }
 
         /* Scrollbar styles for webkit browsers */
-        ::-webkit-scrollbar { width: 6px; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #89B3D9; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #709cbf; }
@@ -335,7 +338,7 @@
             border-top: 1px solid #E2E8F0; margin-top: 2rem;
         }
         .social-icon-link svg {
-            width: 28px; height: 28px; color: #89B3D9;
+            width: 28px; height: auto; color: #89B3D9;
             transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
         }
         .social-icon-link:hover svg { transform: scale(1.15) translateY(-1px); color: #4BA7AD; }
@@ -343,27 +346,58 @@
         .footer-credit-link:hover { text-decoration: underline; }
 
         /* Passport book styles */
-        .book-wrapper { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; min-height: calc(65vw + 20px); max-height: calc(260px + 20px); touch-action: pan-y; }
-        .book { width: 45vw; height: 65vw; max-width: 180px; max-height: 260px; position: relative; transition: transform 0.6s ease-in-out; transform-style: preserve-3d; perspective: 2000px; }
+        .book-wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 100%;
+            overflow: visible;
+        }
+        .book {
+            width: auto;
+            height: auto;
+            aspect-ratio: 538 / 740;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            position: relative;
+            transition: transform 0.6s ease-in-out;
+            transform-style: preserve-3d;
+            perspective: 2000px;
+        }
+        
+        @media (min-width: 1024px) {
+            .book {
+                max-width: 538px;
+            }
+        }
+
         .paper { position: absolute; width: 100%; height: 100%; top: 0; left: 0; transform-style: preserve-3d; transition: transform 1.5s ease-in-out; transform-origin: left center; cursor: pointer; }
         .paper.flipped { transform: rotateY(-180deg); }
         .front, .back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
-        .front img, .back img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .front img, .back img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            max-height: 90vh;
+            aspect-ratio: 538 / 740;
+        }
         .back { transform: rotateY(180deg); background-color: #f8f9fa; }
         .front-content, .back-content { padding: 10px; text-align: center; color: #fff; height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         #cover-front .front-content, #cover-back .back-content { background: linear-gradient(45deg, #4a5568, #2d3748); }
         #p1 { z-index: 6; } #p2 { z-index: 5; } #p3 { z-index: 4; } #p4 { z-index: 3; } #p5 { z-index: 2; } #p6 { z-index: 1; }
-        .book-info { text-align: left; margin-top: 25px; width: 100%; max-width: 380px; padding: 0 10px; box-sizing: border-box; transition: opacity 0.5s ease-in-out; }
+        .book-info { text-align: center; margin-top: 25px; width: 100%; max-width: 538px; padding: 0 10px; box-sizing: border-box; transition: opacity 0.5s ease-in-out; }
         .book-info h2 { color: #2D3748; }
 
         /* Accordion styles */
         .accordion-item {
-            background-color: #F3F8F4; /* Updated accordion background color */
             border-radius: 0.75rem;
             margin-bottom: 0.75rem;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,0.04);
             overflow: hidden;
-            border: 1px solid #E1E5E3; /* Added accordion border */
         }
         .accordion-toggle {
             display: flex;
@@ -374,19 +408,16 @@
             text-align: left;
             font-weight: 600;
             color: #2D3748;
-            background-color: #F3F8F4; /* Updated accordion toggle background color */
             cursor: pointer;
-            font-family: 'Inter', sans-serif; /* Updated font */
+            font-family: 'Inter', sans-serif;
         }
         .accordion-content {
-            padding: 1.25rem;
-            background-color: #F3F8F4; /* Updated accordion content background color */
-            border-top: 1px solid #E1E5E3; /* Updated accordion content border */
-            font-family: 'Inter', sans-serif; /* Updated font */
+            padding: 0 1.25rem 1.25rem 1.25rem; /* Adjusted padding */
+            font-family: 'Inter', sans-serif;
+            color: #4A5568; /* Base text color for content */
         }
         .accordion-icon {
             transition: transform 0.3s ease;
-            color: #89B3D9;
         }
         .accordion-toggle[aria-expanded="true"] .accordion-icon {
             transform: rotate(180deg);
@@ -418,12 +449,11 @@
             color: #2A4365;
         }
 
-        /* Removed old #letsGoButton styles as they are now handled by Tailwind clamp classes */
-
     </style>
 </head>
 <body>
 
+    <!-- Splash Screen -->
     <div id="splashScreen" class="splash-screen">
         <div class="splash-logo">
             <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1052.89 770.27">
@@ -434,8 +464,8 @@
         </div>
     </div>
 
+    <!-- Onboarding Screen -->
     <div id="onboardingScreen" class="onboarding-screen">
-        <!-- Scallop Shape container. Adapted from trial.html -->
         <div class="absolute top-30 md:top-36 left-1/2 w-[80vh] md:w-[90vh] h-[80vh] md:h-[90vh] [transform:translate(-50%,-50%)_rotate(12.25deg)] animate-calm-rotate">
           <svg id="scallop-top" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456.44 446.05" class="w-full h-full">
             <g id="Layer_1-2" data-name="Layer 1">
@@ -445,18 +475,13 @@
             </g>
           </svg>
         </div>
-    
-        <!-- Outer container for text and CTA button, pushed to bottom. Adapted from trial.html -->
         <div class="flex flex-col items-center gap-8 mb-[clamp(24px,4vh,64px)] md:mb-[clamp(40px,6vh,80px)] mt-auto">
-          <!-- Onboarding Message Group: Contains "Welcome to", SVG, and Tagline. Adapted from trial.html -->
           <div class="flex flex-col justify-center items-center gap-6 bg-transparent rounded-lg">
-            <!-- Section for welcome text and logo. Adapted from trial.html -->
             <div class="flex flex-col justify-center items-center gap-2.5 w-full">
-              <div class="flex flex-col justify-center items-center gap-[clamp(20px,3.5vh,48px)] w-full">
+              <div class="flex flex-col justify-center items-center gap-[clamp(10px,2vh,48px)] w-full">
                 <p class="text-[#2D3A3F] text-center font-bold text-2xl md:text-[clamp(2rem,6vw,2.75rem)]">
                   Welcome to
                 </p>
-                <!-- Embedded SVG logo with responsive class. Adapted from trial.html -->
                 <div>
                   <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2838.43 860.89" class="w-[300px] md:w-[600px] h-auto">
                     <g id="Layer_1-2" data-name="Layer 1">
@@ -467,10 +492,7 @@
               </div>
             </div>
           </div>
-    
-          <!-- CTA Button with responsive dimensions. Adapted from trial.html -->
-          <div id="letsGoButton" class="flex justify-center items-center flex-row gap-2.5 py-4 px-[32px] bg-[#F4D35E] rounded-full cursor-pointer w-[clamp(240px,38vw,280px)] md:w-[clamp(400px,48vw,520px)] h-[clamp(50px,7vw,64px)] md:h-[clamp(64px,8vw,80px)]">
-            <!-- CTA button text with responsive font size. Adapted from trial.html -->
+          <div id="letsGoButton" class="flex justify-center items-center flex-row gap-2.5 py-4 px-[32px] bg-[#F4D35E] rounded-full cursor-pointer w-[clamp(240px,38vw,280px)] md:w-[clamp(400px,48vw,520px)] h-[clamp(50px,7vw,64px)] md:h-[clamp(64px,8vw,80px)] transition-transform duration-200 ease-out hover:scale-105">
             <span class="text-[#2D3A3F] text-center font-bold text-[clamp(1.2rem,3vw,1.6rem)] md:text-[clamp(1.75rem,4vw,2.25rem)]">
               Let’s Go!
             </span>
@@ -480,32 +502,41 @@
     
     <div class="page-container" id="page-container">
         
+        <!-- Home Page -->
         <section id="home" class="page-section">
             <header class="page-header">Home</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                <section class="mb-8">
-                    <h2 class="section-title">Featured Event</h2>
-                    <div class="card">
-                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Placeholder Image</div>
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">Starlight Airlines: Onboarding</h3>
-                        <p class="text-sm text-gray-500 mb-2">Nov 16, CHADAA</p>
-                        <p class="card-description">A day of music, dance, and fandom!</p>
-                        <a href="#" class="card-button-primary shimmer-wrapper" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth;">
-                            Dive into the Details
-                        </a>
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <h2 class="section-title">Featured Event</h2>
+                            <div class="card">
+                                <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Placeholder Image</div>
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">Starlight Airlines: Onboarding</h3>
+                                <p class="text-sm text-gray-500 mb-2">Nov 16, CHADAA</p>
+                                <p class="card-description">A day of music, dance, and fandom!</p>
+                                <a href="#" class="card-button-primary shimmer-wrapper" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth;">
+                                    Dive into the Details
+                                </a>
+                            </div>
+                        </section>
                     </div>
-                </section>
-                <section>
-                    <h2 class="section-title">Announcements</h2>
-                    <div class="card">
-                        <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
-                        <p class="card-description">Show us what you've got! Click below to submit your application.</p>
-                        <a href="#" class="inline-block rounded-full py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
-                            Join the Wave
-                        </a>
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <h2 class="section-title">Announcements</h2>
+                            <div class="card">
+                                <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Placeholder Image</div>
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
+                                <p class="card-description">Show us what you've got! Click below to submit your application.</p>
+                                <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('#page-container').scrollLeft = window.innerWidth * 3;">
+                                    Join the Wave
+                                </a>
+                            </div>
+                        </section>
                     </div>
-                </section>
+                </div>
                 <footer class="site-footer">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Follow Us</h3>
                     <div class="flex justify-center space-x-6 mb-4">
                         <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
                         <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
@@ -518,74 +549,180 @@
             </main>
         </section>
 
+        <!-- Event Page -->
         <section id="event" class="page-section">
             <header class="page-header">Event</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                 <section class="mb-10">
-                    <h2 class="section-title">Upcoming Event</h2>
-                    <div class="card">
-                        <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 mb-4">Event Image / Thumbnail Placeholder</div>
-                        <h3 class="card-title mt-4">Starlight Airlines: Onboarding</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
-                            <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
-                            <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
-                            <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
-                            <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
+                <!-- FIX: Main container changed to single column on all screens -->
+                <div class="flex flex-col gap-y-8">
+                    <!-- Event Details Section -->
+                    <section>
+                        <h2 class="section-title">Upcoming Event</h2>
+                        <!-- FIX: "Starlight Airlines" card changed to 2-column layout on desktop -->
+                        <div class="card !p-0 overflow-hidden">
+                            <div class="flex flex-col lg:flex-row w-full">
+                                <div class="w-full lg:w-1/2 h-48 bg-gray-200 flex-shrink-0 flex items-center justify-center text-gray-400 p-4">
+                                    Event Image / Thumbnail Placeholder
+                                </div>
+                                <div class="w-full lg:w-1/2 p-4 flex flex-col">
+                                    <h3 class="card-title">Starlight Airlines: Onboarding</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
+                                        <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
+                                        <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
+                                        <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
+                                        <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
+                                    </div>
+                                    <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#4BA7AD] font-semibold underline block mb-3 text-left">Get directions</a>
+                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
+                                </div>
+                            </div>
                         </div>
-                        <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#4BA7AD] font-semibold underline block mb-3 text-left">Get directions</a>
-                        <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
-                    </div>
-                </section>
-                <section class="mb-10">
-                    <h2 class="section-title">🏆 Ticket Prizes</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="card bg-green-100/60 p-4 text-center"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Photocard<br>(1 Raffle Entry)</p></div>
-                        <div class="card bg-blue-100/60 p-4 text-center"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
-                        <div class="card bg-yellow-100/60 p-4 text-center"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
-                    </div>
-                </section>
-                <section>
-                    <h2 class="section-title">🎟️ Ticket FAQ</h2>
-                    <div class="space-y-2" id="faq-accordion">
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
-                                <span>Is the ticket refundable?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text"><p>Unfortunately, <strong>NO</strong>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div>
+                    </section>
+                    
+                    <!-- Ticket Tiers Section -->
+                    <section>
+                        <h2 class="section-title">Choose your Ticket</h2>
+                        <p class="section-subtitle">Explore tier perks.</p>
+                        <!-- FIX: Accordions converted to horizontal scrolling cards -->
+                        <div class="flex overflow-x-auto space-x-4 snap-x py-4 scrollbar-hide">
+                            <!-- Tier 1 Card -->
+                            <div class="min-w-[75%] sm:min-w-[45%] lg:min-w-[30%] snap-start rounded-xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                                <div class="flex flex-col items-start text-left mb-4">
+                                    <span class="text-lg font-bold text-gray-800">Tier 1: Economy</span>
+                                    <span class="text-base font-bold text-gray-800">₱200</span>
+                                </div>
+                                <div class="flex justify-between items-start gap-4 text-sm mt-auto">
+                                    <div class="space-y-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Prize:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>1 Raffle Entry</p>
+                                                <p>Official Photocard</p>
+                                                <p class="italic text-xs">(Random)</p>
+                                                <p><span class="font-bold">10</span> Winners</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Goodies:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>Surprise Freebies</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex-shrink-0">
+                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                        <span class="text-lg font-bold text-gray-800">100</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tier 2 Card -->
+                            <div class="min-w-[75%] sm:min-w-[45%] lg:min-w-[30%] snap-start rounded-xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
+                                <div class="flex flex-col items-start text-left mb-4">
+                                    <span class="text-lg font-bold text-gray-800">Tier 2: Business Class</span>
+                                    <span class="text-base font-bold text-gray-800">₱300</span>
+                                </div>
+                                <div class="flex justify-between items-start gap-4 text-sm mt-auto">
+                                    <div class="space-y-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Prize:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>1 Raffle Entry</p>
+                                                <p>Official Album</p>
+                                                <p class="italic text-xs">(Random)</p>
+                                                <p><span class="font-bold">5</span> Winners</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Goodies:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>Surprise Freebies</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex-shrink-0">
+                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                        <span class="text-lg font-bold text-gray-800">75</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tier 3 Card -->
+                            <div class="min-w-[75%] sm:min-w-[45%] lg:min-w-[30%] snap-start rounded-xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
+                                <div class="flex flex-col items-start text-left mb-4">
+                                    <span class="text-lg font-bold text-gray-800">Tier 3: First Class</span>
+                                    <span class="text-base font-bold text-gray-800">₱400</span>
+                                </div>
+                                <div class="flex justify-between items-start gap-4 text-sm mt-auto">
+                                    <div class="space-y-2">
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Prize:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>1 Raffle Entry</p>
+                                                <p>Official Album / Lightstick</p>
+                                                <p class="italic text-xs">(Choice)</p>
+                                                <p><span class="font-bold">1</span> Winner</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-700">Goodies:</p>
+                                            <div class="pl-4 space-y-1">
+                                                <p>Surprise Freebie</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right flex-shrink-0">
+                                        <span class="text-sm font-semibold text-gray-500 block">Slots:</span>
+                                        <span class="text-lg font-bold text-gray-800">25</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
-                                <span>Can I upgrade my ticket tier?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div>
+                    </section>
+                
+                    <!-- FAQ Section -->
+                    <section class="mb-8">
+                        <h2 class="section-title">🎟️ Ticket FAQ</h2>
+                        <div class="space-y-2" id="faq-accordion">
+                             <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                    <span>Is the ticket refundable?</span>
+                                    <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                </button>
+                                <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p></div>
+                            </div>
+                             <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                    <span>Can I upgrade my ticket tier?</span>
+                                    <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                </button>
+                                <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p></div>
+                            </div>
+                             <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                    <span>Can I downgrade my ticket tier?</span>
+                                    <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                </button>
+                                <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>Unfortunately, <strong>NO</strong>. As tickets are <strong>NON-REFUNDABLE</strong>, we will not be offering downgrades, as well.</p></div>
+                            </div>
+                             <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                    <span>Can I give my ticket to someone else?</span>
+                                    <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                </button>
+                                <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>YES! You may give the ticket to someone who will be interested to attend.</p></div>
+                            </div>
                         </div>
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
-                                <span>Can I downgrade my ticket tier?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text"><p>Unfortunately, <strong>NO</strong>. As tickets are <strong>NON-REFUNDABLE</strong>, we will not be offering downgrades, as well.</p></div>
+                        <div class="note-box">
+                            <svg class="note-box-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                            <p class="note-box-text">
+                                <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
+                            </p>
                         </div>
-                         <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
-                                <span>Can I give my ticket to someone else?</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text"><p>YES! You may give the ticket to someone who will be interested to attend.</p></div>
-                        </div>
-                    </div>
-                    <div class="note-box">
-                        <svg class="note-box-icon" xmlns="http://www.w3.org/2000/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-                        <p class="note-box-text">
-                            <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
-                        </p>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </main>
         </section>
 
+        <!-- Passport Page -->
         <section id="passport" class="page-section">
             <header class="page-header">Passport</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
@@ -593,74 +730,79 @@
                     <p class="text-base leading-relaxed text-gray-700 mb-2 text-justify w-full">The Starlight Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!</p>
                     <p class="text-lg font-semibold text-[#89B3D9]">“Collect Stamps. Earn Rewards. Make Memories.”</p>
                 </section>
-                <section class="mb-10">
-                    <h2 class="section-title text-center sm:text-left">Discover What’s Inside</h2>
-                    <div class="card !p-5">
-                        <div class="book-wrapper">
-                            <div id="book" class="book">
-                                <div id="p1" class="paper">
-                                    <div class="front" id="cover-front">
-                                        <img src="1.png" alt="Front Cover" onerror="this.onerror=null; this.src='https://placehold.co/180x260/4a5568/ffffff?text=Cover';">
+                
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
+                    <section class="mb-8">
+                        <h2 class="section-title text-center sm:text-left">Discover What’s Inside</h2>
+                        <div class="card !p-5">
+                            <div class="book-wrapper">
+                                <div id="book" class="book aspect-[538/740]">
+                                    <div id="p1" class="paper">
+                                        <div class="front" id="cover-front">
+                                            <img src="1.png" alt="Front Cover" onerror="this.onerror=null; this.src='https://placehold.co/538x740/4a5568/ffffff?text=Cover';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="2.png" alt="Back of Front Cover / Page 1" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+1';">
+                                        </div>
                                     </div>
-                                    <div class="back">
-                                        <img src="2.png" alt="Back of Front Cover / Page 1" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+1';">
+                                    <div id="p2" class="paper">
+                                        <div class="front">
+                                            <img src="3.png" alt="Page 2 Front" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+2';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="4.png" alt="Page 2 Back" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+3';">
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="p2" class="paper">
-                                    <div class="front">
-                                        <img src="3.png" alt="Page 2 Front" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+2';">
+                                    <div id="p3" class="paper">
+                                        <div class="front">
+                                            <img src="5.png" alt="Page 3 Front" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+4';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="6.png" alt="Page 3 Back" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+5';">
+                                        </div>
                                     </div>
-                                    <div class="back">
-                                        <img src="4.png" alt="Page 2 Back" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+3';">
+                                    <div id="p4" class="paper">
+                                        <div class="front">
+                                            <img src="7.png" alt="Page 4 Front" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+6';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="8.png" alt="Page 4 Back" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+7';">
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="p3" class="paper">
-                                    <div class="front">
-                                        <img src="5.png" alt="Page 3 Front" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+4';">
+                                    <div id="p5" class="paper">
+                                        <div class="front">
+                                            <img src="9.png" alt="Page 5 Front" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+8';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="10.png" alt="Page 5 Back" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+9';">
+                                        </div>
                                     </div>
-                                    <div class="back">
-                                        <img src="6.png" alt="Page 3 Back" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+5';">
-                                    </div>
-                                </div>
-                                <div id="p4" class="paper">
-                                    <div class="front">
-                                        <img src="7.png" alt="Page 4 Front" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+6';">
-                                    </div>
-                                    <div class="back">
-                                        <img src="8.png" alt="Page 4 Back" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+7';">
-                                    </div>
-                                </div>
-                                <div id="p5" class="paper">
-                                    <div class="front">
-                                        <img src="9.png" alt="Page 5 Front" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+8';">
-                                    </div>
-                                    <div class="back">
-                                        <img src="10.png" alt="Page 5 Back" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+9';">
-                                    </div>
-                                </div>
-                                <div id="p6" class="paper">
-                                    <div class="front">
-                                        <img src="11.png" alt="Page 6 Front" onerror="this.onerror=null; this.src='https://placehold.co/180x260/ffffff/000000?text=Page+10';">
-                                    </div>
-                                    <div class="back" id="cover-back">
-                                        <img src="12.png" alt="Back Cover" onerror="this.onerror=null; this.src='https://placehold.co/180x260/2d3748/ffffff?text=Back';">
+                                    <div id="p6" class="paper">
+                                        <div class="front">
+                                            <img src="11.png" alt="Page 6 Front" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+10';">
+                                        </div>
+                                        <div class="back" id="cover-back">
+                                            <img src="12.png" alt="Back Cover" onerror="this.onerror=null; this.src='https://placehold.co/538x740/2d3748/ffffff?text=Back';">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="book-info"><h2 id="book-title" class="text-xl font-bold"></h2><p id="book-description" class="text-sm text-gray-600"></p></div>
                         </div>
-                        <div class="book-info"><h2 id="book-title" class="text-xl font-bold"></h2><p id="book-description" class="text-sm text-gray-600"></p></div>
-                    </div>
-                </section>
-                <section class="mb-10">
-                    <h2 class="section-title">Rewards You Can Earn</h2>
-                    <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="card bg-green-100/60 p-4 text-center"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Photocard<br>(1 Raffle Entry)</p></div>
-                        <div class="card bg-blue-100/60 p-4 text-center"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
-                        <div class="card bg-yellow-100/60 p-4 text-center"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
-                    </div>
-                </section>
-                <section class="mb-10">
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="section-title">Rewards You Can Earn</h2>
+                        <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
+                        <div class="space-y-4">
+                            <div class="card bg-green-100/60 p-4 text-center"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Photocard<br>(1 Raffle Entry)</p></div>
+                            <div class="card bg-blue-100/60 p-4 text-center"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
+                            <div class="card bg-yellow-100/60 p-4 text-center"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="mb-8">
                     <h2 class="section-title">Terms & Conditions</h2>
                     <div class="card text-left prose-text">
                         <ul class="list-disc">
@@ -673,7 +815,7 @@
                         </ul>
                     </div>
                 </section>
-                 <section class="mb-10">
+                 <section class="mb-8">
                     <h2 class="section-title">Lost or Damaged Starlight Passport Policy</h2>
                     <div class="card text-left prose-text">
                         <p>If an attendee loses or damages their Starlight Passport—especially if it affects the microchip—they may request a replacement under the following conditions:</p>
@@ -705,10 +847,11 @@
             </main>
         </section>
 
+        <!-- Join Us Page -->
         <section id="join" class="page-section flex flex-col">
             <header class="page-header">Join Us</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                <div class="w-full max-w-lg">
+                <div class="w-full max-w-lg mx-auto">
                     <div class="card text-center">
                         <h2 class="text-2xl font-extrabold text-gray-800 mb-4">Tropical Wave is holding auditions!</h2>
                         <p class="text-lg text-gray-700 leading-relaxed mb-4">Bring the energy and show us what you’ve got. This is your chance to shine and be part of the wave! 🌊✨</p>
@@ -721,51 +864,58 @@
             </main>
         </section>
 
+        <!-- About Us Page -->
         <section id="about" class="page-section">
             <header class="page-header">About Us</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                <section class="mb-8">
-                    <div class="card">
-                        <p class="prose-text">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+                    <div class="flex flex-col">
+                        <section class="mb-8">
+                            <div class="card">
+                                <p class="prose-about">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
+                            </div>
+                        </section>
+                        <section class="mb-8">
+                            <div class="card"><h2 class="card-title text-left">Vision</h2><p class="prose-about">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
+                        </section>
+                        <section class="mb-8 lg:mb-0">
+                            <div class="card"><h2 class="card-title text-left">Mission</h2><p class="prose-about">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
+                        </section>
                     </div>
-                </section>
-                <section class="mb-8">
-                    <div class="card"><h2 class="card-title text-left">Vision</h2><p class="prose-text">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
-                </section>
-                <section class="mb-8">
-                    <div class="card"><h2 class="card-title text-left">Mission</h2><p class="prose-text">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
-                </section>
-                <section>
-                    <h2 class="section-title">Our Core Values</h2>
-                    <div class="space-y-2" id="values-accordion">
-                        <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
-                                <span>Inclusivity</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div>
-                        </div>
-                        <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
-                                <span>Passion for Performance</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
-                        </div>
-                        <div class="accordion-item">
-                            <button class="accordion-toggle w-full text-left">
-                                <span>Community and Unity</span>
-                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-                            <div class="accordion-content hidden prose-text"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
-                        </div>
+                    <div class="flex flex-col">
+                        <section>
+                            <h2 class="section-title">Our Core Values</h2>
+                            <div class="space-y-2" id="values-accordion">
+                                <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Inclusivity</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p></div>
+                                </div>
+                                <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Passion for Performance</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p></div>
+                                </div>
+                                <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
+                                    <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
+                                        <span>Community and Unity</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text" style="background-color: #F3F8F4; border-top: 1px solid #E1E5E3; padding: 1.25rem;"><p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p></div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </section>
+                </div>
             </main>
         </section>
 
     </div>
-    <nav class="floating-nav hidden-nav"> <!-- Added hidden-nav class initially -->
+    <nav class="floating-nav hidden-nav">
         <div class="nav-items-container">
             <div id="nav-indicator" class="nav-indicator"></div>
             <a class="nav-item active" data-index="0">
@@ -815,16 +965,14 @@
         const pageContainer = document.getElementById('page-container');
         const navItems = document.querySelectorAll('.nav-item');
         const navIndicator = document.getElementById('nav-indicator');
-        const floatingNav = document.querySelector('.floating-nav'); // Added reference to floating nav
+        const floatingNav = document.querySelector('.floating-nav');
 
         // --- Initial Setup ---
         function initializeAppState() {
-            // Splash Screen Logic
             setTimeout(() => {
                 splashScreen.classList.add('hidden');
-                // Always show onboarding after splash screen, regardless of device size
                 onboardingScreen.classList.add('visible');
-            }, 2500); // Keep splash screen duration
+            }, 2500);
         }
         
         // --- Navigation Logic ---
@@ -833,74 +981,30 @@
                 item.addEventListener('click', () => {
                     const pageIndex = parseInt(item.dataset.index, 10);
                     const scrollPosition = pageIndex * window.innerWidth;
+                    
+                    // Scroll the container to the correct page
                     pageContainer.scrollTo({
                         left: scrollPosition,
                         behavior: 'smooth'
                     });
-                });
-            });
 
-            // Update nav indicator and active class on scroll
-            pageContainer.addEventListener('scroll', () => {
-                // Use a timeout to avoid performance issues on rapid scroll
-                requestAnimationFrame(() => {
-                    const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
-                    updateActiveNav(currentPageIndex);
+                    // Manually update the active nav state on click
+                    updateActiveNav(pageIndex);
                 });
             });
         }
         
         function updateActiveNav(index) {
-            // Update active class on items
             navItems.forEach((item, i) => {
                 item.classList.toggle('active', i === index);
             });
 
-            // Move the indicator
             const activeItem = navItems[index];
             if (activeItem && navIndicator) {
                  const containerRect = navIndicator.parentElement.getBoundingClientRect();
                  const itemRect = activeItem.getBoundingClientRect();
-                 // Calculate indicator position to center it under the active item
                  const indicatorLeft = itemRect.left - containerRect.left + (itemRect.width / 2) - (navIndicator.offsetWidth / 2);
                  navIndicator.style.left = `${indicatorLeft}px`;
-            }
-        }
-        
-        // --- Swipe Navigation Logic ---
-        function setupSwipeNavigation() {
-            let touchstartX = 0;
-            let touchstartY = 0;
-            let touchendX = 0;
-            let touchendY = 0;
-            const swipeThreshold = 50; // Minimum pixels for a swipe
-
-            pageContainer.addEventListener('touchstart', (event) => {
-                touchstartX = event.changedTouches[0].screenX;
-                touchstartY = event.changedTouches[0].screenY;
-            }, { passive: true });
-
-            pageContainer.addEventListener('touchend', (event) => {
-                touchendX = event.changedTouches[0].screenX;
-                touchendY = event.changedTouches[0].screenY;
-                handleSwipe();
-            }, { passive: true });
-
-            function handleSwipe() {
-                const deltaX = touchendX - touchstartX;
-                const deltaY = touchendY - touchstartY;
-
-                // Only trigger horizontal swipe if movement is more horizontal than vertical
-                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
-                    const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
-                    if (deltaX < 0 && currentPageIndex < navItems.length - 1) {
-                        // Swipe Left - Go to Next Page
-                        pageContainer.scrollLeft = (currentPageIndex + 1) * window.innerWidth;
-                    } else if (deltaX > 0 && currentPageIndex > 0) {
-                        // Swipe Right - Go to Previous Page
-                        pageContainer.scrollLeft = (currentPageIndex - 1) * window.innerWidth;
-                    }
-                }
             }
         }
 
@@ -920,13 +1024,6 @@
 
                 toggle.setAttribute('aria-expanded', String(!isExpanded));
                 content.classList.toggle('hidden');
-                
-                // If we just opened the accordion, scroll it into view
-                if (!isExpanded) {
-                    setTimeout(() => {
-                        toggle.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }, 200);
-                }
             });
         }
 
@@ -942,11 +1039,11 @@
              let currentLocation = 1;
              let isFlipping = false;
              const pageInfo = [
-                { title: "Front Cover", description: "This is your Starlight Passport. Swipe to explore the contents." },
-                { title: "Vision & Mission / Bio-Data", description: "Get to know our vision and mission.\nScan the QR to explore more,\nand don’t forget to fill out your Bio-Data!" },
-                { title: "Event I", description: "Claim your stamp for boarding our first\nevent — Starlight Airlines: Onboarding!" },
-                { title: "Event II", description: "Your next stamp awaits! Follow us for event updates" },
-                { title: "Event III", description: "Your final stamp is still far ahead. Stay tuned" },
+                { title: "Front Cover", description: "This is your Starlight Passport. Tap or click to explore the contents." },
+                { title: "Vision & Mission / Bio-Data", description: "Get to know our vision and mission. Scan the QR to explore more, and don’t forget to fill out your Bio-Data!" },
+                { title: "Event I", description: "Claim your stamp for boarding our first event — Starlight Airlines: Onboarding!" },
+                { title: "Event II", description: "Your next stamp awaits! Follow us for event updates." },
+                { title: "Event III", description: "Your final stamp is still far ahead. Stay tuned." },
                 { title: "Important Information", description: "A quick glance at the fine print! Here’s how to treat your items right and what to know if they go missing or get bumpy." },
                 { title: "Back Cover", description: "Every journey has an end, but the memories last a lifetime." }
             ];
@@ -961,10 +1058,16 @@
              function goNextPage() {
                  if (currentLocation >= maxLocation || isFlipping) return;
                  isFlipping = true;
+                 
+                 // When opening the first page, we want to show two pages side-by-side
                  if (currentLocation === 1) book.style.transform = "translateX(50%)";
+                 
                  papers[currentLocation - 1].classList.add("flipped");
                  papers[currentLocation - 1].style.zIndex = currentLocation;
+                 
+                 // When we are at the last page, the book should appear fully open to the right
                  if (currentLocation === papers.length) book.style.transform = "translateX(100%)";
+
                  currentLocation++;
                  updateBookInfo();
                  setTimeout(() => { isFlipping = false; }, 1500);
@@ -974,11 +1077,19 @@
                  if (currentLocation <= 1 || isFlipping) return;
                  isFlipping = true;
                  currentLocation--;
-                 if (currentLocation === 1) book.style.transform = "translateX(0%)";
+
+                 // When closing the last page, bring it back to the center view
                  if (currentLocation === papers.length) book.style.transform = "translateX(50%)";
+                 
                  const prevPaper = papers[currentLocation - 1];
                  prevPaper.classList.remove("flipped");
+
+                 // After a delay, reset z-index to allow re-opening
                  setTimeout(() => { prevPaper.style.zIndex = papers.length - (currentLocation - 1); }, 500);
+                 
+                 // When we are back at the cover, reset transform
+                 if (currentLocation === 1) book.style.transform = "translateX(0%)";
+
                  updateBookInfo();
                  setTimeout(() => { isFlipping = false; }, 1500);
              }
@@ -991,9 +1102,10 @@
                 const bookRect = book.getBoundingClientRect();
                 const clickX = e.clientX - bookRect.left;
 
+                // If the click is on the right half of the book, go to the next page
                 if (clickX > bookRect.width / 2) {
                     goNextPage();
-                } else {
+                } else { // Otherwise, go to the previous page
                     goPrevPage();
                 }
             });
@@ -1005,29 +1117,26 @@
         // --- Run All Initializations ---
         initializeAppState();
         setupNavigation();
-        setupSwipeNavigation();
+        // setupSwipeNavigation(); // <-- This is now disabled
         setupAccordions('faq-accordion');
         setupAccordions('values-accordion');
         setupPassportBook();
 
         // Initial Nav State
         updateActiveNav(0);
-        // Recalculate indicator on resize
+        
         window.addEventListener('resize', () => {
             const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
             updateActiveNav(currentPageIndex);
         });
 
-        // Event listener for the "Let's Go!" button
         if(letsGoButton) {
             letsGoButton.addEventListener('click', () => {
-                // No localStorage.setItem('hasSeenOnboarding', 'true'); // Removed localStorage logic
                 onboardingScreen.classList.remove('visible');
                 setTimeout(() => {
-                    onboardingScreen.style.display = 'none'; // fully remove from layout
+                    onboardingScreen.style.display = 'none';
                     pageContainer.style.visibility = 'visible';
-                    floatingNav.classList.remove('hidden-nav'); // Show nav bar
-                    // Scroll to home page (index 0)
+                    floatingNav.classList.remove('hidden-nav');
                     pageContainer.scrollTo({
                         left: 0,
                         behavior: 'smooth'
