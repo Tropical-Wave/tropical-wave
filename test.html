@@ -213,7 +213,8 @@
         /* General Card UI styles - will be overridden for specific sections */
         .card {
             background-color: #F3F8F4; /* Changed fill color */
-            border-radius: 1rem;
+            /* Updated border-radius to match navigation bar's visual consistency */
+            border-radius: 1.5rem; /* Equivalent to rounded-3xl or 24px, visually consistent with 9999px for nav */
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
@@ -434,7 +435,7 @@
         /* Accordion styles */
         .accordion-item {
             background-color: #F3F8F4; /* Changed fill color */
-            border-radius: 0.75rem;
+            border-radius: 1.5rem; /* Updated to match card radius */
             margin-bottom: 0.75rem;
             box-shadow: 0 2px 4px -1px rgba(0,0,0,0.04);
             overflow: hidden;
@@ -473,7 +474,7 @@
             align-items: flex-start;
             margin-top: 1rem;
             padding: 0.75rem;
-            border-radius: 0.5rem;
+            border-radius: 1.5rem; /* Updated to match card radius */
             background-color: #EBF8FF; /* Light blue background */
             border-left: 4px solid #63B3ED; /* Blue accent border */
         }
@@ -593,7 +594,8 @@
                         <div class="card !p-0 overflow-hidden">
                             <div class="flex flex-col lg:flex-row w-full">
                                 <div class="w-full lg:w-1/2 p-4">
-                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Event+Promo" alt="Featured Event" class="w-full h-auto aspect-video object-cover rounded-md">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Event+Promo" alt="Featured Event" class="w-full h-auto aspect-video object-cover rounded-xl">
                                 </div>
                                 <div class="w-full lg:w-1/2 p-4 flex flex-col justify-center">
                                     <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
@@ -620,7 +622,8 @@
                         <div class="flex overflow-x-auto space-x-4 pb-4">
                             <div class="card !p-0 overflow-hidden !mb-0 flex-shrink-0 w-4/5 sm:w-2/3 md:w-1/2 lg:w-2/5">
                                 <div class="p-4">
-                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Auditions+Open" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-md mb-4">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Auditions+Open" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-xl mb-4">
                                     <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
                                     <p class="card-description">Show us what you've got! Click below to submit your application.</p>
                                     <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4" onclick="document.querySelector('.nav-item[data-index=\'3\']').click(); return false;">
@@ -630,7 +633,8 @@
                             </div>
                             <div class="card !p-0 overflow-hidden !mb-0 flex-shrink-0 w-4/5 sm:w-2/3 md:w-1/2 lg:w-2/5">
                                <div class="p-4">
-                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Auditions+Open" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-md mb-4">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Auditions+Open" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-xl mb-4">
                                     <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
                                     <p class="card-description">Show us what you've got! Click below to submit your application.</p>
                                     <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4" onclick="document.querySelector('.nav-item[data-index=\'3\']').click(); return false;">
@@ -665,7 +669,8 @@
                         <div class="card !p-0 overflow-hidden">
                             <div class="flex flex-col lg:flex-row w-full">
                                 <div class="w-full lg:w-1/2 p-4">
-                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Event+Details" alt="Event Details" class="w-full h-auto aspect-video object-cover rounded-md">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Event+Details" alt="Event Details" class="w-full h-auto aspect-video object-cover rounded-xl">
                                 </div>
                                 <div class="w-full lg:w-1/2 p-4 flex flex-col justify-center">
                                     <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
@@ -688,7 +693,8 @@
                         <p class="section-subtitle">Explore tier perks. Scroll to see more.</p>
                         <!-- Removed scrollbar-hide class to enable horizontal scrollbar -->
                         <div class="flex overflow-x-auto space-x-4 snap-x snap-mandatory py-4">
-                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                            <!-- Updated border-radius for ticket tier cards -->
+                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-3xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
                                 <div class="flex flex-col items-start text-left mb-4">
                                     <span class="text-lg font-bold text-gray-800">Tier 1: Economy</span>
                                     <span class="text-base font-bold text-gray-800">₱200</span>
@@ -717,7 +723,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
+                            <!-- Updated border-radius for ticket tier cards -->
+                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-3xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
                                 <div class="flex flex-col items-start text-left mb-4">
                                     <span class="text-lg font-bold text-gray-800">Tier 2: Business Class</span>
                                     <span class="text-base font-bold text-gray-800">₱300</span>
@@ -746,7 +753,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
+                            <!-- Updated border-radius for ticket tier cards -->
+                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-3xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
                                 <div class="flex flex-col items-start text-left mb-4">
                                     <span class="text-lg font-bold text-gray-800">Tier 3: First Class</span>
                                     <span class="text-base font-bold text-gray-800">₱400</span>
@@ -901,18 +909,18 @@
                         <h2 class="section-title">Rewards You Can Earn</h2>
                         <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
                         <div class="flex flex-col gap-y-6">
-                            <!-- Tier 1: Economy - Matches Event Page Tier 1 -->
-                            <div class="card !mb-0 rounded-xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                            <!-- Updated border-radius for reward cards -->
+                            <div class="card !mb-0 rounded-3xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
                                 <h3 class="font-bold text-lg text-gray-800 mb-2">Tier 1: Economy</h3>
                                 <p class="text-sm text-gray-700">Official Album<br>(1 Raffle Entry)</p>
                             </div>
-                            <!-- Tier 2: Business Class - Matches Event Page Tier 2 -->
-                            <div class="card !mb-0 blur-sm opacity-60 rounded-xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
+                            <!-- Updated border-radius for reward cards -->
+                            <div class="card !mb-0 blur-sm opacity-60 rounded-3xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
                                 <h3 class="font-bold text-lg text-gray-800 mb-2">Tier 2: Business Class</h3>
                                 <p class="text-sm text-gray-700">Official Album<br>(1 Raffle Entry)</p>
                             </div>
-                            <!-- Tier 3: First Class - Matches Event Page Tier 3 -->
-                            <div class="card !mb-0 blur-sm opacity-60 rounded-xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
+                            <!-- Updated border-radius for reward cards -->
+                            <div class="card !mb-0 blur-sm opacity-60 rounded-3xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
                                 <h3 class="font-bold text-lg text-gray-800 mb-2">Tier 3: First Class</h3>
                                 <p class="text-sm text-gray-700">Album/Lightstick of your choice<br>(1 Raffle Entry)</p>
                             </div>
