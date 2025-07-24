@@ -329,8 +329,9 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #89B3D9; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #709cbf; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Removed scrollbar-hide class as per user request */
+        /* .scrollbar-hide::-webkit-scrollbar { display: none; } */
+        /* .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; } */
 
 
         /* Other page-specific styles */
@@ -385,7 +386,7 @@
         .front-content, .back-content { padding: 10px; text-align: center; color: #fff; height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         #cover-front .front-content, #cover-back .back-content { background: linear-gradient(45deg, #4a5568, #2d3748); }
         #p1 { z-index: 6; } #p2 { z-index: 5; } #p3 { z-index: 4; } #p4 { z-index: 3; } #p5 { z-index: 2; } #p6 { z-index: 1; }
-        .book-info { text-align: center; margin-top: 1rem; width: 100%; max-width: 538px; padding: 0 10px; box-sizing: border-box; transition: opacity 0.5s ease-in-out; }
+        .book-info { text-align: left; margin-top: 1rem; width: 100%; max-width: 538px; padding: 0 10px; box-sizing: border-box; transition: opacity 0.5s ease-in-out; }
         .book-info h2 { color: #2D3748; }
 
         /* Accordion styles */
@@ -499,40 +500,61 @@
     <div class="page-container" id="page-container">
         
         <!-- Home Page -->
-        <!-- FIX: Removed 'active' class to let the new navigation logic handle visibility -->
         <section id="home" class="page-section">
             <header class="page-header">Home</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
-                    <div class="flex flex-col">
-                        <section class="mb-8">
-                            <h2 class="section-title">Featured Event</h2>
-                            <div class="card">
-                                <!-- FIX: Replaced placeholder div with responsive img tag -->
-                                <img src="https://placehold.co/400x250/cccccc/ffffff?text=Event+Promo" alt="Featured Event" class="w-full h-auto aspect-video object-cover rounded-md mb-4">
-                                <h3 class="text-xl font-bold mb-2 text-gray-800">Starlight Airlines: Onboarding</h3>
-                                <p class="text-sm text-gray-500 mb-2">Nov 16, CHADAA</p>
-                                <p class="card-description">A day of music, dance, and fandom!</p>
-                                <a href="#" class="card-button-primary shimmer-wrapper" onclick="document.querySelector('.nav-item[data-index=\'1\']').click(); return false;">
-                                    Dive into the Details
-                                </a>
+                <div class="flex flex-col">
+                    <section class="mb-8">
+                        <h2 class="section-title">Featured Event</h2>
+                        <div class="card !p-0 overflow-hidden">
+                            <div class="flex flex-col lg:flex-row w-full">
+                                <div class="w-full lg:w-1/2 p-4">
+                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Event+Promo" alt="Featured Event" class="w-full h-auto aspect-video object-cover rounded-md">
+                                </div>
+                                <div class="w-full lg:w-1/2 p-4 flex flex-col justify-center">
+                                    <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
+                                        <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
+                                        <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
+                                        <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
+                                        <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
+                                    </div>
+                                    <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#4BA7AD] font-semibold underline block mb-3 text-left">Get directions</a>
+                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
+                                    <a href="#" class="card-button-primary shimmer-wrapper mt-4 self-start" onclick="document.querySelector('.nav-item[data-index=\'1\']').click(); return false;">
+                                        Dive into the Details
+                                    </a>
+                                </div>
                             </div>
-                        </section>
-                    </div>
-                    <div class="flex flex-col">
-                        <section class="mb-8">
-                            <h2 class="section-title">Announcements</h2>
-                            <div class="card">
-                                <!-- FIX: Replaced placeholder div with responsive img tag -->
-                                <img src="https://placehold.co/400x250/cccccc/ffffff?text=Auditions+Open" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-md mb-4">
-                                <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
-                                <p class="card-description">Show us what you've got! Click below to submit your application.</p>
-                                <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all" onclick="document.querySelector('.nav-item[data-index=\'3\']').click(); return false;">
-                                    Join the Wave
-                                </a>
+                        </div>
+                    </section>
+                    
+                    <section class="mb-8">
+                        <h2 class="section-title">Announcements</h2>
+                        <!-- Removed scrollbar-hide class to enable horizontal scrollbar -->
+                        <div class="flex overflow-x-auto space-x-4 pb-4">
+                            <div class="card !p-0 overflow-hidden !mb-0 flex-shrink-0 w-4/5 sm:w-2/3 md:w-1/2 lg:w-2/5">
+                                <div class="p-4">
+                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Auditions+Open" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-md mb-4">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
+                                    <p class="card-description">Show us what you've got! Click below to submit your application.</p>
+                                    <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4" onclick="document.querySelector('.nav-item[data-index=\'3\']').click(); return false;">
+                                        Join the Wave
+                                    </a>
+                                </div>
                             </div>
-                        </section>
-                    </div>
+                            <div class="card !p-0 overflow-hidden !mb-0 flex-shrink-0 w-4/5 sm:w-2/3 md:w-1/2 lg:w-2/5">
+                               <div class="p-4">
+                                    <img src="https://placehold.co/400x250/cccccc/ffffff?text=Auditions+Open" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-md mb-4">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
+                                    <p class="card-description">Show us what you've got! Click below to submit your application.</p>
+                                    <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4" onclick="document.querySelector('.nav-item[data-index=\'3\']').click(); return false;">
+                                        Join the Wave
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
                 <footer class="site-footer">
                     <h3 class="text-lg font-semibold text-gray-500 mb-4">Follow Us</h3>
@@ -552,22 +574,16 @@
         <section id="event" class="page-section">
             <header class="page-header">Event</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
-                <!-- FIX: Main container changed to single column on desktop -->
                 <div class="lg:flex lg:flex-col lg:gap-y-8">
-                    <!-- Event Details Section -->
                     <section class="mb-8">
                         <h2 class="section-title">Upcoming Event</h2>
-                        <!-- FIX: "Starlight Airlines" card changed to 2-column layout -->
                         <div class="card !p-0 overflow-hidden">
                             <div class="flex flex-col lg:flex-row w-full">
-                                <!-- Left Column: Image -->
                                 <div class="w-full lg:w-1/2 p-4">
-                                    <!-- FIX: Replaced placeholder div with responsive img tag -->
                                     <img src="https://placehold.co/400x250/cccccc/ffffff?text=Event+Details" alt="Event Details" class="w-full h-auto aspect-video object-cover rounded-md">
                                 </div>
-                                <!-- Right Column: Text Content -->
                                 <div class="w-full lg:w-1/2 p-4 flex flex-col justify-center">
-                                    <h3 class="card-title">Starlight Airlines: Onboarding</h3>
+                                    <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
                                         <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
                                         <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
@@ -581,14 +597,12 @@
                         </div>
                     </section>
                     
-                    <!-- Ticket Tiers Section -->
                     <section class="mb-8">
                         <h2 class="section-title">Choose Your Ticket</h2>
                         <p class="section-subtitle">Explore tier perks. Scroll to see more.</p>
-                        <!-- FIX: Accordions converted to horizontal scrolling cards -->
-                        <div class="flex overflow-x-auto space-x-4 snap-x snap-mandatory py-4 scrollbar-hide">
-                            <!-- Tier 1 Card -->
-                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:min-w-[300px] snap-start rounded-xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                        <!-- Removed scrollbar-hide class to enable horizontal scrollbar -->
+                        <div class="flex overflow-x-auto space-x-4 snap-x snap-mandatory py-4">
+                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
                                 <div class="flex flex-col items-start text-left mb-4">
                                     <span class="text-lg font-bold text-gray-800">Tier 1: Economy</span>
                                     <span class="text-base font-bold text-gray-800">₱200</span>
@@ -617,8 +631,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Tier 2 Card -->
-                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:min-w-[300px] snap-start rounded-xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
+                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
                                 <div class="flex flex-col items-start text-left mb-4">
                                     <span class="text-lg font-bold text-gray-800">Tier 2: Business Class</span>
                                     <span class="text-base font-bold text-gray-800">₱300</span>
@@ -647,8 +660,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Tier 3 Card -->
-                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:min-w-[300px] snap-start rounded-xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
+                            <div class="min-w-[75%] sm:min-w-[45%] md:min-w-[35%] lg:w-1/3 snap-start rounded-xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
                                 <div class="flex flex-col items-start text-left mb-4">
                                     <span class="text-lg font-bold text-gray-800">Tier 3: First Class</span>
                                     <span class="text-base font-bold text-gray-800">₱400</span>
@@ -680,10 +692,8 @@
                         </div>
                     </section>
                 </div>
-                <!-- FAQ Section -->
                 <section class="mb-8">
                     <h2 class="section-title">🎟️ Ticket FAQ</h2>
-                    <!-- FIX: Adjusted gap between accordions -->
                     <div class="space-y-3" id="faq-accordion">
                          <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
                             <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
@@ -796,11 +806,10 @@
                     <section class="mb-8">
                         <h2 class="section-title">Rewards You Can Earn</h2>
                         <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
-                        <!-- FIX: Ensured consistent gap between cards using flexbox gap -->
                         <div class="flex flex-col gap-y-6">
-                            <div class="card bg-green-100/60 p-4 text-center !mb-0"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Photocard<br>(1 Raffle Entry)</p></div>
-                            <div class="card bg-blue-100/60 p-4 text-center !mb-0"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
-                            <div class="card bg-yellow-100/60 p-4 text-center !mb-0"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
+                            <div class="card bg-green-100/60 p-4 text-left !mb-0"><h3 class="font-bold text-lg text-green-900 mb-2">Tier 1: Economy</h3><p class="text-sm text-green-800">Official Album<br>(1 Raffle Entry)</p></div>
+                            <div class="card bg-blue-100/60 p-4 text-left !mb-0 blur-sm opacity-60"><h3 class="font-bold text-lg text-blue-900 mb-2">Tier 2: Business Class</h3><p class="text-sm text-blue-800">Official Album<br>(1 Raffle Entry)</p></div>
+                            <div class="card bg-yellow-100/60 p-4 text-left !mb-0 blur-sm opacity-60"><h3 class="font-bold text-lg text-yellow-900 mb-2">Tier 3: First Class</h3><p class="text-sm text-yellow-800">Album/Lightstick of your choice<br>(1 Raffle Entry)</p></div>
                         </div>
                     </section>
                 </div>
@@ -872,24 +881,22 @@
             <header class="page-header">About Us</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
                 <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
-                    <div class="flex flex-col">
-                        <!-- FIX: Adjusted gap between cards -->
-                        <section class="mb-6">
-                            <div class="card">
+                    <div class="flex flex-col space-y-3">
+                        <section>
+                            <div class="card !mb-0">
                                 <p class="prose-about">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
                             </div>
                         </section>
-                        <section class="mb-6">
-                            <div class="card"><h2 class="card-title text-left">Vision</h2><p class="prose-about">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
+                        <section>
+                            <div class="card !mb-0"><h2 class="card-title text-left">Vision</h2><p class="prose-about">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
                         </section>
-                        <section class="mb-6 lg:mb-0">
-                            <div class="card"><h2 class="card-title text-left">Mission</h2><p class="prose-about">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
+                        <section>
+                            <div class="card !mb-0"><h2 class="card-title text-left">Mission</h2><p class="prose-about">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
                         </section>
                     </div>
                     <div class="flex flex-col">
                         <section>
                             <h2 class="section-title">Our Core Values</h2>
-                            <!-- FIX: Adjusted gap between accordions -->
                             <div class="space-y-3" id="values-accordion">
                                 <div class="accordion-item" style="background-color: #F3F8F4; border: 1px solid #E1E5E3;">
                                     <button class="accordion-toggle w-full text-left" style="background-color: #F3F8F4;">
@@ -937,12 +944,11 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path fill="currentColor" d="M8 2v19H6c-1.054 0-2-.95-2-2V4c0-1.054.95-2 2-2h2Zm9 0c1.598 0 3 1.3 3 3v13c0 1.7-1.4 3-3 3h-7V2h7Z"/></g></svg>
                 <span>Passport</span>
             </a>
-            <!-- The 'Join' link should point to index 3, which corresponds to the 'join' page section. -->
             <a class="nav-item" data-index="3">
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill-rule="evenodd"><path fill="currentColor" d="m14.534 12.225l4.243 4.243l-4.243 4.243a1 1 0 0 1-.707.293H11a1 1 0 0 1-1-1v-2.829a1 1 0 0 1 .293-.707l4.242-4.243ZM17 2a2 2 0 0 1 1.995 1.85L19 4v4.02a4.996 4.996 0 0 0-4.27 1.192l-.196.185l-5.656 5.657a3 3 0 0 0-.872 1.923l-.007.198v2.829a3 3 0 0 0 .11.804l.06.192H5a2 2 0 0 1-1.995-1.85L3 19V4a2 2 0 0 1 1.85-1.995L5 2h12Zm3.191 8.811a3 3 0 0 1 0 4.243L15.95 10.81a3 3 0 0 1 4.242 0ZM11 6H7a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2Z"/></g></svg>
                 <span>Join</span>
+                <span class="absolute top-1.5 right-[1.125rem] w-2 h-2 bg-red-500 rounded-full"></span>
             </a>
-            <!-- The 'About' link should point to index 4, which corresponds to the 'about' page section. -->
             <a class="nav-item" data-index="4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2Zm-.01 8H11a1 1 0 0 0-.117 1.993L11 12v4.99c0 .52.394.95.9 1.004l.11.006h.49a1 1 0 0 0 .596-1.803L13 16.134V11.01c0-.52-.394-.95-.9-1.004L11.99 10ZM12 7a1 1 0 1 0 0 2a1 1 0 0 0 0-2Z"/></g></svg>
                 <span>About</span>
