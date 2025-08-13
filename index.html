@@ -455,7 +455,7 @@
             background-color: #F3F8F4; /* Changed fill color */
         }
         .accordion-content {
-            padding: 0 1.25rem 1.25rem 1.25rem; /* Adjusted padding */
+            padding: 1rem 1.25rem; /* Consistent padding with header */
             font-family: 'Inter', sans-serif;
             color: #4A5568; /* Base text color for content */
             background-color: #F3F8F4; /* Changed fill color */
@@ -689,10 +689,11 @@
                     </section>
 
                     <section class="mb-8">
-  <h2 class="section-title">Choose Your Ticket</h2>
-  <p class="section-subtitle">Explore tier perks. Scroll to see more.</p>
+  <h2 class="section-title">Choose your Pass</h2>
+  <p class="section-subtitle">Compare perks. Scroll to see more.</p>
   <ul class="text-left list-disc list-inside mb-4 text-gray-700">
     <li>Surprise Freebies</li>
+    <li>Goody Bag</li>
     <li>Access to Exclusive Activities</li>
   </ul>
 
@@ -702,10 +703,9 @@
       <div class="absolute top-0 right-0 bg-[#67BFA2] text-[#E6F3E9] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
         ₱200
       </div>
-      <h3 class="text-base font-semibold text-[#2A745C]">Tier 1: Economy</h3>
-      <p class="text-sm text-gray-700 mt-8">1 Raffle Entry</p>
-      <p class="text-sm text-gray-700">Official Photocard</p>
-      <p class="text-sm text-gray-500">(Random)</p>
+      <h3 class="text-base font-semibold text-[#2A745C]">Economy</h3>
+      <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+      <p class="text-sm text-gray-700">(Official Photocard)</p>
       <p class="text-sm text-gray-700">10 Winners</p>
       <p class="text-xs text-gray-500 mt-2">Slots: 100</p>
     </div>
@@ -713,12 +713,11 @@
     <!-- TIER 2 -->
     <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#D9E8F1] border border-[#BFD7E5] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
       <div class="absolute top-0 right-0 bg-[#5A9BC8] text-[#D9E8F1] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-        ₱300
+        ₱250
       </div>
-      <h3 class="text-base font-semibold text-[#326E9B]">Tier 2: Business Class</h3>
-      <p class="text-sm text-gray-700 mt-8">1 Raffle Entry</p>
-      <p class="text-sm text-gray-700">Official Album</p>
-      <p class="text-sm text-gray-500">(Random)</p>
+      <h3 class="text-base font-semibold text-[#326E9B]">Business Class</h3>
+      <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+      <p class="text-sm text-gray-700">(Official Album)</p>
       <p class="text-sm text-gray-700">5 Winners</p>
       <p class="text-xs text-gray-500 mt-2">Slots: 75</p>
     </div>
@@ -726,12 +725,11 @@
     <!-- TIER 3 -->
     <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#FFF4D6] border border-[#FFE8AC] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
       <div class="absolute top-0 right-0 bg-[#F9C444] text-[#FFF4D6] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-        ₱400
+        ₱300
       </div>
-      <h3 class="text-base font-semibold text-[#B58700]">Tier 3: First Class</h3>
-      <p class="text-sm text-gray-700 mt-8">1 Raffle Entry</p>
-      <p class="text-sm text-gray-700">Official Album / Lightstick</p>
-      <p class="text-sm text-gray-500">(Choice)</p>
+      <h3 class="text-base font-semibold text-[#B58700]">First Class</h3>
+      <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+      <p class="text-sm text-gray-700">(Grand Prize)</p>
       <p class="text-sm text-gray-700">1 Winner</p>
       <p class="text-xs text-gray-500 mt-2">Slots: 25</p>
     </div>
@@ -779,9 +777,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="note-box">
-                        <svg class="note-box-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-                        <p class="note-box-text">
+                    <div class="card mt-3">
+                        <p class="prose-text">
                             <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
                         </p>
                     </div>
@@ -863,7 +860,7 @@
                         <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
                         <div class="flex flex-col gap-y-6">
                             <!-- Updated border-radius for reward cards -->
-                            <div class="card !mb-0 rounded-3xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                            <div class="card !mb-0 blur-sm opacity-60 rounded-3xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
                                 <h3 class="font-bold text-lg text-gray-800 mb-2">Tier 1: Economy</h3>
                                 <p class="text-sm text-gray-700">Official Album<br>(1 Raffle Entry)</p>
                             </div>
@@ -1042,7 +1039,7 @@
             <a class="nav-item" data-index="3">
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill-rule="evenodd"><path fill="currentColor" d="m14.534 12.225l4.243 4.243l-4.243 4.243a1 1 0 0 1-.707.293H11a1 1 0 0 1-1-1v-2.829a1 1 0 0 1 .293-.707l4.242-4.243ZM17 2a2 2 0 0 1 1.995 1.85L19 4v4.02a4.996 4.996 0 0 0-4.27 1.192l-.196.185l-5.656 5.657a3 3 0 0 0-.872 1.923l-.007.198v2.829a3 3 0 0 0 .11.804l.06.192H5a2 2 0 0 1-1.995-1.85L3 19V4a2 2 0 0 1 1.85-1.995L5 2h12Zm3.191 8.811a3 3 0 0 1 0 4.243L15.95 10.81a3 3 0 0 1 4.242 0ZM11 6H7a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2Z"/></g></svg>
                 <span>Join</span>
-                <span class="absolute top-1.5 right-[1.125rem] w-2 h-2 bg-red-500 rounded-full"></span>
+                <span id="join-notification-dot" class="absolute top-1.5 right-[1.125rem] w-2 h-2 bg-red-500 rounded-full"></span>
             </a>
             <a class="nav-item" data-index="4">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2Zm-.01 8H11a1 1 0 0 0-.117 1.993L11 12v4.99c0 .52.394.95.9 1.004l.11.006h.49a1 1 0 0 0 .596-1.803L13 16.134V11.01c0-.52-.394-.95-.9-1.004L11.99 10ZM12 7a1 1 0 1 0 0 2a1 1 0 0 0 0-2Z"/></g></svg>
@@ -1231,6 +1228,16 @@
                 });
             }, 500);
         };
+
+        // --- Join Nav Dot Logic ---
+        const joinNavItem = document.querySelector('.nav-item[data-index="3"]');
+        const joinDot = document.getElementById('join-notification-dot');
+
+        if (joinNavItem && joinDot) {
+            joinNavItem.addEventListener('click', () => {
+                joinDot.style.display = 'none';
+            }, { once: true }); // The listener will be removed after the first click
+        }
 
         // --- Run All Initializations ---
         initializeAppState();
