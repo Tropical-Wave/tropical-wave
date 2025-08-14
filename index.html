@@ -94,7 +94,8 @@
             transition: opacity 0.75s ease-out, visibility 0.75s ease-out;
             opacity: 1;
             visibility: visible;
-            background-image: linear-gradient(135deg, #4BA7AD, #89B3D9, #837FD9);
+            /* Changed gradient to a singular color as requested */
+            background-color: #89B3D9;
         }
         .splash-screen.hidden {
             opacity: 0;
@@ -102,15 +103,17 @@
             pointer-events: none;
         }
         .splash-logo svg {
-            width: 100px;
-            height: 100px;
+            /* Increased size of the SVG icon as requested */
+            width: 150px;
+            height: 150px;
             animation: pulseLogo 2.5s infinite ease-in-out;
         }
         /* Desktop-specific logo size and color */
         @media (min-width: 1024px) {
             .splash-logo svg {
-                width: 200px; /* Doubled size for desktop */
-                height: 200px; /* Doubled size for desktop */
+                /* Increased size for desktop */
+                width: 250px; 
+                height: 250px;
             }
             .splash-logo-path {
                 fill: #F3F8F4; /* Changed color for desktop */
@@ -369,27 +372,22 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #89B3D9; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #709cbf; }
-        /* Removed scrollbar-hide class as per user request */
-        /* .scrollbar-hide::-webkit-scrollbar { display: none; } */
-        /* .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; } */
-
-
-        /* Other page-specific styles */
+        
+        /* Footer Styles */
         .site-footer {
-            text-align: center; padding: 2rem 1rem 1.5rem;
+            text-align: center; 
+            /* Adjusted padding and margin for consistent spacing */
+            padding: 10px 1rem 1.5rem;
             border-top: 1px solid #E2E8F0;
-            /* FIX: Adjusted margin-top to match header gap */
             margin-top: 1rem;
         }
         .social-icon-link svg {
-            /* FIX: Increased icon size and set height to auto */
-            width: 36px; /* Increased width */
+            width: 36px;
             height: auto;
             color: #89B3D9;
-            /* Removed color transition */
             transition: transform 0.2s ease-in-out;
         }
-        .social-icon-link:hover svg { transform: scale(1.15) translateY(-1px); } /* Removed color change on hover */
+        .social-icon-link:hover svg { transform: scale(1.15) translateY(-1px); }
         .footer-credit-link { color: inherit; text-decoration: none; }
         .footer-credit-link:hover { text-decoration: underline; }
 
@@ -645,16 +643,17 @@
                         </div>
                     </section>
                 </div>
+                <!-- UPDATED FOOTER SECTION -->
                 <footer class="site-footer">
-                    <h3 class="text-lg font-semibold text-gray-500 mb-4">Follow Us</h3>
-                    <div class="flex justify-center space-x-6 mb-4">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
                         <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
                         <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
                         <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
                         <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
                         <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
                     </div>
-                    <p class="text-xs text-gray-500 mt-4 text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
                 </footer>
             </main>
         </section>
@@ -689,53 +688,52 @@
                     </section>
 
                     <section class="mb-8">
-  <h2 class="section-title">Choose your Pass</h2>
-  <p class="section-subtitle">Compare perks. Scroll to see more.</p>
-  <ul class="text-left list-disc list-inside mb-4 text-gray-700">
-    <li>Surprise Freebies</li>
-    <li>Goody Bag</li>
-    <li>Access to Exclusive Activities</li>
-  </ul>
-
-  <div class="flex overflow-x-auto gap-4 scrollbar-thin scrollbar-thumb-pink-300 scrollbar-track-pink-100 pb-4">
-    <!-- TIER 1 -->
-    <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#E6F3E9] border border-[#C8E2D0] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
-      <div class="absolute top-0 right-0 bg-[#67BFA2] text-[#E6F3E9] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-        ₱200
-      </div>
-      <h3 class="text-base font-semibold text-[#2A745C]">Economy</h3>
-      <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
-      <p class="text-sm text-gray-700">(Official Photocard)</p>
-      <p class="text-sm text-gray-700">10 Winners</p>
-      <p class="text-xs text-gray-500 mt-2">Slots: 100</p>
-    </div>
-
-    <!-- TIER 2 -->
-    <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#D9E8F1] border border-[#BFD7E5] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
-      <div class="absolute top-0 right-0 bg-[#5A9BC8] text-[#D9E8F1] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-        ₱250
-      </div>
-      <h3 class="text-base font-semibold text-[#326E9B]">Business Class</h3>
-      <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
-      <p class="text-sm text-gray-700">(Official Album)</p>
-      <p class="text-sm text-gray-700">5 Winners</p>
-      <p class="text-xs text-gray-500 mt-2">Slots: 75</p>
-    </div>
-
-    <!-- TIER 3 -->
-    <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#FFF4D6] border border-[#FFE8AC] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
-      <div class="absolute top-0 right-0 bg-[#F9C444] text-[#FFF4D6] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-        ₱300
-      </div>
-      <h3 class="text-base font-semibold text-[#B58700]">First Class</h3>
-      <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
-      <p class="text-sm text-gray-700">(Grand Prize)</p>
-      <p class="text-sm text-gray-700">1 Winner</p>
-      <p class="text-xs text-gray-500 mt-2">Slots: 25</p>
-    </div>
-  </div>
-</section>
-
+                      <h2 class="section-title">Choose your Pass</h2>
+                      <p class="section-subtitle">Compare perks. Scroll to see more.</p>
+                      <ul class="text-left list-disc list-inside mb-4 text-gray-700">
+                        <li>Surprise Freebies</li>
+                        <li>Goody Bag</li>
+                        <li>Access to Exclusive Activities</li>
+                      </ul>
+                
+                      <div class="flex overflow-x-auto gap-4 scrollbar-thin scrollbar-thumb-pink-300 scrollbar-track-pink-100 pb-4">
+                        <!-- TIER 1 -->
+                        <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#E6F3E9] border border-[#C8E2D0] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
+                          <div class="absolute top-0 right-0 bg-[#67BFA2] text-[#E6F3E9] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
+                            ₱200
+                          </div>
+                          <h3 class="text-base font-semibold text-[#2A745C]">Economy</h3>
+                          <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+                          <p class="text-sm text-gray-700">(Official Photocard)</p>
+                          <p class="text-sm text-gray-700">10 Winners</p>
+                          <p class="text-xs text-gray-500 mt-2">Slots: 100</p>
+                        </div>
+                
+                        <!-- TIER 2 -->
+                        <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#D9E8F1] border border-[#BFD7E5] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
+                          <div class="absolute top-0 right-0 bg-[#5A9BC8] text-[#D9E8F1] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
+                            ₱250
+                          </div>
+                          <h3 class="text-base font-semibold text-[#326E9B]">Business Class</h3>
+                          <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+                          <p class="text-sm text-gray-700">(Official Album)</p>
+                          <p class="text-sm text-gray-700">5 Winners</p>
+                          <p class="text-xs text-gray-500 mt-2">Slots: 75</p>
+                        </div>
+                
+                        <!-- TIER 3 -->
+                        <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#FFF4D6] border border-[#FFE8AC] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
+                          <div class="absolute top-0 right-0 bg-[#F9C444] text-[#FFF4D6] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
+                            ₱300
+                          </div>
+                          <h3 class="text-base font-semibold text-[#B58700]">First Class</h3>
+                          <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+                          <p class="text-sm text-gray-700">(Grand Prize)</p>
+                          <p class="text-sm text-gray-700">1 Winner</p>
+                          <p class="text-xs text-gray-500 mt-2">Slots: 25</p>
+                        </div>
+                      </div>
+                    </section>
                 </div>
                 <section class="mb-8">
                     <h2 class="section-title">Ticket FAQ</h2>
@@ -783,6 +781,18 @@
                         </p>
                     </div>
                 </section>
+                <!-- REPLICATED FOOTER SECTION -->
+                <footer class="site-footer">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
+                        <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                        <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                        <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                        <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                        <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                    </div>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                </footer>
             </main>
         </section>
 
@@ -939,14 +949,25 @@
                         <p class="italic prose-text">To keep your passport working, avoid bending, getting it wet, or exposing it to heat or rough handling.</p>
                     </div>
                 </section>
-                <!-- Duplicated and modified section ends here -->
+                <!-- REPLICATED FOOTER SECTION -->
+                <footer class="site-footer">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
+                        <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                        <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                        <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                        <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                        <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                    </div>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                </footer>
             </main>
         </section>
 
         <!-- Join Us Page -->
         <section id="join" class="page-section flex flex-col">
             <header class="page-header">Join Us</header>
-            <main class="px-4 sm:px-6 lg:px-8 pt-4 flex justify-center items-center">
+            <main class="px-4 sm:px-6 lg:px-8 pt-4 flex-grow flex justify-center items-center">
                 <div class="w-full max-w-lg">
                     <div class="card text-center">
                         <h2 class="text-2xl font-extrabold text-gray-800 mb-4">Tropical Wave is holding auditions!</h2>
@@ -958,6 +979,18 @@
                     </div>
                 </div>
             </main>
+             <!-- REPLICATED FOOTER SECTION -->
+             <footer class="site-footer mt-auto">
+                <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                <div class="flex justify-center space-x-6 mb-2.5">
+                    <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                    <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                    <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                    <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                    <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                </div>
+                <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+            </footer>
         </section>
 
         <!-- About Us Page -->
@@ -1015,6 +1048,18 @@
                         </section>
                     </div>
                 </div>
+                 <!-- REPLICATED FOOTER SECTION -->
+                 <footer class="site-footer">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
+                        <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                        <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                        <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                        <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                        <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                    </div>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                </footer>
             </main>
         </section>
 
