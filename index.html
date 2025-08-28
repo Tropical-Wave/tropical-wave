@@ -492,9 +492,73 @@
             color: #2A4365;
         }
 
+        /* --- New styles for passport blur and overlay --- */
+        .blurred-passport {
+            filter: blur(8px);
+            transition: filter 0.5s ease-in-out;
+        }
+
+        /* Specifically disable pointer events on the main passport section when blurred */
+        section#passport.blurred-passport {
+            pointer-events: none;
+        }
+
+        #passportOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999; /* Below the nav bar */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(245, 247, 246, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #passportOverlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Jiggle animation for the question mark */
+        @keyframes jiggle {
+            0%, 100% { transform: rotate(-8deg); }
+            50% { transform: rotate(8deg); }
+        }
+
+        .is-jiggling {
+            animation: jiggle 0.4s ease-in-out;
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- Passport Countdown Overlay -->
+    <div id="passportOverlay">
+        <div class="text-center text-[#2D3A3F] p-8 bg-white/80 rounded-3xl shadow-2xl max-w-lg mx-4 relative">
+             <button id="closeOverlayBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-4xl leading-none">&times;</button>
+            <h2 class="text-2xl md:text-3xl font-bold mb-2">A surprise awaits...</h2>
+            <p class="text-sm text-gray-600 mb-4">Reveals on: November 16, 2025 @ 1:00 PM PHT</p>
+            <div id="countdownTimer" class="text-4xl md:text-6xl font-bold tracking-tight flex justify-center items-center space-x-2">
+                <!-- Content will be injected by JS -->
+            </div>
+            <div class="flex justify-center space-x-2 text-xs md:text-sm uppercase text-gray-500 mt-2 w-full max-w-md mx-auto">
+                <span class="w-16 md:w-24 text-center">Days</span>
+                <span class="w-16 md:w-24 text-center ml-2">Hours</span>
+                <span class="w-16 md:w-24 text-center ml-2">Minutes</span>
+                <span class="w-16 md:w-24 text-center ml-2">Seconds</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Splash Screen -->
     <div id="splashScreen" class="splash-screen">
@@ -597,15 +661,7 @@
                                 </div>
                                 <div class="w-full lg:w-1/2 p-4 flex flex-col justify-center">
                                     <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
-                                        <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
-                                        <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
-                                        <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
-                                        <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
-                                    </div>
-                                    <!-- Changed "Get directions" text color -->
-                                    <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#89B3D9] font-semibold underline block mb-3 text-left">Get directions</a>
-                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
+                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Celebrate Asian pop culture with us! Enjoy stunning performances, connect with fellow fans, and dive into the vibrant world of music and dance. Don’t miss it!</p>
                                     <a href="#" class="card-button-primary shimmer-wrapper mt-4 self-start" onclick="document.querySelector('.nav-item[data-index=\'1\']').click(); return false;">
                                         Dive into the Details
                                     </a>
@@ -623,9 +679,9 @@
                                     <!-- Updated border-radius for placeholder image -->
                                     <img src="earlybird.png" class="w-full h-auto aspect-video object-cover rounded-xl mb-4">
                                     <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Early Bird Tickets Now Available!</h3>
-                                    <p class="card-description">Limited time only. Bigger prizes. ₱50 off if you grab it now—don’t miss out!</p>
-                                    <a href="earlybird.html" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4">
-                                        Catch the Deal!
+                                    <p class="card-description">Limited time only. Bigger prizes. Save ₱50 if you grab it now—don’t miss out!</p>
+                                    <a href="https://www.facebook.com/share/p/19VPYVQn5J/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4">
+                                        Check Now!
                                     </a>
                                 </div>
                             </div>
@@ -675,13 +731,13 @@
                                     <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
                                         <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
-                                        <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 4pm - 9pm</p>
+                                        <p class="text-base text-gray-700 mb-1"><strong>Time:</strong> 3pm - 8pm</p>
                                         <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
                                         <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
                                     </div>
                                     <!-- Changed "Get directions" text color -->
                                     <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#89B3D9] font-semibold underline block mb-3 text-left">Get directions</a>
-                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Join us for an unforgettable day celebrating Asian pop culture! Experience amazing performances, meet fellow fans, and dive into the vibrant world of music and dance. Don't miss out!</p>
+                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Celebrate Asian pop culture with us! Enjoy stunning performances, connect with fellow fans, and dive into the vibrant world of music and dance. Don’t miss it!</p>
                                 </div>
                             </div>
                         </div>
@@ -797,7 +853,7 @@
         </section>
 
         <!-- Passport Page -->
-        <section id="passport" class="page-section">
+        <section id="passport" class="page-section blurred-passport">
             <header class="page-header">Passport</header>
             <main class="px-4 sm:px-6 lg:px-8 pt-4">
                 <section class="mb-8 text-center sm:text-left">
@@ -1077,9 +1133,19 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill-rule="evenodd"><path fill="currentColor" d="M16 3a1 1 0 0 1 1 1v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2V4a1 1 0 0 1 2 0v1h6V4a1 1 0 0 1 1-1ZM8.01 16H8a1 1 0 0 0-.117 1.993L8.01 18a1 1 0 1 0 0-2Zm4 0H12a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2Zm4 0H16a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2Zm-8-4H8a1 1 0 0 0-.117 1.993L8.01 14a1 1 0 1 0 0-2Zm4 0H12a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2Zm4 0H16a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2ZM19 7H5v2h14V7Z"/></g></svg>
                 <span>Event</span>
             </a>
-            <a class="nav-item" data-index="2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path fill="currentColor" d="M8 2v19H6c-1.054 0-2-.95-2-2V4c0-1.054.95-2 2-2h2Zm9 0c1.598 0 3 1.3 3 3v13c0 1.7-1.4 3-3 3h-7V2h7Z"/></g></svg>
-                <span>Passport</span>
+            <a class="nav-item blurred-passport" data-index="2" id="passport-nav-item">
+                <!-- This container helps with positioning the overlay -->
+                <div class="relative w-full h-full flex flex-col items-center justify-center">
+                    <!-- Original content that will be blurred -->
+                    <div class="flex flex-col items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 mb-px"><g><path fill="currentColor" d="M8 2v19H6c-1.054 0-2-.95-2-2V4c0-1.054.95-2 2-2h2Zm9 0c1.598 0 3 1.3 3 3v13c0 1.7-1.4 3-3 3h-7V2h7Z"/></g></svg>
+                        <span class="text-xs leading-tight font-semibold">Passport</span>
+                    </div>
+                    <!-- Question mark overlay -->
+                    <div id="passport-q-overlay" class="absolute inset-0 flex items-center justify-center">
+                        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2Zm0 14a1 1 0 1 0 0 2a1 1 0 0 0 0-2Zm0-9.5a3.625 3.625 0 0 0-3.625 3.625a1 1 0 1 0 2 0a1.625 1.625 0 1 1 2.23 1.51c-.676.27-1.605.962-1.605 2.115V14a1 1 0 1 0 2 0c0-.244.05-.366.261-.47l.087-.04A3.626 3.626 0 0 0 12 6.5Z"/></g></svg>
+                    </div>
+                </div>
             </a>
             <a class="nav-item" data-index="3">
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill-rule="evenodd"><path fill="currentColor" d="m14.534 12.225l4.243 4.243l-4.243 4.243a1 1 0 0 1-.707.293H11a1 1 0 0 1-1-1v-2.829a1 1 0 0 1 .293-.707l4.242-4.243ZM17 2a2 2 0 0 1 1.995 1.85L19 4v4.02a4.996 4.996 0 0 0-4.27 1.192l-.196.185l-5.656 5.657a3 3 0 0 0-.872 1.923l-.007.198v2.829a3 3 0 0 0 .11.804l.06.192H5a2 2 0 0 1-1.995-1.85L3 19V4a2 2 0 0 1 1.85-1.995L5 2h12Zm3.191 8.811a3 3 0 0 1 0 4.243L15.95 10.81a3 3 0 0 1 4.242 0ZM11 6H7a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2Z"/></g></svg>
@@ -1130,6 +1196,10 @@
         // --- Navigation Logic ---
         function setupNavigation() {
             navItems.forEach(item => {
+                // Do not add the default click listener to the blurred passport item initially
+                if (item.id === 'passport-nav-item' && item.classList.contains('blurred-passport')) {
+                    return;
+                }
                 item.addEventListener('click', () => {
                     const pageIndex = parseInt(item.dataset.index, 10);
                     const scrollPosition = pageIndex * window.innerWidth;
@@ -1284,12 +1354,117 @@
             }, { once: true }); // The listener will be removed after the first click
         }
 
+        // --- Passport Countdown Surprise Logic ---
+        function setupPassportSurprise() {
+            const unlockDate = new Date('2025-11-16T13:00:00+08:00').getTime(); // Nov 16, 2025, 1PM PHT
+
+            const passportNavItem = document.getElementById('passport-nav-item');
+            const passportSection = document.getElementById('passport');
+            const passportOverlay = document.getElementById('passportOverlay');
+            const countdownTimer = document.getElementById('countdownTimer');
+            const questionMarkOverlay = document.getElementById('passport-q-overlay');
+            const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+            let jiggleInterval = null;
+            
+            if (!passportNavItem || !passportSection || !passportOverlay || !countdownTimer || !questionMarkOverlay || !closeOverlayBtn) {
+                console.error('Passport surprise elements not found.');
+                return;
+            }
+
+            const showOverlay = () => passportOverlay.classList.add('visible');
+            const hideOverlay = () => passportOverlay.classList.remove('visible');
+
+            // This function will be the click listener *before* unlock
+            const showOverlayOnClick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showOverlay();
+            };
+            
+            // Add listeners to show/hide the overlay
+            passportNavItem.addEventListener('click', showOverlayOnClick);
+            passportOverlay.addEventListener('click', (e) => {
+                // Hide if clicking the background itself, not the content inside
+                if (e.target === passportOverlay) {
+                    hideOverlay();
+                }
+            });
+            closeOverlayBtn.addEventListener('click', hideOverlay);
+
+
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = unlockDate - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    unlockPassport();
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownTimer.innerHTML = `
+                    <span class="w-16 md:w-24 text-center">${String(days).padStart(2, '0')}</span>:
+                    <span class="w-16 md:w-24 text-center">${String(hours).padStart(2, '0')}</span>:
+                    <span class="w-16 md:w-24 text-center">${String(minutes).padStart(2, '0')}</span>:
+                    <span class="w-16 md:w-24 text-center">${String(seconds).padStart(2, '0')}</span>
+                `;
+
+            }, 1000);
+
+            function unlockPassport() {
+                clearInterval(jiggleInterval);
+                hideOverlay();
+                setTimeout(() => passportOverlay.style.display = 'none', 300);
+                
+                passportNavItem.classList.remove('blurred-passport');
+                passportSection.classList.remove('blurred-passport');
+                questionMarkOverlay.style.display = 'none';
+                
+                passportNavItem.removeEventListener('click', showOverlayOnClick);
+
+                passportNavItem.addEventListener('click', () => {
+                    const pageIndex = parseInt(passportNavItem.dataset.index, 10);
+                    const scrollPosition = pageIndex * window.innerWidth;
+
+                    pageContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+
+                    updateActiveNav(pageIndex);
+                });
+            }
+            
+            // Jiggle animation logic
+            const startJiggle = () => {
+                if (questionMarkOverlay) {
+                    questionMarkOverlay.classList.add('is-jiggling');
+                    setTimeout(() => {
+                        questionMarkOverlay.classList.remove('is-jiggling');
+                    }, 400); // Duration of the animation
+                }
+            };
+
+            if (new Date().getTime() < unlockDate) {
+                jiggleInterval = setInterval(startJiggle, 3000);
+            } else {
+                 clearInterval(countdownInterval);
+                 unlockPassport();
+            }
+        }
+
         // --- Run All Initializations ---
         initializeAppState();
-        setupNavigation();
+        setupNavigation(); // Sets up listeners for non-locked items
         setupAccordions('faq-accordion');
         setupAccordions('values-accordion');
         setupPassportBook();
+        setupPassportSurprise(); // Sets up the special logic for the locked item
 
         // Initial Nav State
         updateActiveNav(0);
