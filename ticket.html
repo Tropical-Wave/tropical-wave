@@ -2,37 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Flippable Ticket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Flippable Ticket</title>
   <style>
+    :root {
+      --flip-duration: 0.8s;
+      --tilt-duration: 0.2s;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       width: 100%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(to bottom, #cce6ff, #ffffff); /* sky blue to white */
-      font-family: sans-serif;
+      background: #f0f4f8; /* A soft, neutral background */
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #333;
+      overflow: hidden; /* Prevent scrollbars */
+    }
+
+    .instructions {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
+      max-width: 400px;
+    }
+    
+    #permission-btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      margin-bottom: 1rem;
+      display: none; /* Hidden by default, shown via JS if needed */
     }
 
     .ticket-container {
-      perspective: 1000px;
-      width: 90vw; /* scales to 90% of viewport width */
-      max-width: 400px; /* optional cap for very large screens */
+      perspective: 1500px; /* Increased perspective for a more pronounced 3D effect */
+      width: 90vw;
+      max-width: 350px; /* Slightly smaller for better mobile view */
     }
 
     .ticket {
       width: 100%;
-      padding-top: calc(1539 / 771 * 100%); /* preserves aspect ratio (height/width) */
+      /* Aspect ratio for a typical ticket (height/width) */
+      padding-top: calc(1539 / 771 * 100%); 
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.8s;
+      /* Default transition for smooth tilt */
+      transition: transform var(--tilt-duration) linear;
       cursor: pointer;
-    }
-
-    .ticket.is-flipped {
-      transform: rotateY(180deg);
     }
 
     .ticket-side {
@@ -41,72 +66,149 @@
       left: 0;
       width: 100%;
       height: 100%;
-      backface-visibility: hidden;
+      backface-visibility: hidden; /* Hides the back of the element when flipped */
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .ticket-front, .ticket-back {
-      background: white;
-      border-radius: 8px; /* subtle rounded corners for realism */
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* soft shadow */
+    .ticket-front {
+      background-color: #8E44AD;
+    }
+    
+    /* Shimmer effect for the front side */
+    .ticket-front::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -80%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0) 100%);
+        transform: skewX(-25deg);
+        animation: shimmer 5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        z-index: 1;
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -80%;
+      }
+      10% {
+        left: 120%;
+      }
+      100% {
+        left: 120%;
+      }
     }
 
     .ticket-back {
+      background-color: #2C3E50;
+      /* Pre-rotate the back side */
       transform: rotateY(180deg);
     }
 
     .ticket-side img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      /* Ensures the image covers the area without distortion */
+      object-fit: cover; 
       display: block;
     }
-
   </style>
 </head>
 <body>
+
+  <button id="permission-btn">Enable Tilt Effect</button>
+
   <div class="ticket-container">
     <div class="ticket" id="ticket">
       <div class="ticket-side ticket-front">
-        <img src="SEFront@300x.png" alt="Ticket Front">
+        <img src="SEFront@300x.png" alt="Ticket Front" onerror="this.onerror=null;this.src='https://placehold.co/771x1539/8E44AD/FFFFFF?text=Image+Error';">
       </div>
       <div class="ticket-side ticket-back">
-        <img src="SEBack@300x.png" alt="Ticket Back">
+        <img src="SEBack@300x.png" alt="Ticket Back" onerror="this.onerror=null;this.src='https://placehold.co/771x1539/2C3E50/FFFFFF?text=Image+Error';">
       </div>
     </div>
   </div>
 
-  <script>
+<script>
     const ticket = document.getElementById('ticket');
+    const permissionBtn = document.getElementById('permission-btn');
 
-    // Tap/click flip for desktop and mobile
+    // --- STATE MANAGEMENT ---
+    // We manage the flip and tilt angles separately in JavaScript.
+    let flipAngle = 0; // The base flip angle (0 or 180 degrees)
+    let tiltX = 0;     // The tilt angle from device moving forward/backward
+    let tiltY = 0;     // The tilt angle from device moving left/right
+
+    // --- COMBINED TRANSFORM FUNCTION ---
+    // This function applies the combined rotation from both flip and tilt state.
+    const updateTransform = () => {
+      // The key is to add the flipAngle and the tiltY angle together for the Y-axis rotation.
+      ticket.style.transform = `rotateX(${tiltX}deg) rotateY(${flipAngle + tiltY}deg)`;
+    };
+
+    // --- TAP/CLICK FLIP LOGIC ---
     ticket.addEventListener('click', () => {
-      ticket.classList.toggle('is-flipped');
+      // Toggle between 0 and 180 degrees
+      flipAngle = (flipAngle === 0) ? 180 : 0;
+      
+      // Temporarily apply a longer, smoother transition for the flip animation
+      ticket.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--flip-duration')} cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+      
+      updateTransform();
+      
+      // After the flip animation, revert to the shorter transition for responsive tilting.
+      setTimeout(() => {
+        ticket.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--tilt-duration')} linear`;
+      }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--flip-duration')) * 1000);
     });
 
-    // Tilt flip for mobile
-    if (window.DeviceOrientationEvent) {
-      function handleOrientation(event) {
-        let gamma = event.gamma;
-        if (gamma !== null) {
-          let rotation = Math.max(-90, Math.min(90, gamma));
-          ticket.style.transform = `rotateY(${rotation * 2}deg)`;
-        }
-      }
+    // --- DEVICE TILT LOGIC ---
+    const handleOrientation = (event) => {
+      // beta is the front-to-back tilt.
+      const beta = event.beta;
+      // gamma is the left-to-right tilt.
+      const gamma = event.gamma;
+      
+      if (beta === null || gamma === null) return;
 
-      // iOS 13+ requires permission
+      // Limit the tilt angle to a subtle ±15 degrees.
+      // Math.max ensures it doesn't go below -15, Math.min ensures it doesn't go above 15.
+      tiltX = Math.max(-15, Math.min(15, beta));
+      tiltY = Math.max(-15, Math.min(15, gamma));
+      
+      updateTransform();
+    };
+
+    // --- PERMISSION & EVENT LISTENER SETUP ---
+    // Check if the DeviceOrientationEvent is available
+    if (window.DeviceOrientationEvent) {
+      // iOS 13+ requires explicit permission from the user.
       if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        document.body.addEventListener('click', () => {
-          DeviceOrientationEvent.requestPermission().then(response => {
-            if (response === 'granted') {
-              window.addEventListener('deviceorientation', handleOrientation);
-            }
-          });
-        }, { once: true });
+        permissionBtn.style.display = 'block';
+        permissionBtn.addEventListener('click', () => {
+          DeviceOrientationEvent.requestPermission()
+            .then(response => {
+              if (response === 'granted') {
+                window.addEventListener('deviceorientation', handleOrientation);
+                permissionBtn.style.display = 'none'; // Hide button after granting
+              } else {
+                alert('Permission not granted. Tilt effect will not work.');
+              }
+            })
+            .catch(console.error);
+        });
       } else {
+        // For non-iOS 13+ devices, add the event listener directly.
         window.addEventListener('deviceorientation', handleOrientation);
       }
     }
-  </script>
+</script>
+
 </body>
 </html>
