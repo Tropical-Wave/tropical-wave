@@ -23,6 +23,8 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: #333;
       overflow: hidden; /* Prevent scrollbars */
+      /* Prevent pull-to-refresh and other touch gestures on the body */
+      touch-action: none;
     }
 
     .instructions {
@@ -57,7 +59,12 @@
       transform-style: preserve-3d;
       /* Default transition for smooth tilt */
       transition: transform var(--tilt-duration) linear;
-      cursor: pointer;
+      cursor: grab;
+      user-select: none; /* Prevent text selection on the ticket */
+    }
+    
+    .ticket:active {
+        cursor: grabbing;
     }
 
     .ticket-side {
@@ -117,11 +124,17 @@
       /* Ensures the image covers the area without distortion */
       object-fit: cover; 
       display: block;
+      pointer-events: none; /* Prevent image from being dragged instead of the ticket */
     }
   </style>
 </head>
 <body>
 
+  <div class="instructions">
+    <h2>Interactive Ticket</h2>
+    <p>Tap, or drag/swipe the ticket to flip it. On mobile, tilt your device for a subtle 3D effect.</p>
+  </div>
+  
   <button id="permission-btn">Enable Tilt Effect</button>
 
   <div class="ticket-container">
@@ -140,55 +153,134 @@
     const permissionBtn = document.getElementById('permission-btn');
 
     // --- STATE MANAGEMENT ---
-    // We manage the flip and tilt angles separately in JavaScript.
-    let flipAngle = 0; // The base flip angle (0 or 180 degrees)
-    let tiltX = 0;     // The tilt angle from device moving forward/backward
-    let tiltY = 0;     // The tilt angle from device moving left/right
+    let flipAngle = 0;      // The stable, resting flip angle (a multiple of 180)
+    let tiltX = 0;          // Device tilt on X-axis
+    let tiltY = 0;          // Device tilt on Y-axis
+    let dragAngle = 0;      // Temporary angle from the current drag/swipe
+    let spinAngle = 0;      // Temporary angle from the continuous spin animation
+    let animationFrameId = null; // To control the animation loop
+
+    // Drag state variables
+    let isDragging = false;
+    let startX = 0;
+    let startTime = 0;
 
     // --- COMBINED TRANSFORM FUNCTION ---
-    // This function applies the combined rotation from both flip and tilt state.
     const updateTransform = () => {
-      // The key is to add the flipAngle and the tiltY angle together for the Y-axis rotation.
-      ticket.style.transform = `rotateX(${tiltX}deg) rotateY(${flipAngle + tiltY}deg)`;
+      // Combines all angles for a single, smooth transform
+      const totalYRotation = flipAngle + tiltY + dragAngle + spinAngle;
+      ticket.style.transform = `rotateX(${tiltX}deg) rotateY(${totalYRotation}deg)`;
     };
 
-    // --- TAP/CLICK FLIP LOGIC ---
-    ticket.addEventListener('click', () => {
-      // Toggle between 0 and 180 degrees
-      flipAngle = (flipAngle === 0) ? 180 : 0;
-      
-      // Temporarily apply a longer, smoother transition for the flip animation
-      ticket.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--flip-duration')} cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
-      
+    // --- DRAG/SWIPE LOGIC: START ---
+    const onDragStart = (e) => {
+      // Cancel any ongoing spin animation when a new drag starts
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        // Settle the ticket immediately
+        flipAngle = Math.round((flipAngle + spinAngle) / 180) * 180;
+        spinAngle = 0;
+        updateTransform();
+      }
+
+      isDragging = true;
+      startX = e.clientX || e.touches[0].clientX;
+      startTime = Date.now();
+      ticket.style.transition = 'none'; // Remove transition for direct control
+      if (e.type === 'touchstart') e.preventDefault();
+    };
+
+    // --- DRAG/SWIPE LOGIC: MOVE ---
+    const onDragMove = (e) => {
+      if (!isDragging) return;
+      const currentX = e.clientX || e.touches[0].clientX;
+      const deltaX = currentX - startX;
+      dragAngle = (deltaX / ticket.offsetWidth) * 180; // Map drag distance to rotation
       updateTransform();
-      
-      // After the flip animation, revert to the shorter transition for responsive tilting.
-      setTimeout(() => {
-        ticket.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--tilt-duration')} linear`;
-      }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--flip-duration')) * 1000);
-    });
+    };
+
+    // --- DRAG/SWIPE LOGIC: END ---
+    const onDragEnd = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const deltaTime = Date.now() - startTime;
+      const endX = e.clientX || e.changedTouches[0].clientX;
+      const deltaX = endX - startX;
+      const velocity = Math.abs(deltaX / deltaTime);
+
+      // --- TAP VS. SWIPE DETERMINATION ---
+      if (Math.abs(deltaX) < 10 && deltaTime < 200) {
+        flipAngle = (flipAngle === 180) ? 0 : 180;
+        dragAngle = 0;
+        ticket.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--flip-duration')} cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+        updateTransform();
+      } else {
+        // --- HANDLE SWIPE FOR CONTINUOUS SPIN ---
+        flipAngle += dragAngle; // Commit the dragged angle
+        dragAngle = 0;
+
+        // Calculate animation parameters based on swipe velocity
+        const spinSpeed = Math.max(360, 360 + velocity * 720); // deg/sec
+        const spinDuration = Math.max(500, 500 + velocity * 1000); // ms
+        const direction = deltaX > 0 ? 1 : -1;
+
+        startSpinAnimation(spinSpeed, spinDuration, direction);
+      }
+    };
+
+    // --- CONTINUOUS SPIN ANIMATION ---
+    const startSpinAnimation = (speed, duration, direction) => {
+        let animationStartTime = null;
+
+        const animateSpin = (timestamp) => {
+            if (!animationStartTime) animationStartTime = timestamp;
+            const elapsedTime = timestamp - animationStartTime;
+
+            if (elapsedTime >= duration) {
+                // Animation finished: Settle the ticket
+                flipAngle += spinAngle; // Add the total spun angle
+                spinAngle = 0; // Reset spin angle
+                flipAngle = Math.round(flipAngle / 180) * 180; // Snap to nearest 180 degrees
+                updateTransform();
+                ticket.style.transition = `transform ${getComputedStyle(document.documentElement).getPropertyValue('--tilt-duration')} linear`;
+                return;
+            }
+
+            // Calculate current spin angle based on elapsed time
+            spinAngle = (elapsedTime / 1000) * speed * direction;
+            updateTransform();
+
+            animationFrameId = requestAnimationFrame(animateSpin);
+        };
+        animationFrameId = requestAnimationFrame(animateSpin);
+    };
+
+    // Add event listeners for both mouse and touch
+    ticket.addEventListener('mousedown', onDragStart);
+    window.addEventListener('mousemove', onDragMove);
+    window.addEventListener('mouseup', onDragEnd);
+    window.addEventListener('mouseleave', onDragEnd);
+
+    ticket.addEventListener('touchstart', onDragStart, { passive: false });
+    window.addEventListener('touchmove', onDragMove, { passive: true });
+    window.addEventListener('touchend', onDragEnd);
+    window.addEventListener('touchcancel', onDragEnd);
 
     // --- DEVICE TILT LOGIC ---
     const handleOrientation = (event) => {
-      // beta is the front-to-back tilt.
       const beta = event.beta;
-      // gamma is the left-to-right tilt.
       const gamma = event.gamma;
-      
       if (beta === null || gamma === null) return;
-
-      // Limit the tilt angle to a subtle ±15 degrees.
-      // Math.max ensures it doesn't go below -15, Math.min ensures it doesn't go above 15.
       tiltX = Math.max(-15, Math.min(15, beta));
       tiltY = Math.max(-15, Math.min(15, gamma));
-      
-      updateTransform();
+      if (!isDragging) {
+        updateTransform();
+      }
     };
 
     // --- PERMISSION & EVENT LISTENER SETUP ---
-    // Check if the DeviceOrientationEvent is available
     if (window.DeviceOrientationEvent) {
-      // iOS 13+ requires explicit permission from the user.
       if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         permissionBtn.style.display = 'block';
         permissionBtn.addEventListener('click', () => {
@@ -196,15 +288,13 @@
             .then(response => {
               if (response === 'granted') {
                 window.addEventListener('deviceorientation', handleOrientation);
-                permissionBtn.style.display = 'none'; // Hide button after granting
+                permissionBtn.style.display = 'none';
               } else {
                 alert('Permission not granted. Tilt effect will not work.');
               }
-            })
-            .catch(console.error);
+            }).catch(console.error);
         });
       } else {
-        // For non-iOS 13+ devices, add the event listener directly.
         window.addEventListener('deviceorientation', handleOrientation);
       }
     }
@@ -212,3 +302,4 @@
 
 </body>
 </html>
+
