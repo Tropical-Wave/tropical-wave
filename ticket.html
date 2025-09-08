@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flippable Ticket</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom, #cce6ff, #ffffff); /* sky blue to white */
+      font-family: sans-serif;
+    }
+
+    .ticket-container {
+      perspective: 1000px;
+      width: 90vw; /* scales to 90% of viewport width */
+      max-width: 400px; /* optional cap for very large screens */
+    }
+
+    .ticket {
+      width: 100%;
+      padding-top: calc(1539 / 771 * 100%); /* preserves aspect ratio (height/width) */
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      cursor: pointer;
+    }
+
+    .ticket.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .ticket-side {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .ticket-front, .ticket-back {
+      background: white;
+      border-radius: 8px; /* subtle rounded corners for realism */
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* soft shadow */
+    }
+
+    .ticket-back {
+      transform: rotateY(180deg);
+    }
+
+    .ticket-side img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="ticket-container">
+    <div class="ticket" id="ticket">
+      <div class="ticket-side ticket-front">
+        <img src="SEFront@300x.png" alt="Ticket Front">
+      </div>
+      <div class="ticket-side ticket-back">
+        <img src="SEBack@300x.png" alt="Ticket Back">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ticket = document.getElementById('ticket');
+
+    // Tap/click flip for desktop and mobile
+    ticket.addEventListener('click', () => {
+      ticket.classList.toggle('is-flipped');
+    });
+
+    // Tilt flip for mobile
+    if (window.DeviceOrientationEvent) {
+      function handleOrientation(event) {
+        let gamma = event.gamma;
+        if (gamma !== null) {
+          let rotation = Math.max(-90, Math.min(90, gamma));
+          ticket.style.transform = `rotateY(${rotation * 2}deg)`;
+        }
+      }
+
+      // iOS 13+ requires permission
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        document.body.addEventListener('click', () => {
+          DeviceOrientationEvent.requestPermission().then(response => {
+            if (response === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation);
+            }
+          });
+        }, { once: true });
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    }
+  </script>
+</body>
+</html>
