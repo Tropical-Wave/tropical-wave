@@ -1,0 +1,22 @@
+{
+  "name": "Interactive Ticket",
+  "short_name": "Ticket",
+  "description": "An interactive flippable ticket with tilt and swipe effects.",
+  "start_url": "ticket.html",
+  "display": "standalone",
+  "background_color": "#2C3E50",
+  "theme_color": "#8E44AD",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

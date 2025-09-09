@@ -127,6 +127,15 @@
       pointer-events: none; /* Prevent image from being dragged instead of the ticket */
     }
   </style>
+
+  <!-- ✅ PWA Integration -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#8E44AD">
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(console.error);
+    }
+  </script>
 </head>
 <body>
 
@@ -302,4 +311,3 @@
 
 </body>
 </html>
-
