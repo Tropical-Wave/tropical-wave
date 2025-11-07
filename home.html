@@ -1484,10 +1484,20 @@
         }
     });
     </script>
-    <!-- TEMPORARILY HIDE ONBOARDING -->
+<!-- TEMPORARILY SKIP ONBOARDING -->
 <script>
-  document.getElementById('onboardingScreen').style.display = 'none';
+  const splash = document.getElementById('splashScreen');
+  const onboarding = document.getElementById('onboardingScreen');
+  const pages = document.querySelector('.page-container');
+
+  // When splash is done, skip straight to site
+  setTimeout(() => {
+    splash.classList.add('hidden');
+    onboarding.style.display = 'none';
+    if (pages) pages.style.visibility = 'visible';
+  }, 2500); // match your splash duration
 </script>
+
 
 </body>
 </html>
