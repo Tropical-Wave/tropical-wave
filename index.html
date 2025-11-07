@@ -42,7 +42,7 @@
         
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; translateY(0); }
         }
 
         /* --- NEW: Pulse Animation for Buttons --- */
@@ -191,14 +191,46 @@
         </a>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- 
+      NEW: Full-width Banner Section
+      - This section is outside the 'main' container for full-width
+      - 'relative' is added to position the gradient overlay
+    -->
+    <section class="relative w-full">
+        <!-- 
+          UPDATED: Image classes
+          - Removed: rounded-3xl, shadow-lg, mb-6, border, border-gray-200, aspect-video
+          - Added: max-h-[60vh] to control height on large screens
+          - Kept: w-full, h-auto, object-cover
+        -->
+        <img src="onboarding.png" alt="Starlight Airlines: Onboarding Event" 
+             class="w-full h-auto max-h-[60vh] object-cover" 
+             onerror="this.onerror=null; this.src='https://placehold.co/1600x900/89B3D9/F3F8F4?text=Starlight+Airlines';">
+        
+        <!-- 
+          NEW: Gradient Fade Overlay
+          - This div creates the "blur" effect at the bottom
+          - It fades from transparent to the body background color (#F5F7F6)
+        -->
+        <div class="absolute bottom-0 left-0 w-full h-2/5 bg-gradient-to-t from-[#F5F7F6] to-transparent"></div>
+    </section>
 
-        <!-- 1. Hero / Event Description -->
-        <section class="mb-6">
-            <img src="onboarding.png" alt="Starlight Airlines: Onboarding Event" class="w-full h-auto aspect-video object-cover rounded-3xl shadow-lg mb-6 border border-gray-200" onerror="this.onerror=null; this.src='https://placehold.co/1200x675/89B3D9/F3F8F4?text=Starlight+Airlines';">
+
+    <!-- 
+      Main Content 
+      - UPDATED: Removed top padding (py-6 -> pb-6)
+    -->
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+
+        <!-- 
+          1. Hero / Event Description
+          - UPDATED: Image tag was moved out from this section
+          - UPDATED: Added negative margin to pull this text up over the faded image
+          - UPDATED: Added relative z-10 to ensure it's on top of the fade
+        -->
+        <section class="mb-6 -mt-16 sm:-mt-20 md:-mt-24 relative z-10">
             <!-- Gradient text for the main headline -->
-            <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#2D3748] to-[#5A9BC8] mb-3 text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#2D3748] to-[#5A9BC8] mb-3 text-center">
                 All Aboard Starlight Airlines!
             </h1>
             
@@ -363,7 +395,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-9 h-9 text-[#89B3D9] transition-transform hover:scale-110 hover:text-[#5A9BC8]"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg>
             </a>
             <!-- Instagram -->
-            <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link">
+            <a href="https.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-9 h-9 text-[#89B3D9] transition-transform hover:scale-110 hover:text-[#5A9BC8]"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg>
             </a>
             <!-- TikTok -->

@@ -1484,19 +1484,22 @@
         }
     });
     </script>
-<!-- TEMPORARILY SKIP ONBOARDING -->
+<!-- TEMPORARILY SKIP ONBOARDING (with nav fix) -->
 <script>
   const splash = document.getElementById('splashScreen');
   const onboarding = document.getElementById('onboardingScreen');
   const pages = document.querySelector('.page-container');
+  const nav = document.querySelector('.floating-nav');
 
-  // When splash is done, skip straight to site
+  // When splash is done, skip directly to main site and show nav
   setTimeout(() => {
     splash.classList.add('hidden');
     onboarding.style.display = 'none';
     if (pages) pages.style.visibility = 'visible';
+    if (nav) nav.classList.remove('hidden-nav'); // show nav if it’s hidden
   }, 2500); // match your splash duration
 </script>
+
 
 
 </body>
