@@ -2,379 +2,1505 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- This viewport tag is essential for mobile-first design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Tropical Wave - Starlight Airlines</title>
+    <title>Tropical Wave</title>
 
-    <meta name="theme-color" content="#89B3D9"/>
-    
-    <!-- Tailwind CSS -->
+    <meta name="theme-color" content="#4BA7AD"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tropical Wave">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Font: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <!-- Removed Oswald and Poppins font imports to ensure Inter consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/variable/woff2/SUIT-Variable.css" rel="stylesheet">
     <style>
-        /* Base styles consistent with your original file */
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --nav-height: 58px; /* Height of the nav bar */
+            --nav-bottom-gap: 20px; /* Space between nav and bottom of screen */
+            --nav-horizontal-padding: 8px; /* Padding inside the nav bar */
+            --nav-indicator-height: 46px; /* Height of the active indicator */
+            --nav-indicator-width: 60px;  /* Width of the active indicator */
         }
-        body {
+
+        html, body {
             margin: 0;
             padding: 0;
             width: 100%;
+            height: 100%;
+            /* Set base font to Inter */
             font-family: 'Inter', sans-serif;
-            color: #5F7D97; /* Base font color */
-            
-            /* UPDATED: Solid background color */
+            color: #5F7D97; /* Consistent base font color */
+        }
+
+        /* Set body background and prevent scrolling only when onboarding is NOT visible */
+        body {
+            /* Changed to solid color as requested */
             background-color: #F5F7F6;
+            opacity: 1;
+            /* Removed background-image properties */
         }
 
-        /* --- Keyframes for Animations --- */
-        /* Removed gradientBG keyframes */
+        body:not(:has(#onboardingScreen.visible)) {
+             /* The background is now handled by the global 'body' rule */
+             overflow: hidden;
+        }
 
-        @keyframes shimmer {
-            0% { left: -150%; }
-            100% { left: 150%; }
+        /* Main container for horizontally scrollable pages */
+        .page-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100vh;
+            /* FIX: Changed to overflow:hidden to allow programmatic scrolling */
+            overflow: hidden;
+            scroll-behavior: smooth;
+            visibility: hidden; /* Initially hidden until splash/onboarding is done */
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        /* Each individual page/section */
+        .page-section {
+            /* FIX: Replaced 100vw with 100% to prevent horizontal overflow on iOS Chrome */
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto; /* Allow vertical scrolling within each page */
+            overflow-x: hidden; /* Prevent horizontal scroll within a page */
+            /* Added padding for safe areas */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: calc(var(--nav-height) + var(--nav-bottom-gap) + 40px); /* Reduced bottom padding */
+            box-sizing: border-box;
+            /* Changed background to solid color as requested */
+            background-color: #F5F7F6;
+            /* FIX: Removed display: none to allow all pages to be in the DOM for scrolling */
         }
- 
-        /* --- NEW: Pulse Animation for Buttons --- */
-        @keyframes pulseBtn {
-            0%, 100% {
-                transform: scale(1);
+
+        /* --- Splash Screen --- */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.75s ease-out, visibility 0.75s ease-out;
+            opacity: 1;
+            visibility: visible;
+            /* Changed gradient to a singular color as requested */
+            background-color: #89B3D9;
+        }
+        .splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .splash-logo svg {
+            /* Increased size of the SVG icon as requested */
+            width: 150px;
+            height: 150px;
+            animation: pulseLogo 2.5s infinite ease-in-out;
+        }
+        /* Desktop-specific logo size and color */
+        @media (min-width: 1024px) {
+            .splash-logo svg {
+                /* Increased size for desktop */
+                width: 250px; 
+                height: 250px;
             }
-            50% {
-                transform: scale(1.08);
+            .splash-logo-path {
+                fill: #F3F8F4; /* Changed color for desktop */
             }
         }
-        
-        .animate-pulseBtn {
-            animation: pulseBtn 2s infinite ease-in-out;
-        }
-        
-        /* Apply fade-in animation to the main content */
-        main {
-            animation: fadeIn 1s ease-out;
+
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.15); opacity: 1; }
         }
 
-        /* --- Component Styles (from original) --- */
-        
-        /* --- NEW: Header Style (from original app) --- */
-        /* Header styles removed */
-        
-        /* --- NEW: SVG Logo color for the header --- */
-        /* Header logo styles removed */
+        /* --- Onboarding Screen (New) --- */
+        #onboardingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100dvh; /* Use dvh for full viewport height */
+            z-index: 9999;
+            /* Original background for onboarding screen */
+            background-color: #F3F8F4;
+            background-image:
+              radial-gradient(#D5E5F0 2px, transparent 2px),
+              radial-gradient(#D5E5F0 2px, #F3F8F4 2px);
+            background-size: 80px 80px;
+            background-position: 0 0, 40px 40px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-in, visibility 0.5s;
+            overflow: hidden; /* Hide overflow from scallop animation */
+            font-family: 'Inter', sans-serif;
+        }
 
+        #onboardingScreen.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @keyframes calm-rotate {
+          from {
+            transform: translate(-50%, -50%) rotate(12.25deg);
+          }
+          to {
+            transform: translate(-50%, -50%) rotate(372.25deg);
+          }
+        }
+
+        /* This keyframe is for the desktop-only scallop to ensure it starts from the correct rotation */
+        @keyframes calm-rotate-desktop {
+          from {
+            transform: translate(-50%, -50%) rotate(12.25deg);
+          }
+          to {
+            transform: translate(-50%, -50%) rotate(372.25deg);
+          }
+        }
+
+        .animate-calm-rotate {
+          animation: calm-rotate 30s linear infinite;
+        }
+
+        /* Desktop-specific animation class */
+        .animate-calm-rotate-desktop {
+          animation: calm-rotate-desktop 30s linear infinite;
+        }
+
+
+        .cls-1 {
+            fill: #89B3D9;
+        }
+
+        /* Shimmer Effect */
+        .shimmer-wrapper { position: relative; display: inline-block; overflow: hidden; }
+        .shimmer-wrapper::before {
+            content: ''; position: absolute; top: -10%; left: -150%; width: 100%; height: 120%;
+            background: linear-gradient( to right, rgba(238, 247, 246, 0) 0%, rgba(238, 247, 246, 0.25) 50%, rgba(238, 247, 246, 0) 100% );
+            transform: skewX(-25deg); animation: shimmer 3.5s infinite linear; z-index: 1;
+        }
+        @keyframes shimmer { 0% { left: -150%; } 100% { left: 150%; } }
+
+        /* General Page Styles */
+        .page-header {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            /* FIX: Added padding-top to account for iOS status bar/notch */
+            padding-top: calc(env(safe-area-inset-top) + 1rem);
+            font-size: 2.5rem;
+            line-height: 2.75rem;
+            color: #F3F8F4;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: #89B3D9;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        @media (min-width: 640px) { .page-header { padding-left: 1.5rem; padding-right: 1.5rem; } }
+        @media (min-width: 1024px) { .page-header { padding-left: 2rem; padding-right: 2rem; } }
+
+        /* General Card UI styles - will be overridden for specific sections */
         .card {
-            background-color: #F3F8F4; /* Card background */
-            border-radius: 1.5rem; /* 24px */
+            background-color: #F3F8F4; /* Changed fill color */
+            /* Updated border-radius to match navigation bar's visual consistency */
+            border-radius: 1.5rem; /* Equivalent to rounded-3xl or 24px, visually consistent with 9999px for nav */
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-            border: 1px solid #E1E5E3; /* Card border */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #E1E5E3; /* Changed stroke color */
         }
-
-        .section-title {
-            font-size: 1.75rem; /* 28px */
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #2D3748;
-        }
-        
-        .section-subtitle {
-            font-size: 1rem; /* 16px */
-            color: #5F7D97;
-            margin-bottom: 1.5rem;
-        }
-
-        /* --- Button Styles --- */
+        .card-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #2D3748; }
+        .card-description { font-size: 0.875rem; color: #5F7D97; margin-bottom: 1rem; }
         .card-button-primary {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 12px;
-            padding: 0.75rem 1.75rem;
-            font-weight: 700;
-            color: #1C2B26;
-            font-size: 1rem;
-            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-            background-color: #F4D35E; /* Accent yellow */
-            white-space: nowrap;
-            text-decoration: none;
-            box-shadow: 0 4px 14px 0 rgba(244, 211, 94, 0.3);
-            transform: scale(1.0); /* Base scale for pulse */
-        }
-        .card-button-primary:hover {
-            transform: scale(1.05) !important; /* Override pulse on hover */
-            box-shadow: 0 6px 20px 0 rgba(244, 211, 94, 0.4);
-        }
-
-        .card-button-secondary {
             display: inline-flex;
             justify-content: center;
             align-items: center;
             border-radius: 12px;
             padding: 0.5rem 1.5rem;
             font-weight: 600;
+            color: #1C2B26;
             font-size: 0.875rem;
-            transition: all 0.2s ease-out;
-            border: 2px solid #89B3D9; /* Primary blue border */
-            color: #89B3D9; /* Primary blue text */
-            background-color: transparent;
+            transition: transform 0.2s ease-out;
+            background-color: #F4D35E;
+            white-space: nowrap;
             text-decoration: none;
         }
-        .card-button-secondary:hover {
+        .card-button-primary:hover { transform: scale(1.05); }
+        .section-title {
+            font-size: 1.75rem; /* 28px */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2D3748;
+        }
+        .section-subtitle {
+            font-size: 1rem; /* 16px */
+            color: #5F7D97;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Unified Prose Text Styling */
+        .prose-text {
+            color: #4A5568;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .prose-text p, .prose-text li {
+            text-align: justify;
+        }
+        .prose-text p {
+           text-indent: 1.5em;
+           margin-bottom: 0.75em;
+        }
+        .prose-text p:first-child, .prose-text h4 + p {
+            text-indent: 0;
+        }
+        .prose-text ul {
+            list-style-position: outside;
+            padding-left: 1.5em;
+        }
+        .prose-text strong {
+            color: #2D3748;
+        }
+        .prose-text h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2D3748;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Custom class for About Us paragraphs */
+        .prose-about {
+            text-align: justify;
+            text-indent: 1.5em;
+            color: #4A5568;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 0.75em;
+        }
+
+
+        /* Floating Navigation Bar */
+        .floating-nav {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: calc(var(--nav-bottom-gap) + env(safe-area-inset-bottom));
+            width: calc(100% - 2rem);
+            max-width: 343px;
+            height: 58px;
             background-color: #89B3D9;
-            color: #F3F8F4; /* Light text on hover */
-            transform: scale(1.05);
-            box-shadow: 0 4px 14px 0 rgba(137, 179, 217, 0.3);
+            border-radius: 9999px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 var(--nav-horizontal-padding);
+            transition: bottom 0.3s ease-out;
         }
 
-        /* Shimmer Effect for primary buttons */
-        .shimmer-wrapper {
+        .floating-nav.hidden-nav {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .nav-items-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 100%;
             position: relative;
-            overflow: hidden;
-            display: inline-flex; /* Ensure it wraps the button correctly */
-            border-radius: 12px; /* Match button radius */
-        }
-        .shimmer-wrapper::before {
-            content: ''; position: absolute; top: -10%; left: -150%; width: 100%; height: 120%;
-            background: linear-gradient( to right, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.1) 100% );
-            transform: skewX(-25deg);
-            animation: shimmer 4s infinite linear;
-            z-index: 1;
         }
 
-        /* Scrollbar styles from original file */
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s ease;
+            color: #F3F8F4;
+        }
+        .nav-item.active {
+            color: #89B3D9;
+        }
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 1px;
+        }
+        .nav-item span {
+            font-size: 0.6rem;
+            line-height: 0.8rem;
+            font-weight: 600;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 44px;
+            width: 66px;
+            background-color: #F3F8F4;
+            border-radius: 9999px;
+            z-index: 1;
+            transition: left 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+        }
+
+        /* Scrollbar styles for webkit browsers */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #89B3D9; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #709cbf; }
+        
+        /* Footer Styles */
+        .site-footer {
+            text-align: center; 
+            /* Adjusted padding and margin for consistent spacing */
+            padding: 10px 1rem 1.5rem;
+            border-top: 1px solid #E2E8F0;
+            margin-top: 1rem;
+        }
+        .social-icon-link svg {
+            width: 36px;
+            height: auto;
+            color: #89B3D9;
+            transition: transform 0.2s ease-in-out;
+        }
+        .social-icon-link:hover svg { transform: scale(1.15) translateY(-1px); }
+        .footer-credit-link { color: inherit; text-decoration: none; }
+        .footer-credit-link:hover { text-decoration: underline; }
+
+        /* Passport book styles */
+        .book-wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 100%;
+            overflow: visible;
+            perspective: 2000px;
+            margin-bottom: 1.5rem;
+        }
+
+        .book {
+            width: 48%; /* Halved to fit two pages when open */
+            max-width: 260px; /* Adjusted max width */
+            height: auto;
+            aspect-ratio: 538 / 740;
+            position: relative;
+            transition: transform 0.6s ease-in-out;
+            transform-style: preserve-3d;
+        }
+
+        .paper { position: absolute; width: 100%; height: 100%; top: 0; left: 0; transform-style: preserve-3d; transition: transform 1.5s ease-in-out; transform-origin: left center; cursor: pointer; }
+        .paper.flipped { transform: rotateY(-180deg); }
+        .front, .back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; display: flex; justify-content: center; align-items: center; flex-direction: column; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 4px; overflow: hidden; }
+
+        .front img, .back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .back { transform: rotateY(180deg); background-color: #f8f9fa; }
+        .front-content, .back-content { padding: 10px; text-align: center; color: #fff; height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        #cover-front .front-content, #cover-back .back-content { background: linear-gradient(45deg, #4a5568, #2d3748); }
+        #p1 { z-index: 6; } #p2 { z-index: 5; } #p3 { z-index: 4; } #p4 { z-index: 3; } #p5 { z-index: 2; } #p6 { z-index: 1; }
+        .book-info { text-align: left; margin-top: 1rem; width: 100%; max-width: 538px; padding: 0 10px; box-sizing: border-box; transition: opacity 0.5s ease-in-out; }
+        .book-info h2 { color: #2D3748; }
+
+        /* Accordion styles */
+        .accordion-item {
+            background-color: #F3F8F4; /* Changed fill color */
+            border-radius: 1.5rem; /* Updated to match card radius */
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 4px -1px rgba(0,0,0,0.04);
+            overflow: hidden;
+            border: 1px solid #E1E5E3; /* Changed stroke color */
+        }
+        .accordion-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2D3748;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F8F4; /* Changed fill color */
+        }
+        .accordion-content {
+            padding: 1rem 1.25rem; /* Consistent padding with header */
+            font-family: 'Inter', sans-serif;
+            color: #4A5568; /* Base text color for content */
+            background-color: #F3F8F4; /* Changed fill color */
+            border-top: 1px solid #E1E5E3; /* Changed stroke color */
+        }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-toggle[aria-expanded="true"] .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Note Callout Box */
+        .note-box {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 1.5rem; /* Updated to match card radius */
+            background-color: #EBF8FF; /* Light blue background */
+            border-left: 4px solid #63B3ED; /* Blue accent border */
+        }
+        .note-box-icon {
+            flex-shrink: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.75rem;
+            color: #4299E1; /* Blue icon */
+        }
+        .note-box-text {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #2C5282; /* Darker blue text for readability */
+        }
+        .note-box-text strong {
+            color: #2A4365;
+        }
+
+        /* --- New styles for passport blur and overlay --- */
+        .blurred-passport {
+            filter: blur(8px);
+            transition: filter 0.5s ease-in-out;
+        }
+
+        /* Specifically disable pointer events on the main passport section when blurred */
+        section#passport.blurred-passport {
+            pointer-events: none;
+        }
+
+        #passportOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999; /* Below the nav bar */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(245, 247, 246, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #passportOverlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Jiggle animation for the question mark */
+        @keyframes jiggle {
+            0%, 100% { transform: rotate(-8deg); }
+            50% { transform: rotate(8deg); }
+        }
+
+        .is-jiggling {
+            animation: jiggle 0.4s ease-in-out;
+        }
+
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- 
-      Header section has been removed.
-    -->
+    <!-- Passport Countdown Overlay -->
+    <div id="passportOverlay">
+        <div class="text-center text-[#2D3A3F] p-8 bg-white/80 rounded-3xl shadow-2xl max-w-lg mx-4 relative">
+             <button id="closeOverlayBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-4xl leading-none">&times;</button>
+            <h2 class="text-2xl md:text-3xl font-bold mb-2">A surprise awaits...</h2>
+            <p class="text-sm text-gray-600 mb-4">Reveals on: November 16, 2025 @ 1:00 PM PHT</p>
+            <div id="countdownTimer" class="text-4xl md:text-6xl font-bold tracking-tight flex justify-center items-center space-x-2">
+                <!-- Content will be injected by JS -->
+            </div>
+            <div class="flex justify-center space-x-2 text-xs md:text-sm uppercase text-gray-500 mt-2 w-full max-w-md mx-auto">
+                <span class="w-16 md:w-24 text-center">Days</span>
+                <span class="w-16 md:w-24 text-center ml-2">Hours</span>
+                <span class="w-16 md:w-24 text-center ml-2">Minutes</span>
+                <span class="w-16 md:w-24 text-center ml-2">Seconds</span>
+            </div>
+        </div>
+    </div>
 
-    <!-- 
-      NEW: Full-width Banner Section
-      - This section is outside the 'main' container for full-width
-      - 'relative' is added to position the gradient overlay
-    -->
-    <section class="relative w-full">
-        <!-- 
-          UPDATED: Image classes
-          - Removed: rounded-3xl, shadow-lg, mb-6, border, border-gray-200, aspect-video
-          - Added: max-h-[60vh] to control height on large screens
-          - Kept: w-full, h-auto, object-cover
-        -->
-        <img src="onboarding.png" alt="Starlight Airlines: Onboarding Event" 
-             class="w-full h-auto max-h-[60vh] object-cover" 
-             onerror="this.onerror=null; this.src='https://placehold.co/1600x900/89B3D9/F3F8F4?text=Starlight+Airlines';">
-        
-        <!-- 
-          NEW: Gradient Fade Overlay
-          - This div creates the "blur" effect at the bottom
-          - It fades from transparent to the body background color (#F5F7F6)
-        -->
-        <div class="absolute bottom-0 left-0 w-full h-2/5 bg-gradient-to-t from-[#F5F7F6] to-transparent"></div>
-    </section>
+    <!-- Splash Screen -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-logo">
+            <svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1052.89 770.27">
+                <g id="Layer_1-2" data-name="Layer 1">
+                    <!-- Added splash-logo-path class for desktop styling -->
+                    <path class="splash-logo-path" fill="white" d="M696.95,163.45c-76.06,11.68-161.32,39.61-245.88,83.63-217.9,113.41-348.4,290.11-291.48,394.72c2,3.67,4.18,7.17,6.56,10.55-16.81-11.18-30.07-25.18-39.2-41.95-58.66-107.79,75.86-289.97,300.42-406.85,121-62.98,243.42-94.09,339.81-92.58l-47.77,21.15c-12.82,5.66-21.32,17.76-22.46,31.33ZM806.88,229.55l-35.31-15.63c-4.27,13.62-8.09,27.2-11.97,39.74l-76.17,246.2c-.98,3.18-5.69,2.38-5.57-.94l8.01-229.1h0c-59.53-.02-114.97,45.61-127.96,105.31l-30.81,141.66c-.66,3.04-5.02,2.97-5.59-.08l-13.73-73.49h0c-60.32-.02-110.5,59.24-99.09,117.04l24.07,122.02c10.34,52.43,54.41,87.96,109.13,87.97l40.76-95.43c1.09-2.55,4.82-2.2,5.41.52l20.55,94.93c57.09.02,111.47-40.05,130.61-96.24l118.68-348.42-39-84.25c-2.44-5.27-6.71-9.47-12.02-11.82ZM879.66,4.74l-46.5,100.46c-.83,1.79-2.29,3.22-4.11,4.02l-102.73,45.48c-6.46,2.86-6.46,11.84,0,14.7l102.73,45.48c1.83.81,3.29,2.24,4.11,4.02l46.5,100.46c2.93,6.32,12.11,6.32,15.03,0l46.5-100.46c.83-1.79,2.29,3.22-4.11,4.02l102.73-45.48c6.46-2.86-6.46,11.84,0-14.7l-102.73-45.48c-1.83-.81-3.29-2.24-4.11-4.02l-46.5-100.46c-2.93-6.32-12.11-6.32-15.03,0ZM417.04,183.69l.06-.03c3.94-2.05,7.42-4.89,10.21-8.36l8.98-11.15c-56.28-47.43-132.95-47.33-171.25.23l-37.98,47.15-55.8-47.03c-56.28-47.43-132.95-47.33-171.25.23l106.43,89.7-36.25,11.79c-60.3,19.61-83.56,87.58-51.96,151.83l146.69-47.7c8.26-2.68,15.57-7.6,21.39-14.04,57.37-63.44,137.28-123.97,230.75-172.62ZM953.87,242.19c.59,63-42.17,138.9-115.73,210.81l-22.99,67.49c111.94-95.24,169.18-202.86,138.72-278.31ZM166.15,652.34c16.88,23.91,43.56,40.96,77.4,51.32-5.61-8.12-10.64-16.63-14.97-25.47-24.02-5.69-45.12-14.26-62.43-25.84ZM429.74,284.23c-93.57,53.65-170.75,120.72-216.41,186.48-4,5.76-5.62,12.83-4.31,19.72l26,137.4c14.86,78.54,90.3,142.12,168.5,142.02l-74.66-394.53c-.92-4.85,3.6-8.96,8.34-7.6l173.01,49.69c5.72-50.52-23.31-103.24-68.84-132.94-3.48-2.27-8.02-2.29-11.62-.22Z"/>
+                </g>
+            </svg>
+        </div>
+    </div>
 
-
-    <!-- 
-      Main Content 
-      - UPDATED: Removed top padding (py-6 -> pb-6)
-    -->
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
-
-        <!-- 
-          1. Hero / Event Description
-          - UPDATED: Image tag was moved out from this section
-          - UPDATED: Reduced negative margin to create more space below the fade
-          - UPDATED: Added relative z-10 to ensure it's on top of the fade
-        -->
-        <section class="mb-6 -mt-8 sm:-mt-10 md:-mt-12 relative z-10">
-            <!-- Gradient text for the main headline -->
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#2D3748] to-[#5A9BC8] mb-3 text-center">
-                Hop on Board!
-            </h1>
-            
-            <!-- 
-              UPDATED: Alignment changed from text-center to text-justify 
-            -->
-            <p class="text-base text-gray-700 leading-relaxed text-justify">
-                Experience high-energy performances and powerful vocals from local talents bringing Asian pop to life.
-            </p>
-            <p class="text-base text-gray-700 leading-relaxed mt-3 text-justify">
-                Whether you're a fan or just curious, grab your pass and ride the wave with us! 🌊✨
-            </p>
-        </section>
-
-        <!-- 2. Event Details (When & Where) -->
-        <section class="mb-6">
-             <div class="card !mb-0">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
-                    <!-- Column 1: When (Added Icon) -->
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <svg class="w-8 h-8 text-[#89B3D9]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">When</h3>
-                            <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025</p>
-                            <p class="text-base text-gray-700 mb-1"><strong>Booths Open:</strong> 1:00 PM</p>
-                            <p class="text-base text-gray-700 mb-1"><strong>Program Starts:</strong> 3:00 PM - 8:00 PM</p>
-                        </div>
+    <!-- Onboarding Screen -->
+    <div id="onboardingScreen" class="onboarding-screen">
+        <!-- Mobile & Tablet Portrait Layout (<1024px) -->
+        <div class="flex flex-col justify-end items-center w-full h-full lg:hidden">
+            <div class="absolute top-30 md:top-36 left-1/2 w-[80vh] md:w-[90vh] h-[80vh] md:h-[90vh] [transform:translate(-50%,-50%)_rotate(12.25deg)] animate-calm-rotate">
+              <svg id="scallop-top" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456.44 446.05" class="w-full h-full">
+                <g id="Layer_1-2-mobile" data-name="Layer 1">
+                  <g>
+                    <path fill="#89B3D9" d="M455.94,223.02c0,16.66-21.62,30.66-25.16,46.24-3.66,16.09,9.66,38.07,2.66,52.59-7.12,14.76-32.68,18-42.8,30.68-10.17,12.74-7.69,38.36-20.43,48.53s-37.09,2.04-51.85,9.16c-14.52,7-23.37,31.2-39.46,34.86-15.58,3.54-34.02-14.34-50.68-14.34s-35.09,17.88-50.68,14.34c-16.09-3.66-24.94-27.86-39.46-34.86-14.76-7.12-39.17.97-51.85-9.16-12.74-10.17-10.25-35.8-20.43-48.53-10.12-12.68-35.68-15.92-42.8-30.68s6.31-36.49,2.66-52.59S.5,239.68.5,223.02s21.62-30.66,25.16-46.24-9.66-38.07-2.66-52.59,32.68-18,42.8-30.68,7.69-38.36,20.43-48.53c12.68-10.12,37.09-2.04,51.85-9.16,14.52-7,23.37-31.2,39.46-34.86s34.02,14.34,50.68,14.34S263.31-2.58,278.9.96s24.94,27.86,39.46,34.86c14.76,7.12,39.17-.97,51.85,9.16,12.74,10.17,10.25,35.8,20.43,48.53,10.12,12.68,35.68,15.92,42.8,30.68,7,14.52-6.31,36.49-2.66,52.59s25.16,29.59,25.16,46.24Z"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div class="flex flex-col items-center gap-8 mb-[clamp(24px,4vh,64px)] md:mb-[clamp(40px,6vh,80px)] mt-auto">
+              <div class="flex flex-col justify-center items-center gap-6 bg-transparent rounded-lg">
+                <div class="flex flex-col justify-center items-center gap-2.5 w-full">
+                  <div class="flex flex-col justify-center items-center gap-[clamp(10px,2vh,48px)] w-full">
+                    <p class="text-[#2D3A3F] text-center font-bold text-2xl md:text-[clamp(2rem,6vw,2.75rem)]">
+                      Welcome to
+                    </p>
+                    <div>
+                      <svg id="Layer_2-mobile-logo" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2838.43 860.89" class="w-[300px] md:w-[600px] h-auto">
+                        <g id="Layer_1-2-mobile-logo-g" data-name="Layer 1">
+                          <path class="cls-1" d="M1012.96,860.89c-27.83,0-41.75,0-69.58,0-32.4-77.22-62.63-155.31-92.42-233.57-25.68,78.4-53.14,156.22-81.79,233.58h-69.58c-36.6-92.7-70.86-186.25-104.42-280.08-12.95-36.5,16.79-74.38,58.75-74.73h0c26.09,77.64,52.77,155.09,80.73,232.08,19.2-59.54,37.69-119.33,55.45-179.32,9.61-32.45,40.93-56.46,76.63-58.02,11.12-.49,16.68-.75,27.79-1.27,24.36,79.08,49.29,158.02,75.95,236.35,14.56-54.44,28.7-108.93,42.54-163.55,9.87-44.81,59.4-86.02,105.11-88.11h0c-32.98,126.19-67.32,251.83-105.16,376.65ZM1483.53,860.89h-86.04c-14.45-40.01-21.67-59.72-36.12-98.84-48.69,1.75-97.37,3.47-146.06,5.15-14.87,38.35-22.31,57.15-37.18,93.69h-86.04c47.91-113.44,90.99-228.77,133.35-344.37,9.23-25.38,33.06-43.93,59.71-46.27,21.35-1.87,32.03-2.82,53.38-4.73,49.15,131.5,98.1,263.04,145,395.36ZM1336.4,695.5c-18.7-50.78-28.04-75.92-46.74-126.42-19.55,53.53-29.32,80-48.86,131.61,38.24-2.05,57.36-3.09,95.6-5.19ZM1675.26,860.89h-97.72c-37.32-108.88-76.12-217.16-115.85-325.18-14.19-38.42,15.01-82.61,56.89-86.32h0c36.48,99.29,72.22,198.79,106.75,298.78,23.74-77.24,47.46-154.48,71.6-231.59,15.82-49.49,59.45-86.45,111.64-90.83h0c-45.82,144.63-89.61,289.86-133.31,435.14ZM2130.96,484.78c-59.33.62-118.65,2-177.94,4-8.79.3-15.91,8.01-15.91,17.28,0,32.05,0,48.3,0,81.26,55.24-1.01,110.46-1.77,165.71-2.24,0,30.45,0,45.83,0,76.89-55.24.19-110.47.59-165.71,1.17,0,46.05,0,69.5,0,117.25,64.62-.22,129.24-.29,193.86-.17,0,31.97,0,48.11,0,80.67h-274.58c0-124.41,0-248.81,0-373.21,0-36.43,28.5-67.15,63.65-68.95,70.31-3.31,140.57-5.86,210.93-7.51,0,29.13,0,43.85,0,73.56ZM1015.58,29.69c30.34,19.46,54.01,45.93,71,79.06,16.99,33.14,25.48,70.3,25.48,111.75s-8.5,78.4-25.49,111.36c-16.99,32.96-40.66,59.17-71,78.78-30.35,19.6-64.76,30.43-103.25,32.31-38.49,1.88-72.91-5.5-103.25-22.62-30.34-17.13-54.01-42.06-71-74.92-16.99-32.86-25.49-70.95-25.49-114.33s8.5-82.78,25.49-117.83c16.99-35.03,40.65-62.84,71-82.96,30.34-20.13,64.76-30.3,103.25-30.3s72.9,10.23,103.25,29.69ZM976.57,352.2c18.2-12.37,32.16-29.34,41.87-51.07,9.7-21.71,14.56-47.04,14.56-76.3s-4.86-54.81-14.56-76.57c-9.7-21.75-23.67-38.62-41.87-50.39-18.2-11.76-39.62-17.89-64.24-17.81-24.62.08-46.04,6.36-64.24,18.76-18.2,12.41-32.16,30.05-41.87,52.72-9.71,22.68-14.57,49.2-14.57,79.28,0,30.08,4.86,55.83,14.57,77.34,9.71,21.52,23.66,37.72,41.87,48.7,18.2,10.98,39.62,15.95,64.24,15.07,24.62-.87,46.03-7.36,64.24-19.72ZM578.14,450.41c-29.15-48.04-57.98-96.23-86.58-144.61-21.88-.58-32.82-.91-54.71-1.68,0,47.63,0,95.26,0,142.89-32.29-1.32-48.44-2.14-80.73-4.14,0-123.73,0-247.47,0-371.2C356.13,32.26,384.62,0,419.78,0h111.09c24.43,0,46.03,6.31,64.8,18.94,18.76,12.63,33.46,30.65,44.08,53.84,10.62,23.2,15.93,50.02,15.93,80.25,0,19.75-2.04,37.47-6.11,53.16-4.07,15.7-11.78,30.73-23.1,45.03-11.34,14.32-27.27,27.82-47.8,40.46,31.43,53.21,63.37,106.13,96.13,158.53-38.67.44-58,.5-96.67.19ZM546.27,222.08c9.2-5.4,16.28-13.63,21.25-24.73,4.95-11.09,7.43-24.85,7.43-41.34s-2.48-30.45-7.43-41.83c-4.96-11.38-12.05-19.98-21.25-25.74-9.2-5.76-20.18-8.7-32.93-8.81-24.23-.21-36.34-.34-60.57-.61-8.79-.1-15.91,7.9-15.91,17.85,0,52.93,0,79.13,0,131.03,30.59.9,45.89,1.27,76.48,1.89,12.75.26,23.72-2.31,32.93-7.72ZM1404.32,17.44c21.24,11.48,37.8,27.23,49.66,47.3,11.86,20.07,17.79,42.86,17.79,68.75,0,25.89-5.94,49.32-17.79,70.49-11.87,21.18-28.42,38.35-49.66,51.46-21.24,13.12-45.5,20.79-72.76,22.85-32.29,2.43-48.44,3.64-80.73,6.01,0,54.19,0,81.01,0,134.12-32.29,2.78-48.44,4.14-80.73,6.77,0-118.51,0-237.01,0-355.51,0-38.22,28.5-69.67,63.65-69.67h97.81c27.26,0,51.52,5.96,72.76,17.43ZM1373.78,186.48c11.5-13.22,17.26-29.59,17.26-49.28s-5.76-35.55-17.26-47.81c-11.5-12.25-26.47-18.26-44.88-17.79-24.86.63-37.3.94-62.16,1.56-8.79.22-15.91,7.95-15.91,17.24,0,49.43,0,73.93,0,122.51,31.23-1.9,46.85-2.86,78.07-4.8,18.41-1.15,33.37-8.4,44.88-21.63ZM1611.98,0c0,128.8,0,257.6,0,386.4-32.29,2.77-48.44,4.19-80.73,7.06,0-105.24,0-210.47,0-315.71,0-43.1,36.15-77.75,80.73-77.75h0ZM2518.92,365.52c-34.42-2.58-51.63-3.65-86.04-5.43-14.45-38.24-21.67-57.13-36.12-94.37-48.65-1.92-97.38-3.13-146.07-3.68-14.87,36.39-22.31,54.86-37.18,92.58-34.42-.01-51.63.13-86.04.7,42.49-107.7,87.07-214.36,133.35-320.48C2270.05,13.81,2293.88,0,2320.53,0h53.39c50.72,120.95,98.68,242.82,145,365.51ZM2371.79,202.63c-18.7-47.84-28.04-71.31-46.74-117.16-19.55,45.36-29.32,68.25-48.87,114.97,38.24.64,57.36,1.07,95.61,2.19ZM2667.94,312.45c57.04,6.17,113.67,13.17,170.49,21.09,0,27.62,0,41.43,0,69.05-83.19-14.58-167.15-24.93-251.22-32.69,0-99.05,0-198.1,0-297.16C2587.2,32.38,2623.35,0,2667.93,0h0c0,104.15,0,208.3,0,312.45ZM224.13,60.07c-3.47-.06-5.2-.09-8.68-.16,13.91-14.87,20.87-22.39,34.79-37.63-26.97-29.85-70.68-29.25-97.65-.68-2.4,2.55-3.6,3.82-6.01,6.35-2.4-2.59-3.6-3.87-6.01-6.45-26.96-28.87-70.68-28.12-97.65-.86,13.92,14.34,20.87,21.63,34.79,36.37-3.47-.08-5.2-.13-8.68-.21C30.91,55.88,0,85.92,0,124.05c42.91,2.61,64.37,3.78,107.28,5.9,0,96.38,0,192.77,0,289.15,32.29,4.38,48.44,6.35,80.73,9.88,0-98.46,0-196.92,0-295.38,42.06,1.74,63.1,2.5,105.16,3.83,0-41.94-30.91-76.69-69.05-77.37ZM1892.86,5.35c3.04-1.32,1.64-5.86-1.62-5.3-81.08,13.88-144.06,80.66-152.2,163.55,18.43-15.45,39.35-29.76,61.99-42.53,9.44-52.08,44.57-95.20,91.83-115.72ZM2099.08,211.57c-25.04,57.67-83.72,97.34-151.28,94.22-72.34-3.34-132.38-56.58-146.27-125.81-22.04,14.6-41.49,30.79-57.52,47.92,20.24,77.84,90.49,136.3,173.87,138.38,93.29,2.32,171.35-64.63,186.49-153.07.56-3.26-3.98-4.66-5.3-1.62ZM2056.8,145.89c.46,50.11-56.63,117.75-142.97,163.71-86.28,45.92-174.26,55.52-215.62,27.22,30,43.45,127.78,38.58,223.52-12.37,95.77-50.97,154.47-129.42,135.07-178.55ZM1950.07,94.65l21.75-9.85c-43.88-.7-99.61,13.78-154.69,43.09-102.22,54.41-163.46,139.21-136.76,189.39,4.15,7.81,10.19,14.33,17.84,19.53-1.09-1.57-2.08-3.2-2.99-4.91-25.91-48.69,33.49-130.95,132.69-183.74,38.5-20.49,77.31-33.49,111.93-38.93.52-6.32,4.39-11.95,10.22-14.58ZM2025.56,32.81l-21.17,46.77c-.38.83-1.04,1.5-1.87,1.87l-46.77,21.17c-2.94,1.33-2.94,5.51,0,6.84l46.77,21.17c.83.38,1.5,1.04,1.87,1.87l21.17,46.77c1.33,2.94,5.51,2.94,6.84,0l21.17-46.77c.38-.83,1.04-1.5,1.87-1.87l46.77-21.17c2.94-1.33,2.94,5.51,0-6.84l-46.77-21.17c-.83-.38-1.5-1.04-1.87-1.87l-21.17-46.77c-1.33-2.94-5.51-2.94-6.84,0Z"/>
+                        </g>
+                      </svg>
                     </div>
-                    <!-- Column 2: Where (Added Icon & UPDATED Hyperlink) -->
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <svg class="w-8 h-8 text-[#89B3D9]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Where</h3>
-                            <p class="text-base text-gray-700 mb-1"><strong>Venue:</strong> CHADAA</p>
-                            <!-- Address -->
-                            <p class="text-sm text-gray-500 mb-2">
-                                112 Hibbard Ave, Dumaguete City
-                            </p>
-                            <!-- UPDATED: Directions link as text below address -->
-                            <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#89B3D9] font-semibold underline hover:text-[#5A9BC8] transition-colors">
-                                Get directions
-                            </a>
-                        </div>
-                    </div>
+                  </div>
                 </div>
-             </div>
+              </div>
+              <div id="letsGoButton" class="flex justify-center items-center flex-row gap-2.5 py-4 px-[32px] bg-[#F4D35E] rounded-full cursor-pointer w-[clamp(240px,38vw,280px)] md:w-[clamp(400px,48vw,520px)] h-[clamp(50px,7vw,64px)] md:h-[clamp(64px,8vw,80px)] transition-transform duration-200 ease-out hover:scale-105">
+                <span class="text-[#2D3A3F] text-center font-bold text-[clamp(1.2rem,3vw,1.6rem)] md:text-[clamp(1.75rem,4vw,2.25rem)]">
+                  Let’s Go!
+                </span>
+              </div>
+            </div>
+        </div>
+
+        <!-- Desktop & Tablet Landscape Layout (>=1024px) -->
+        <div class="hidden lg:flex flex-row w-screen h-screen overflow-hidden relative">
+          <!-- Left Column (Scallop only) -->
+          <div class="relative w-1/2 h-full">
+            <div class="absolute top-1/2 left-[10vw] transform -translate-x-1/2 -translate-y-1/2 rotate-[12.25deg] w-[150vh] h-[150vh] animate-calm-rotate">
+              <!-- Scallop SVG -->
+              <svg id="scallop-desktop" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456.44 446.05" class="w-full h-full">
+                <g id="Layer_1-2-desktop" data-name="Layer 1">
+                  <g>
+                    <path fill="#89B3D9" d="M455.94,223.02c0,16.66-21.62,30.66-25.16,46.24-3.66,16.09,9.66,38.07,2.66,52.59-7.12,14.76-32.68,18-42.8,30.68-10.17,12.74-7.69,38.36-20.43,48.53s-37.09,2.04-51.85,9.16c-14.52,7-23.37,31.2-39.46,34.86-15.58,3.54-34.02-14.34-50.68-14.34s-35.09,17.88-50.68,14.34c-16.09-3.66-24.94-27.86-39.46-34.86-14.76-7.12-39.17.97-51.85-9.16-12.74-10.17-10.25-35.8-20.43-48.53-10.12-12.68-35.68-15.92-42.8-30.68s6.31-36.49,2.66-52.59S.5,239.68.5,223.02s21.62-30.66,25.16-46.24-9.66-38.07-2.66-52.59,32.68-18,42.8-30.68,7.69-38.36,20.43-48.53c12.68-10.12,37.09-2.04,51.85-9.16,14.52-7,23.37-31.2,39.46-34.86s34.02,14.34,50.68,14.34S263.31-2.58,278.9.96s24.94,27.86,39.46,34.86c14.76,7.12,39.17-.97,51.85,9.16,12.74,10.17,10.25,35.8,20.43,48.53,10.12,12.68,35.68,15.92,42.8,30.68,7,14.52-6.31,36.49-2.66,52.59s25.16,29.59,25.16,46.24Z"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Right Column (Text + Logo + CTA) -->
+          <div class="w-1/2 flex flex-col justify-center items-center gap-6 px-[5vw]">
+            <p class="text-2xl font-bold text-[#2D3A3F]">Welcome to</p>
+            <div class="w-[300px] md:w-[600px] h-auto">
+              <!-- Tropical Wave SVG logo -->
+               <svg id="Layer_2-desktop-logo" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2838.43 860.89">
+                    <g id="Layer_1-2-desktop-logo-g" data-name="Layer 1">
+                      <path class="cls-1" d="M1012.96,860.89c-27.83,0-41.75,0-69.58,0-32.4-77.22-62.63-155.31-92.42-233.57-25.68,78.4-53.14,156.22-81.79,233.58h-69.58c-36.6-92.7-70.86-186.25-104.42-280.08-12.95-36.5,16.79-74.38,58.75-74.73h0c26.09,77.64,52.77,155.09,80.73,232.08,19.2-59.54,37.69-119.33,55.45-179.32,9.61-32.45,40.93-56.46,76.63-58.02,11.12-.49,16.68-.75,27.79-1.27,24.36,79.08,49.29,158.02,75.95,236.35,14.56-54.44,28.7-108.93,42.54-163.55,9.87-44.81,59.4-86.02,105.11-88.11h0c-32.98,126.19-67.32,251.83-105.16,376.65ZM1483.53,860.89h-86.04c-14.45-40.01-21.67-59.72-36.12-98.84-48.69,1.75-97.37,3.47-146.06,5.15-14.87,38.35-22.31,57.15-37.18,93.69h-86.04c47.91-113.44,90.99-228.77,133.35-344.37,9.23-25.38,33.06-43.93,59.71-46.27,21.35-1.87,32.03-2.82,53.38-4.73,49.15,131.5,98.1,263.04,145,395.36ZM1336.4,695.5c-18.7-50.78-28.04-75.92-46.74-126.42-19.55,53.53-29.32,80-48.86,131.61,38.24-2.05,57.36-3.09,95.6-5.19ZM1675.26,860.89h-97.72c-37.32-108.88-76.12-217.16-115.85-325.18-14.19-38.42,15.01-82.61,56.89-86.32h0c36.48,99.29,72.22,198.79,106.75,298.78,23.74-77.24,47.46-154.48,71.6-231.59,15.82-49.49,59.45-86.45,111.64-90.83h0c-45.82,144.63-89.61,289.86-133.31,435.14ZM2130.96,484.78c-59.33.62-118.65,2-177.94,4-8.79.3-15.91,8.01-15.91,17.28,0,32.05,0,48.3,0,81.26,55.24-1.01,110.46-1.77,165.71-2.24,0,30.45,0,45.83,0,76.89-55.24.19-110.47.59-165.71,1.17,0,46.05,0,69.5,0,117.25,64.62-.22,129.24-.29,193.86-.17,0,31.97,0,48.11,0,80.67h-274.58c0-124.41,0-248.81,0-373.21,0-36.43,28.5-67.15,63.65-68.95,70.31-3.31,140.57-5.86,210.93-7.51,0,29.13,0,43.85,0,73.56ZM1015.58,29.69c30.34,19.46,54.01,45.93,71,79.06,16.99,33.14,25.48,70.3,25.48,111.75s-8.5,78.4-25.49,111.36c-16.99,32.96-40.66,59.17-71,78.78-30.35,19.6-64.76,30.43-103.25,32.31-38.49,1.88-72.91-5.5-103.25-22.62-30.34-17.13-54.01-42.06-71-74.92-16.99-32.86-25.49-70.95-25.49-114.33s8.5-82.78,25.49-117.83c16.99-35.03,40.65-62.84,71-82.96,30.34-20.13,64.76-30.3,103.25-30.3s72.9,10.23,103.25,29.69ZM976.57,352.2c18.2-12.37,32.16-29.34,41.87-51.07,9.7-21.71,14.56-47.04,14.56-76.3s-4.86-54.81-14.56-76.57c-9.7-21.75-23.67-38.62-41.87-50.39-18.2-11.76-39.62-17.89-64.24-17.81-24.62.08-46.04,6.36-64.24,18.76-18.2,12.41-32.16,30.05-41.87,52.72-9.71,22.68-14.57,49.2-14.57,79.28,0,30.08,4.86,55.83,14.57,77.34,9.71,21.52,23.66,37.72,41.87,48.7,18.2,10.98,39.62,15.95,64.24,15.07,24.62-.87,46.03-7.36,64.24-19.72ZM578.14,450.41c-29.15-48.04-57.98-96.23-86.58-144.61-21.88-.58-32.82-.91-54.71-1.68,0,47.63,0,95.26,0,142.89-32.29-1.32-48.44-2.14-80.73-4.14,0-123.73,0-247.47,0-371.2C356.13,32.26,384.62,0,419.78,0h111.09c24.43,0,46.03,6.31,64.8,18.94,18.76,12.63,33.46,30.65,44.08,53.84,10.62,23.2,15.93,50.02,15.93,80.25,0,19.75-2.04,37.47-6.11,53.16-4.07,15.7-11.78,30.73-23.1,45.03-11.34,14.32-27.27,27.82-47.8,40.46,31.43,53.21,63.37,106.13,96.13,158.53-38.67.44-58,.5-96.67.19ZM546.27,222.08c9.2-5.4,16.28-13.63,21.25-24.73,4.95-11.09,7.43-24.85,7.43-41.34s-2.48-30.45-7.43-41.83c-4.96-11.38-12.05-19.98-21.25-25.74-9.2-5.76-20.18-8.7-32.93-8.81-24.23-.21-36.34-.34-60.57-.61-8.79-.1-15.91,7.9-15.91,17.85,0,52.93,0,79.13,0,131.03,30.59.9,45.89,1.27,76.48,1.89,12.75.26,23.72-2.31,32.93-7.72ZM1404.32,17.44c21.24,11.48,37.8,27.23,49.66,47.3,11.86,20.07,17.79,42.86,17.79,68.75,0,25.89-5.94,49.32-17.79,70.49-11.87,21.18-28.42,38.35-49.66,51.46-21.24,13.12-45.5,20.79-72.76,22.85-32.29,2.43-48.44,3.64-80.73,6.01,0,54.19,0,81.01,0,134.12-32.29,2.78-48.44,4.14-80.73,6.77,0-118.51,0-237.01,0-355.51,0-38.22,28.5-69.67,63.65-69.67h97.81c27.26,0,51.52,5.96,72.76,17.43ZM1373.78,186.48c11.5-13.22,17.26-29.59,17.26-49.28s-5.76-35.55-17.26-47.81c-11.5-12.25-26.47-18.26-44.88-17.79-24.86.63-37.3.94-62.16,1.56-8.79.22-15.91,7.95-15.91,17.24,0,49.43,0,73.93,0,122.51,31.23-1.9,46.85-2.86,78.07-4.8,18.41-1.15,33.37-8.4,44.88-21.63ZM1611.98,0c0,128.8,0,257.6,0,386.4-32.29,2.77-48.44,4.19-80.73,7.06,0-105.24,0-210.47,0-315.71,0-43.1,36.15-77.75,80.73-77.75h0ZM2518.92,365.52c-34.42-2.58-51.63-3.65-86.04-5.43-14.45-38.24-21.67-57.13-36.12-94.37-48.65-1.92-97.38-3.13-146.07-3.68-14.87,36.39-22.31,54.86-37.18,92.58-34.42-.01-51.63.13-86.04.7,42.49-107.7,87.07-214.36,133.35-320.48C2270.05,13.81,2293.88,0,2320.53,0h53.39c50.72,120.95,98.68,242.82,145,365.51ZM2371.79,202.63c-18.7-47.84-28.04-71.31-46.74-117.16-19.55,45.36-29.32,68.25-48.87,114.97,38.24.64,57.36,1.07,95.61,2.19ZM2667.94,312.45c57.04,6.17,113.67,13.17,170.49,21.09,0,27.62,0,41.43,0,69.05-83.19-14.58-167.15-24.93-251.22-32.69,0-99.05,0-198.1,0-297.16C2587.2,32.38,2623.35,0,2667.93,0h0c0,104.15,0,208.3,0,312.45ZM224.13,60.07c-3.47-.06-5.2-.09-8.68-.16,13.91-14.87,20.87-22.39,34.79-37.63-26.97-29.85-70.68-29.25-97.65-.68-2.4,2.55-3.6,3.82-6.01,6.35-2.4-2.59-3.6-3.87-6.01-6.45-26.96-28.87-70.68-28.12-97.65-.86,13.92,14.34,20.87,21.63,34.79,36.37-3.47-.08-5.2-.13-8.68-.21C30.91,55.88,0,85.92,0,124.05c42.91,2.61,64.37,3.78,107.28,5.9,0,96.38,0,192.77,0,289.15,32.29,4.38,48.44,6.35,80.73,9.88,0-98.46,0-196.92,0-295.38,42.06,1.74,63.1,2.5,105.16,3.83,0-41.94-30.91-76.69-69.05-77.37ZM1892.86,5.35c3.04-1.32,1.64-5.86-1.62-5.3-81.08,13.88-144.06,80.66-152.2,163.55,18.43-15.45,39.35-29.76,61.99-42.53,9.44-52.08,44.57-95.20,91.83-115.72ZM2099.08,211.57c-25.04,57.67-83.72,97.34-151.28,94.22-72.34-3.34-132.38-56.58-146.27-125.81-22.04,14.6-41.49,30.79-57.52,47.92,20.24,77.84,90.49,136.3,173.87,138.38,93.29,2.32,171.35-64.63,186.49-153.07.56-3.26-3.98-4.66-5.3-1.62ZM2056.8,145.89c.46,50.11-56.63,117.75-142.97,163.71-86.28,45.92-174.26,55.52-215.62,27.22,30,43.45,127.78,38.58,223.52-12.37,95.77-50.97,154.47-129.42,135.07-178.55ZM1950.07,94.65l21.75-9.85c-43.88-.7-99.61,13.78-154.69,43.09-102.22,54.41-163.46,139.21-136.76,189.39,4.15,7.81,10.19,14.33,17.84,19.53-1.09-1.57-2.08-3.2-2.99-4.91-25.91-48.69,33.49-130.95,132.69-183.74,38.5-20.49,77.31-33.49,111.93-38.93.52-6.32,4.39-11.95,10.22-14.58ZM2025.56,32.81l-21.17,46.77c-.38.83-1.04,1.5-1.87,1.87l-46.77,21.17c-2.94,1.33-2.94,5.51,0,6.84l46.77,21.17c.83.38,1.5,1.04,1.87,1.87l21.17,46.77c1.33,2.94,5.51,2.94,6.84,0l21.17-46.77c.38-.83,1.04-1.5,1.87-1.87l46.77-21.17c2.94-1.33,2.94,5.51,0-6.84l-46.77-21.17c-.83-.38-1.5-1.04-1.87-1.87l-21.17-46.77c-1.33-2.94-5.51-2.94-6.84,0Z"/>
+                    </g>
+                  </svg>
+            </div>
+            <div id="letsGoButtonDesktop" class="py-4 px-8 bg-[#F4D35E] rounded-full cursor-pointer hover:scale-105 transition-transform">
+              <span class="font-bold text-[#2D3A3F] text-lg md:text-xl">Let’s Go!</span>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="page-container" id="page-container">
+
+        <!-- Home Page -->
+        <section id="home" class="page-section">
+            <header class="page-header">Home</header>
+            <main class="px-4 sm:px-6 lg:px-8 pt-4">
+                <div class="flex flex-col">
+                    <section class="mb-8">
+                        <h2 class="section-title">Featured Event</h2>
+                        <div class="card !p-0 overflow-hidden">
+                            <div class="flex flex-col lg:flex-row w-full">
+                                <div class="w-full lg:w-1/2 p-4">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="onboarding.png" alt="Featured Event" class="w-full h-auto aspect-video object-cover rounded-xl">
+                                </div>
+                                <div class="w-full lg:w-1/2 p-4 flex flex-col justify-center">
+                                    <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
+                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Celebrate Asian pop culture with us! Enjoy stunning performances, connect with fellow fans, and dive into the vibrant world of music and dance. Don’t miss it!</p>
+                                    <a href="#" class="card-button-primary shimmer-wrapper mt-4 self-start" onclick="document.querySelector('.nav-item[data-index=\'1\']').click(); return false;">
+                                        Dive into the Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="mb-8">
+                        <h2 class="section-title">Announcements</h2>
+                        <!-- Removed scrollbar-hide class to enable horizontal scrollbar -->
+                        <div class="flex overflow-x-auto space-x-4 pb-4">
+                            <div class="card !p-0 overflow-hidden !mb-0 flex-shrink-0 w-4/5 sm:w-2/3 md:w-1/2 lg:w-2/5">
+                               <div class="p-4">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="prize.png" class="w-full h-auto aspect-video object-cover rounded-xl mb-4">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Prizes you don't want to miss!</h3>
+                                    <p class="card-description">Join us on our event and win exclusive K-pop photocards, albums, and a lightstick!</p>
+                                    <a href="https://www.facebook.com/share/p/1ALP2TXrGM/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4">
+                                        Check Now!
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card !p-0 overflow-hidden !mb-0 flex-shrink-0 w-4/5 sm:w-2/3 md:w-1/2 lg:w-2/5">
+                                <div class="p-4">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="audition.png" alt="Auditions" class="w-full h-auto aspect-video object-cover rounded-xl mb-4">
+                                    <h3 class="text-xl font-bold mb-2 text-gray-800">📣 Auditions are still open!</h3>
+                                    <p class="card-description">Show us what you've got! Click below to submit your application.</p>
+                                    <a href="#" class="inline-block rounded-xl py-2 px-6 font-semibold text-sm border-2 border-[#89B3D9] text-[#89B3D9] hover:bg-[#89B3D9] hover:text-[#F3F8F4] transition-all mt-4" onclick="document.querySelector('.nav-item[data-index=\'3\']').click(); return false;">
+                                        Join the Wave
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- UPDATED FOOTER SECTION -->
+                <footer class="site-footer">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
+                        <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                        <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                        <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                        <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                        <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                    </div>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                </footer>
+            </main>
         </section>
 
-        <!-- 3. Ticket Purchase Section (Streamlined) -->
-        <section class="mb-6">
-            <div class="card text-center">
-                <h2 class="section-title !mb-2">Get Your Tickets!</h2>
-                <p class="section-subtitle !mb-6">Buy online or visit our booth!</p>
+        <!-- Event Page -->
+        <section id="event" class="page-section">
+            <header class="page-header">Event</header>
+            <main class="px-4 sm:px-6 lg:px-8 pt-4">
+                <div class="lg:flex lg:flex-col lg:gap-y-8">
+                    <section class="mb-8">
+                        <h2 class="section-title">Upcoming Event</h2>
+                        <div class="card !p-0 overflow-hidden">
+                            <div class="flex flex-col lg:flex-row w-full">
+                                <div class="w-full lg:w-1/2 p-4">
+                                    <!-- Updated border-radius for placeholder image -->
+                                    <img src="onboarding.png" alt="Event Details" class="w-full h-auto aspect-video object-cover rounded-xl">
+                                </div>
+                                <div class="w-full lg:w-1/2 p-4 flex flex-col justify-center">
+                                    <h3 class="card-title !mb-2">Starlight Airlines: Onboarding</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-2 text-left">
+                                        <p class="text-base text-gray-700 mb-1"><strong>Date:</strong> November 16, 2025 Sunday</p>
+                                        <p class="text-base text-gray-700 mb-1"><strong>Booths Open:</strong> 1pm</p>
+                                        <p class="text-base text-gray-700 mb-1"><strong>Program Starts:</strong> 3pm - 8pm</p>
+                                        <p class="text-base text-gray-700 mb-1 col-span-full"><strong>Venue:</strong> CHADAA</p>
+                                        <p class="text-sm text-gray-500 mb-2 col-span-full">112 Hibbard Ave, Dumaguete City, Negros Oriental</p>
+                                    </div>
+                                    <!-- Changed "Get directions" text color -->
+                                    <a href="https://maps.google.com/?q=112+Hibbard+Ave,+Dumaguete+City,+Negros+Oriental" target="_blank" rel="noopener noreferrer" class="text-sm text-[#89B3D9] font-semibold underline block mb-3 text-left">Get directions</a>
+                                    <p class="text-sm text-gray-600 mt-2 text-left leading-relaxed">Celebrate Asian pop culture with us! Enjoy stunning performances, connect with fellow fans, and dive into the vibrant world of music and dance. Don’t miss it!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="mb-8">
+                      <h2 class="section-title">Choose your Pass</h2>
+                      <p class="section-subtitle">Compare perks. Scroll to see more.</p>
+                      <ul class="text-left list-disc list-inside mb-4 text-gray-700">
+                        <li>Surprise Freebies</li>
+                        <li>Goody Bag</li>
+                        <li>Access to Exclusive Activities</li>
+                      </ul>
                 
-                <!-- UPDATED: Single-column layout -->
-                <div>
-                    <!-- Column 1: Online Purchase -->
-                    <div class="text-center mb-8">
-                        <p class="text-lg font-semibold text-gray-700 mb-3">Buy Online</p>
-                        <!-- UPDATED: Added animate-pulseBtn class -->
-                        <a href="https://forms.gle/wujgV9gXRwoagrNm8" target="_blank" rel="noopener noreferrer" class="shimmer-wrapper">
-                            <button class="card-button-primary animate-pulseBtn !px-6 !py-3 !text-base !font-bold group">
-                                Buy Tickets Online Now
-                                <svg class="w-5 h-5 ml-2 transform transition-transform group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                                </svg>
+                      <div class="flex overflow-x-auto gap-4 scrollbar-thin scrollbar-thumb-pink-300 scrollbar-track-pink-100 pb-4">
+                        <!-- TIER 1 -->
+                        <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#E6F3E9] border border-[#C8E2D0] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
+                          <div class="absolute top-0 right-0 bg-[#67BFA2] text-[#E6F3E9] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
+                            ₱200
+                          </div>
+                          <h3 class="text-base font-semibold text-[#2A745C]">Economy</h3>
+                          <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+                          <p class="text-sm text-gray-700">(Official Photocard)</p>
+                          <p class="text-sm text-gray-700">10 Winners</p>
+                          <p class="text-xs text-gray-500 mt-2">Slots: 100</p>
+                        </div>
+                
+                        <!-- TIER 2 -->
+                        <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#D9E8F1] border border-[#BFD7E5] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
+                          <div class="absolute top-0 right-0 bg-[#5A9BC8] text-[#D9E8F1] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
+                            ₱250
+                          </div>
+                          <h3 class="text-base font-semibold text-[#326E9B]">Business Class</h3>
+                          <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+                          <p class="text-sm text-gray-700">(Official Album)</p>
+                          <p class="text-sm text-gray-700">5 Winners</p>
+                          <p class="text-xs text-gray-500 mt-2">Slots: 75</p>
+                        </div>
+                
+                        <!-- TIER 3 -->
+                        <div class="min-w-[280px] sm:min-w-[280px] md:min-w-[280px] lg:min-w-0 lg:w-1/3 flex-shrink-0 bg-[#FFF4D6] border border-[#FFE8AC] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left">
+                          <div class="absolute top-0 right-0 bg-[#F9C444] text-[#FFF4D6] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
+                            ₱300
+                          </div>
+                          <h3 class="text-base font-semibold text-[#B58700]">First Class</h3>
+                          <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
+                          <p class="text-sm text-gray-700">(Album or Lightstick of your Choice)</p>
+                          <p class="text-sm text-gray-700">1 Winner</p>
+                          <p class="text-xs text-gray-500 mt-2">Slots: 25</p>
+                        </div>
+                      </div>
+                    </section>
+                </div>
+                <section class="mb-8">
+                    <h2 class="section-title">Ticket FAQ</h2>
+                    <div class="space-y-3" id="faq-accordion">
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Is the ticket refundable?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
                             </button>
+                            <div class="accordion-content hidden prose-text">
+                                <p>Unfortunately, <strong>NO</strong>. But if you wish to withdraw your purchase, you may sell/give it to a friend who may enjoy the event and its perks.</p>
+                            </div>
+                        </div>
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Can I upgrade my ticket tier?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden prose-text">
+                                <p>Of course! You are allowed to upgrade your ticket to a higher tier BEFORE the event. But if you decide to upgrade within 3 days right before the event (or on the day), you are required to pay a 25% additional fee of the ticket price of your new chosen tier on top of its original price. (<i>This will only be possible if there are available tickets left.</i>)</p>
+                            </div>
+                        </div>
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Can I downgrade my ticket tier?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden prose-text">
+                                <p>Unfortunately, <strong>NO</strong>. As tickets are <strong>NON-REFUNDABLE</strong>, we will not be offering downgrades, as well.</p>
+                            </div>
+                        </div>
+                         <div class="accordion-item">
+                            <button class="accordion-toggle w-full text-left">
+                                <span>Can I give my ticket to someone else?</span>
+                                <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                            </button>
+                            <div class="accordion-content hidden prose-text">
+                                <p>YES! You may give the ticket to someone who will be interested to attend.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <p class="prose-text">
+                            <strong>NOTE:</strong> For all transactions that may involve TICKET TRANSFER, be sure to contact Tropical Wave to update the ticket information due to raffle mechanics.
+                        </p>
+                    </div>
+                </section>
+                <!-- REPLICATED FOOTER SECTION -->
+                <footer class="site-footer">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
+                        <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                        <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                        <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                        <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                        <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                    </div>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                </footer>
+            </main>
+        </section>
+
+        <!-- Passport Page -->
+        <section id="passport" class="page-section blurred-passport">
+            <header class="page-header">Passport</header>
+            <main class="px-4 sm:px-6 lg:px-8 pt-4">
+                <section class="mb-8 text-center sm:text-left">
+                    <p class="text-base leading-relaxed text-gray-700 mb-2 text-justify w-full">The Starlight Passport tracks your event journey—earn a stamp at each event and unlock exclusive rewards!</p>
+                    <p class="text-lg font-semibold text-[#89B3D9]">“Collect Stamps. Earn Rewards. Make Memories.”</p>
+                </section>
+
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
+                    <section class="mb-8 flex flex-col items-center">
+                        <h2 class="section-title text-center sm:text-left w-full">Discover What’s Inside</h2>
+                        <div class="card !p-5 w-full max-w-lg">
+                            <div class="book-wrapper">
+                                <div id="book" class="book">
+                                    <div id="p1" class="paper">
+                                        <div class="front" id="cover-front">
+                                            <img src="1.png" alt="Front Cover" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/4a5568/ffffff?text=Cover';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="2.png" alt="Back of Front Cover / Page 1" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+1';">
+                                        </div>
+                                    </div>
+                                    <div id="p2" class="paper">
+                                        <div class="front">
+                                            <img src="3.png" alt="Page 2 Front" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+2';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="4.png" alt="Page 2 Back" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+3';">
+                                        </div>
+                                    </div>
+                                    <div id="p3" class="paper">
+                                        <div class="front">
+                                            <img src="5.png" alt="Page 3 Front" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+4';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="6.png" alt="Page 3 Back" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+5';">
+                                        </div>
+                                    </div>
+                                    <div id="p4" class="paper">
+                                        <div class="front">
+                                            <img src="7.png" alt="Page 4 Front" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+6';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="8.png" alt="Page 4 Back" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+7';">
+                                        </div>
+                                    </div>
+                                    <div id="p5" class="paper">
+                                        <div class="front">
+                                            <img src="9.png" alt="Page 5 Front" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+8';">
+                                        </div>
+                                        <div class="back">
+                                            <img src="10.png" alt="Page 5 Back" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+9';">
+                                        </div>
+                                    </div>
+                                    <div id="p6" class="paper">
+                                        <div class="front">
+                                            <img src="11.png" alt="Page 6 Front" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/ffffff/000000?text=Page+10';">
+                                        </div>
+                                        <div class="back" id="cover-back">
+                                            <img src="12.png" alt="Back Cover" class="aspect-[538/740]" onerror="this.onerror=null; this.src='https://placehold.co/538x740/2d3748/ffffff?text=Back';">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="book-info"><h2 id="book-title" class="text-xl font-bold"></h2><p id="book-description" class="text-sm text-gray-600 whitespace-pre-line"></p></div>
+                        </div>
+                    </section>
+
+                    <section class="mb-8">
+                        <h2 class="section-title">Rewards You Can Earn</h2>
+                        <p class="section-subtitle">Attend 3 consecutive events with the same ticket tier to unlock these rewards.</p>
+                        <div class="flex flex-col gap-y-6">
+                            <!-- Updated border-radius for reward cards -->
+                            <div class="card !mb-0 blur-sm opacity-60 rounded-3xl p-4 flex flex-col" style="background-color: #E6F3E9; border: 1px solid #C8E2D0;">
+                                <h3 class="font-bold text-lg text-gray-800 mb-2">Tier 1: Economy</h3>
+                                <p class="text-sm text-gray-700">Official Album<br>(1 Raffle Entry)</p>
+                            </div>
+                            <!-- Updated border-radius for reward cards -->
+                            <div class="card !mb-0 blur-sm opacity-60 rounded-3xl p-4 flex flex-col" style="background-color: #D9E8F1; border: 1px solid #BFD7E5;">
+                                <h3 class="font-bold text-lg text-gray-800 mb-2">Tier 2: Business Class</h3>
+                                <p class="text-sm text-gray-700">Official Album<br>(1 Raffle Entry)</p>
+                            </div>
+                            <!-- Updated border-radius for reward cards -->
+                            <div class="card !mb-0 blur-sm opacity-60 rounded-3xl p-4 flex flex-col" style="background-color: #FFF4D6; border: 1px solid #FFE8AC;">
+                                <h3 class="font-bold text-lg text-gray-800 mb-2">Tier 3: First Class</h3>
+                                <p class="text-sm text-gray-700">Album/Lightstick of your choice<br>(1 Raffle Entry)</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="mb-8">
+                    <h2 class="section-title">Terms & Conditions</h2>
+                    <div class="card text-left prose-text">
+                        <ul class="list-disc">
+                            <li>Only available for pre-sold ticket holders. (Not available for walk-ins)</li>
+                            <li>If walk-ins wish to avail, they may inform organizers AFTER the event.</li>
+                            <li>Passports will be stamped by organizers ONLY upon entry at the venue.</li>
+                            <li>Transferring of passport ownership is only allowed ONCE.</li>
+                            <li>If transferred to a new Starlight Airlines passport holder, the existing stamps are included upon transfer.</li>
+                            <li class="font-bold text-red-600">DO NOT DUPLICATE.</li>
+                        </ul>
+                    </div>
+                </section>
+                 <section class="mb-8">
+                    <h2 class="section-title">Lost or Damaged Starlight Passport Policy</h2>
+                    <div class="card text-left prose-text">
+                        <p>If an attendee loses or damages their Starlight Passport—especially if it affects the microchip—they may request a replacement under the following conditions:</p>
+
+                        <h4>Replacement Process:</h4>
+                        <ul>
+                            <li><strong>Report the Loss or Damage:</strong> Attendees must contact Tropical Wave organizers via social media before the next event.</li>
+                            <li><strong>Proof of Identity:</strong> Proof of identity must be provided.</li>
+                            <li><strong>Damaged Passport:</strong> If the passport is damaged but still physically present, it must be submitted for assessment.</li>
+                        </ul>
+
+                        <h4>Verification:</h4>
+                        <ul>
+                            <li>Organizers will verify the attendee’s past attendance records.</li>
+                            <li>If approved, a new passport will be issued with the same number of stamps.</li>
+                            <li>The passport is embedded with a microchip that provides exclusive interactive features during events; please handle with care, as physical damage may result in limited access.</li>
+                        </ul>
+
+                        <h4>Replacement Fee:</h4>
+                        <p>A fee of ₱200 will be required to cover reprinting and chip reprogramming costs. This ensures only legitimate replacements are processed.</p>
+
+                        <h4>Final Disclaimer:</h4>
+                         <ul>
+                            <li>Each attendee is only allowed ONE replacement throughout the three-event series.</li>
+                            <li>Lost or damaged passports cannot be transferred to another person once replaced.</li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- Duplicated and modified section starts here -->
+                <section class="mb-8">
+                    <h2 class="section-title">Handle with Care</h2>
+                    <div class="card text-left">
+                        <!-- Applied prose-text class for consistent styling -->
+                        <p class="mb-4 prose-text">The <b>microchip</b> inside your passport can be damaged by:</p>
+                        <ul class="list-disc pl-4 mb-4 prose-text">
+                            <li><b>Bending or folding</b> – this can break the chip’s antenna.</li>
+                            <li><b>Crushing or pressure</b> – stepping on it may crack the chip.</li>
+                            <li><b>Cutting or puncturing</b> – sharp objects can destroy the internal parts.</li>
+                            <li><b>Water or humidity</b> – moisture may cause corrosion if the tag isn’t sealed.</li>
+                            <li><b>High heat</b> – can melt or deform internal components.</li>
+                            <li><b>Strong static (ESD)</b> – touching it with a static charge can short the chip.</li>
+                            <li><b>Fire or burning</b> – will destroy it completely.</li>
+                        </ul>
+                        <!-- Removed pl-4 to remove indentation -->
+                        <p class="italic prose-text">To keep your passport working, avoid bending, getting it wet, or exposing it to heat or rough handling.</p>
+                    </div>
+                </section>
+                <!-- REPLICATED FOOTER SECTION -->
+                <footer class="site-footer">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
+                        <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                        <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                        <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                        <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                        <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                    </div>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                </footer>
+            </main>
+        </section>
+
+        <!-- Join Us Page -->
+        <section id="join" class="page-section flex flex-col">
+            <header class="page-header">Join Us</header>
+            <main class="px-4 sm:px-6 lg:px-8 pt-4 flex-grow flex justify-center items-center">
+                <div class="w-full max-w-lg">
+                    <div class="card text-center">
+                        <h2 class="text-2xl font-extrabold text-gray-800 mb-4">Tropical Wave is holding auditions!</h2>
+                        <p class="text-lg text-gray-700 leading-relaxed mb-4">Bring the energy and show us what you’ve got. This is your chance to shine and be part of the wave! 🌊✨</p>
+                        <p class="text-base text-gray-600 mb-6">Click below to submit your application.</p>
+                        <a href="https://forms.gle/EQcXNsdsKTGqFMJE6" target="_blank" rel="noopener noreferrer" class="card-button-primary shimmer-wrapper !px-10 !py-3">
+                            Join the Wave
                         </a>
                     </div>
-                   
                 </div>
-            </div>
+            </main>
+             <!-- REPLICATED FOOTER SECTION -->
+             <footer class="site-footer mt-auto">
+                <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                <div class="flex justify-center space-x-6 mb-2.5">
+                    <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                    <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                    <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                    <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                    <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
+                </div>
+                <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+            </footer>
         </section>
 
-        <!-- 4. Ticket Tiers -->
-        <section class="mb-6">
-            <h2 class="section-title text-center">Choose Your Pass</h2>
-            <p class="section-subtitle text-center">All passes include surprise freebies, a goody bag, and access to exclusive activities!</p>
-      
-            <div class="flex flex-col lg:flex-row lg:overflow-x-auto gap-4 pb-4">
-                <!-- TIER 1 -->
-                <div class="w-full lg:w-1/3 flex-shrink-0 bg-[#E6F3E9] border border-[#C8E2D0] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left transition-all duration-300 hover:!shadow-xl hover:!transform hover:!scale-[1.03]">
-                    <div class="absolute top-0 right-0 bg-[#67BFA2] text-[#E6F3E9] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-                    ₱200
+        <!-- About Us Page -->
+        <section id="about" class="page-section">
+            <header class="page-header">About Us</header>
+            <main class="px-4 sm:px-6 lg:px-8 pt-4">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
+                    <div class="flex flex-col space-y-3">
+                        <section>
+                            <div class="card !mb-0">
+                                <p class="prose-about">Tropical Wave is a non-profit group of Asian-pop performers based in Negros Oriental. We’re a community of local talents brought together by our love for Asian pop music and dance. Through fun events, exciting performances, and creative collaborations, we aim to connect with fellow fans, celebrate our shared interests, and keep the energy of Asian pop culture alive in our community.</p>
+                            </div>
+                        </section>
+                        <section>
+                            <div class="card !mb-0"><h2 class="card-title text-left">Vision</h2><p class="prose-about">A leading community of inclusive and passionate performers in Negros Oriental, united by the love for Asian pop culture, spreading joy and cultural appreciation through shared talents in dance and music.</p></div>
+                        </section>
+                        <section>
+                            <!-- Added mb-8 for padding below the card -->
+                            <div class="card mb-8"><h2 class="card-title text-left">Mission</h2><p class="prose-about">Tropical Wave is a non-profit organization dedicated to discovering and nurturing local talents who share a passion for Asian pop. Through performances, events, and collaborative activities, we aim to create an inclusive space that celebrates diversity, strengthens community bonds, and keeps the spirit of Asian pop music and dance alive and thriving.</p></div>
+                        </section>
                     </div>
-                    <h3 class="text-base font-semibold text-[#2A745C]">Economy</h3>
-                    <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
-                    <p class="text-sm text-gray-700">(Official Photocard)</p>
-                    <p class="text-sm text-gray-700">10 Winners</p>
-                    <p class="text-xs text-gray-500 mt-2">Slots: 100</p>
-                </div>
-        
-                <!-- TIER 2 -->
-                <div class="w-full lg:w-1/3 flex-shrink-0 bg-[#D9E8F1] border border-[#BFD7E5] rounded-3xl shadow-md pt-4 pb-4 px-4 relative text-left transition-all duration-300 hover:!shadow-xl hover:!transform hover:!scale-[1.03]">
-                    <div class="absolute top-0 right-0 bg-[#5A9BC8] text-[#D9E8F1] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-                    ₱250
+                    <div class="flex flex-col">
+                        <section>
+                            <!-- Reverted padding above "Our Core Values" to original -->
+                            <h2 class="section-title">Our Core Values</h2>
+                            <div class="space-y-3" id="values-accordion">
+                                <div class="accordion-item">
+                                    <button class="accordion-toggle w-full text-left">
+                                        <span>Inclusivity</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text">
+                                        <p>We embrace diversity and provide a welcoming space for individuals of all backgrounds, abilities, and identities who share a love for Asian pop culture.</p>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <button class="accordion-toggle w-full text-left">
+                                        <span>Passion for Performance</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text">
+                                        <p>We are driven by our shared enthusiasm for dance and music, striving to express joy, creativity, and excellence in every performance.</p>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <button class="accordion-toggle w-full text-left">
+                                        <span>Community and Unity</span>
+                                        <svg class="accordion-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="#89B3D9"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" /></svg>
+                                    </button>
+                                    <div class="accordion-content hidden prose-text">
+                                        <p>We foster strong bonds among members and audiences alike, using our shared interests to build friendships, promote teamwork, and uplift one another.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                    <h3 class="text-base font-semibold text-[#326E9B]">Business Class</h3>
-                    <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
-                    <p class="text-sm text-gray-700">(Official Album)</p>
-                    <p class="text-sm text-gray-700">5 Winners</p>
-                    <p class="text-xs text-gray-500 mt-2">Slots: 75</p>
                 </div>
-        
-                <!-- TIER 3 (UPDATED: Now "Best Value") -->
-                <div class="w-full lg:w-1/3 flex-shrink-0 bg-[#FFF4D6] border-2 border-[#F9C444] rounded-3xl shadow-lg pt-4 pb-4 px-4 relative text-left transition-all duration-300 hover:!shadow-2xl hover:!transform hover:!scale-[1.05]">
-                    <!-- UPDATED: Badge moved here and restyled -->
-                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#F9C444] text-[#423406] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Best Value</span>
-
-                    <div class="absolute top-0 right-0 bg-[#F9C444] text-[#423406] text-xl font-bold px-3 py-1.5 rounded-tl-none rounded-tr-3xl rounded-bl-3xl rounded-br-none shadow-sm">
-                    ₱300
+                 <!-- REPLICATED FOOTER SECTION -->
+                 <footer class="site-footer">
+                    <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
+                    <div class="flex justify-center space-x-6 mb-2.5">
+                        <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg></a>
+                        <a href="https://www.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg></a>
+                        <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg></a>
+                        <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg></a>
+                        <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg></a>
                     </div>
-                    <h3 class="text-base font-semibold text-[#B58700]">First Class</h3>
-                    <p class="text-sm text-gray-700 mt-2">1 Raffle Entry</p>
-                    <p class="text-sm text-gray-700">(Album or Lightstick of your Choice)</p>
-                    <p class="text-sm text-gray-700">1 Winner</p>
-                    <p class="text-xs text-gray-500 mt-2">Slots: 25</p>
-                </div>
-            </div>
+                    <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="footer-credit-link">Icons8.com</a></p>
+                </footer>
+            </main>
         </section>
 
-        <!-- 5. "Learn More" Section (UPDATED: No card, new text, new button) -->
-        <section class="mb-6 text-center">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Want to know more?</h3>
-            <p class="text-base text-gray-700 mb-4">See our event FAQs and learn about the team.</p>
-            <!-- UPDATED: Button text, href, and animation -->
-            <a href="home.html" class="card-button-primary animate-pulseBtn !font-bold !text-base !bg-[#89B3D9] !text-white !shadow-lg hover:!shadow-xl" style="background-color: #89B3D9; color: #F3F8F4; box-shadow: 0 4px 14px 0 rgba(137, 179, 217, 0.4);">
-                Learn More
+    </div>
+    <nav class="floating-nav hidden-nav">
+        <div class="nav-items-container">
+            <div id="nav-indicator" class="nav-indicator"></div>
+            <a class="nav-item active" data-index="0">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M13.228 2.688a2 2 0 0 0-2.456 0l-8.384 6.52C1.636 9.795 2.05 11 3.003 11H4v8a2 2 0 0 0 2 2h4v-6a2 2 0 1 1 4 0v6h4a2 2 0 0 0 2-2v-8h.997c.952 0 1.368-1.205.615-1.791l-8.384-6.52Z"/>
+                </svg>
+                <span>Home</span>
             </a>
-        </section>
-
-    </main>
-
-    <!-- Footer (copied from original file) -->
-    <footer class="site-footer text-center py-6 border-t border-gray-200/80">
-        <h3 class="font-normal text-[12px] text-[#888F95] mb-2.5">Follow Us</h3>
-        <div class="flex justify-center space-x-6 mb-2.5">
-            <!-- Facebook -->
-            <a href="https://www.facebook.com/TropicalWave2017" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-9 h-9 text-[#89B3D9] transition-transform hover:scale-110 hover:text-[#5A9BC8]"><path fill="currentColor" d="M19,3H5C3.895,3,3,3.895,3,5v14c0,1.105,0.895,2,2,2h7.621v-6.961h-2.343v-2.725h2.343V9.309 c0-2.324,1.421-3.591,3.495-3.591c0.699-0.002,1.397,0.034,2.092,0.105v2.43h-1.428c-1.13,0-1.35,0.534-1.35,1.322v1.735h2.7 l-0.351,2.725h-2.365V21H19c1.105,0,2-0.895,2-2V5C21,3.895,20.105,3,19,3z"/></svg>
+            <a class="nav-item" data-index="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill-rule="evenodd"><path fill="currentColor" d="M16 3a1 1 0 0 1 1 1v1h2a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2V4a1 1 0 0 1 2 0v1h6V4a1 1 0 0 1 1-1ZM8.01 16H8a1 1 0 0 0-.117 1.993L8.01 18a1 1 0 1 0 0-2Zm4 0H12a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2Zm4 0H16a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2Zm-8-4H8a1 1 0 0 0-.117 1.993L8.01 14a1 1 0 1 0 0-2Zm4 0H12a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2Zm4 0H16a1 1 0 0 0-.117 1.993l.127.007a1 1 0 1 0 0-2ZM19 7H5v2h14V7Z"/></g></svg>
+                <span>Event</span>
             </a>
-            <!-- Instagram -->
-            <a href="https.instagram.com/tropicalwave2017/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-9 h-9 text-[#89B3D9] transition-transform hover:scale-110 hover:text-[#5A9BC8]"><path fill="currentColor" d="M 8 3 C 5.239 3 3 5.239 3 8 L 3 16 C 3 18.761 5.239 21 8 21 L 16 21 C 18.761 21 21 18.761 21 16 L 21 8 C 21 5.239 18.761 3 16 3 L 8 3 z M 18 5 C 18.552 5 19 5.448 19 6 C 19 6.552 18.552 7 18 7 C 17.448 7 17 6.552 17 6 C 17 5.448 17.448 5 18 5 z M 12 7 C 14.761 7 17 9.239 17 12 C 17 14.761 14.761 17 12 17 C 9.239 17 7 14.761 7 12 C 7 9.239 9.239 7 12 7 z M 12 9 A 3 3 0 0 0 9 12 A 3 3 0 0 0 12 15 A 3 3 0 0 0 15 12 A 3 3 0 0 0 12 9 z"/></svg>
+            <a class="nav-item blurred-passport" data-index="2" id="passport-nav-item">
+                <!-- This container helps with positioning the overlay -->
+                <div class="relative w-full h-full flex flex-col items-center justify-center">
+                    <!-- Original content that will be blurred -->
+                    <div class="flex flex-col items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 mb-px"><g><path fill="currentColor" d="M8 2v19H6c-1.054 0-2-.95-2-2V4c0-1.054.95-2 2-2h2Zm9 0c1.598 0 3 1.3 3 3v13c0 1.7-1.4 3-3 3h-7V2h7Z"/></g></svg>
+                        <span class="text-xs leading-tight font-semibold">Passport</span>
+                    </div>
+                    <!-- Question mark overlay -->
+                    <div id="passport-q-overlay" class="absolute inset-0 flex items-center justify-center">
+                        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01l-.184-.092Z"/><path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2Zm0 14a1 1 0 1 0 0 2a1 1 0 0 0 0-2Zm0-9.5a3.625 3.625 0 0 0-3.625 3.625a1 1 0 1 0 2 0a1.625 1.625 0 1 1 2.23 1.51c-.676.27-1.605.962-1.605 2.115V14a1 1 0 1 0 2 0c0-.244.05-.366.261-.47l.087-.04A3.626 3.626 0 0 0 12 6.5Z"/></g></svg>
+                    </div>
+                </div>
             </a>
-            <!-- TikTok -->
-            <a href="https://www.tiktok.com/@tropicalwave_" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="social-icon-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-9 h-9 text-[#89B3D9] transition-transform hover:scale-110 hover:text-[#5A9BC8]"><path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/></svg>
+            <a class="nav-item" data-index="3">
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill-rule="evenodd"><path fill="currentColor" d="m14.534 12.225l4.243 4.243l-4.243 4.243a1 1 0 0 1-.707.293H11a1 1 0 0 1-1-1v-2.829a1 1 0 0 1 .293-.707l4.242-4.243ZM17 2a2 2 0 0 1 1.995 1.85L19 4v4.02a4.996 4.996 0 0 0-4.27 1.192l-.196.185l-5.656 5.657a3 3 0 0 0-.872 1.923l-.007.198v2.829a3 3 0 0 0 .11.804l.06.192H5a2 2 0 0 1-1.995-1.85L3 19V4a2 2 0 0 1 1.85-1.995L5 2h12Zm3.191 8.811a3 3 0 0 1 0 4.243L15.95 10.81a3 3 0 0 1 4.242 0ZM11 6H7a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2Z"/></g></svg>
+                <span>Join</span>
+                <span id="join-notification-dot" class="absolute top-1.5 right-[1.125rem] w-2 h-2 bg-red-500 rounded-full"></span>
             </a>
-            <!-- YouTube -->
-            <a href="http://www.youtube.com/@tropicalwave2023" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-9 h-9 text-[#89B3D9] transition-transform hover:scale-110 hover:text-[#5A9BC8]"><path fill="currentColor" d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/></svg>
-            </a>
-            <!-- Email -->
-            <a href="mailto:tropicalwave2023@gmail.com" aria-label="Email" class="social-icon-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-9 h-9 text-[#89B3D9] transition-transform hover:scale-110 hover:text-[#5A9BC8]"><path fill="currentColor" d="M 4 4 C 2.895 4 2 4.895 2 6 L 2 18 C 2 19.105 2.895 20 4 20 L 20 20 C 21.105 20 22 19.105 22 18 L 22 6 C 22 4.895 21.105 4 20 4 L 4 4 z M 5.5976562 6 L 18.402344 6 L 12 10 L 5.5976562 6 z M 5 8.6269531 L 12 13 L 19 8.6269531 L 19 18 L 5 18 L 5 8.6269531 z"/></svg>
+            <a class="nav-item" data-index="4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2Zm-.01 8H11a1 1 0 0 0-.117 1.993L11 12v4.99c0 .52.394.95.9 1.004l.11.006h.49a1 1 0 0 0 .596-1.803L13 16.134V11.01c0-.52-.394-.95-.9-1.004L11.99 10ZM12 7a1 1 0 1 0 0 2a1 1 0 0 0 0-2Z"/></g></svg>
+                <span>About</span>
             </a>
         </div>
-        <p class="text-xs text-[#888F95] text-center">Icons by <a href="https://icons8.com" target="_blank" rel="noopener noreferrer" class="hover:underline">Icons8.com</a></p>
-    </footer>
+    </nav>
+
+    <script>
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered: ', registration);
+                })
+                .catch(registrationError => {
+                    console.log('Service Worker registration failed: ', registrationError);
+                });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Element References ---
+        const splashScreen = document.getElementById('splashScreen');
+        const onboardingScreen = document.getElementById('onboardingScreen');
+        const letsGoButton = document.getElementById('letsGoButton');
+        const letsGoButtonDesktop = document.getElementById('letsGoButtonDesktop'); // New desktop button
+        const pageContainer = document.getElementById('page-container');
+        const pageSections = document.querySelectorAll('.page-section');
+        const navItems = document.querySelectorAll('.nav-item');
+        const navIndicator = document.getElementById('nav-indicator');
+        const floatingNav = document.querySelector('.floating-nav');
+
+        // --- Initial Setup ---
+        function initializeAppState() {
+            setTimeout(() => {
+                splashScreen.classList.add('hidden');
+                onboardingScreen.classList.add('visible');
+            }, 2500);
+        }
+
+        // --- Navigation Logic ---
+        function setupNavigation() {
+            navItems.forEach(item => {
+                // Do not add the default click listener to the blurred passport item initially
+                if (item.id === 'passport-nav-item' && item.classList.contains('blurred-passport')) {
+                    return;
+                }
+                item.addEventListener('click', () => {
+                    const pageIndex = parseInt(item.dataset.index, 10);
+                    const scrollPosition = pageIndex * window.innerWidth;
+
+                    pageContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+
+                    updateActiveNav(pageIndex);
+                });
+            });
+        }
+
+        function updateActiveNav(index) {
+            navItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            const activeItem = navItems[index];
+            if (activeItem && navIndicator) {
+                 const containerRect = navIndicator.parentElement.getBoundingClientRect();
+                 const itemRect = activeItem.getBoundingClientRect();
+                 const indicatorLeft = itemRect.left - containerRect.left + (itemRect.width / 2) - (navIndicator.offsetWidth / 2);
+                 navIndicator.style.left = `${indicatorLeft}px`;
+            }
+        }
+
+        // --- Accordion Logic ---
+        function setupAccordions(containerId) {
+            const accordionContainer = document.getElementById(containerId);
+            if (!accordionContainer) return;
+
+            accordionContainer.addEventListener('click', (e) => {
+                const toggle = e.target.closest('.accordion-toggle');
+                if (!toggle) return;
+
+                const content = toggle.nextElementSibling;
+                if (!content) return;
+
+                const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+                toggle.setAttribute('aria-expanded', String(!isExpanded));
+                content.classList.toggle('hidden');
+            });
+        }
+
+        // --- Passport Book Logic ---
+        function setupPassportBook() {
+             const book = document.getElementById("book");
+             if (!book) return;
+
+             const papers = Array.from(book.querySelectorAll('.paper'));
+             const bookTitle = document.getElementById('book-title');
+             const bookDescription = document.getElementById('book-description');
+             const maxLocation = papers.length + 1;
+             let currentLocation = 1;
+             let isFlipping = false;
+             const pageInfo = [
+                { title: "Front Cover", description: "This is your Starlight Passport. Tap to explore the contents." },
+                { title: "Vision & Mission / Bio-Data", description: "Get to know our vision and mission.\nScan the QR to explore more,\nand don’t forget to fill out your Bio-Data!" },
+                { title: "Event I", description: "Claim your stamp for boarding our first\nevent — Starlight Airlines: Onboarding!" },
+                { title: "Event II", description: "Your next stamp awaits! Follow us for event updates." },
+                { title: "Event III", description: "Your final stamp is still far ahead. Stay tuned." },
+                { title: "Important Information", description: "A quick glance at the fine print! Here’s how to treat your items right and what to know if they go missing or get bumpy." },
+                { title: "Back Cover", description: "Every journey has an end, but the memories last a lifetime." }
+            ];
+
+             function updateBookInfo() {
+                 if (!bookTitle || !bookDescription) return;
+                 const info = pageInfo[currentLocation - 1];
+                 bookTitle.textContent = info.title;
+                 bookDescription.textContent = info.description;
+             }
+
+             function openBook() {
+                book.style.transform = "translateX(50%)";
+             }
+
+             function closeBook(isAtBeginning) {
+                if (isAtBeginning) {
+                    book.style.transform = "translateX(0%)";
+                } else {
+                    book.style.transform = "translateX(100%)";
+                }
+             }
+
+             function goNextPage() {
+                 if (currentLocation >= maxLocation || isFlipping) return;
+                 isFlipping = true;
+                 if (currentLocation === 1) openBook();
+                 papers[currentLocation - 1].classList.add("flipped");
+                 papers[currentLocation - 1].style.zIndex = currentLocation;
+                 if (currentLocation === papers.length) closeBook(false);
+                 currentLocation++;
+                 updateBookInfo();
+                 setTimeout(() => { isFlipping = false; }, 1500);
+             }
+
+             function goPrevPage() {
+                 if (currentLocation <= 1 || isFlipping) return;
+                 isFlipping = true;
+                 currentLocation--;
+                 if (currentLocation === 1) closeBook(true);
+                 if (currentLocation === papers.length) openBook();
+                 const prevPaper = papers[currentLocation - 1];
+                 prevPaper.classList.remove("flipped");
+                 setTimeout(() => { prevPaper.style.zIndex = papers.length - (currentLocation - 1); }, 750);
+                 updateBookInfo();
+                 setTimeout(() => { isFlipping = false; }, 1500);
+             }
+
+            book.addEventListener('click', (e) => {
+                if (isFlipping) return;
+                const targetPaper = e.target.closest('.paper');
+                if (!targetPaper) return;
+
+                const bookRect = book.getBoundingClientRect();
+                const clickX = e.clientX - bookRect.left;
+
+                if (clickX > bookRect.width / 2) {
+                    goNextPage();
+                } else {
+                    goPrevPage();
+                }
+            });
+
+             updateBookInfo();
+        }
+
+        // --- Onboarding Logic ---
+        const handleLetsGoClick = () => {
+            onboardingScreen.classList.remove('visible');
+            setTimeout(() => {
+                onboardingScreen.style.display = 'none';
+                pageContainer.style.visibility = 'visible';
+                floatingNav.classList.remove('hidden-nav');
+                pageContainer.scrollTo({
+                    left: 0,
+                    behavior: 'smooth'
+                });
+            }, 500);
+        };
+
+        // --- Join Nav Dot Logic ---
+        const joinNavItem = document.querySelector('.nav-item[data-index="3"]');
+        const joinDot = document.getElementById('join-notification-dot');
+
+        if (joinNavItem && joinDot) {
+            joinNavItem.addEventListener('click', () => {
+                joinDot.style.display = 'none';
+            }, { once: true }); // The listener will be removed after the first click
+        }
+
+        // --- Passport Countdown Surprise Logic ---
+        function setupPassportSurprise() {
+            const unlockDate = new Date('2025-11-16T13:00:00+08:00').getTime(); // Nov 16, 2025, 1PM PHT
+
+            const passportNavItem = document.getElementById('passport-nav-item');
+            const passportSection = document.getElementById('passport');
+            const passportOverlay = document.getElementById('passportOverlay');
+            const countdownTimer = document.getElementById('countdownTimer');
+            const questionMarkOverlay = document.getElementById('passport-q-overlay');
+            const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+            let jiggleInterval = null;
+            
+            if (!passportNavItem || !passportSection || !passportOverlay || !countdownTimer || !questionMarkOverlay || !closeOverlayBtn) {
+                console.error('Passport surprise elements not found.');
+                return;
+            }
+
+            const showOverlay = () => passportOverlay.classList.add('visible');
+            const hideOverlay = () => passportOverlay.classList.remove('visible');
+
+            // This function will be the click listener *before* unlock
+            const showOverlayOnClick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                showOverlay();
+            };
+            
+            // Add listeners to show/hide the overlay
+            passportNavItem.addEventListener('click', showOverlayOnClick);
+            passportOverlay.addEventListener('click', (e) => {
+                // Hide if clicking the background itself, not the content inside
+                if (e.target === passportOverlay) {
+                    hideOverlay();
+                }
+            });
+            closeOverlayBtn.addEventListener('click', hideOverlay);
+
+
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = unlockDate - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    unlockPassport();
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownTimer.innerHTML = `
+                    <span class="w-16 md:w-24 text-center">${String(days).padStart(2, '0')}</span>:
+                    <span class="w-16 md:w-24 text-center">${String(hours).padStart(2, '0')}</span>:
+                    <span class="w-16 md:w-24 text-center">${String(minutes).padStart(2, '0')}</span>:
+                    <span class="w-16 md:w-24 text-center">${String(seconds).padStart(2, '0')}</span>
+                `;
+
+            }, 1000);
+
+            function unlockPassport() {
+                clearInterval(jiggleInterval);
+                hideOverlay();
+                setTimeout(() => passportOverlay.style.display = 'none', 300);
+                
+                passportNavItem.classList.remove('blurred-passport');
+                passportSection.classList.remove('blurred-passport');
+                questionMarkOverlay.style.display = 'none';
+                
+                passportNavItem.removeEventListener('click', showOverlayOnClick);
+
+                passportNavItem.addEventListener('click', () => {
+                    const pageIndex = parseInt(passportNavItem.dataset.index, 10);
+                    const scrollPosition = pageIndex * window.innerWidth;
+
+                    pageContainer.scrollTo({
+                        left: scrollPosition,
+                        behavior: 'smooth'
+                    });
+
+                    updateActiveNav(pageIndex);
+                });
+            }
+            
+            // Jiggle animation logic
+            const startJiggle = () => {
+                if (questionMarkOverlay) {
+                    questionMarkOverlay.classList.add('is-jiggling');
+                    setTimeout(() => {
+                        questionMarkOverlay.classList.remove('is-jiggling');
+                    }, 400); // Duration of the animation
+                }
+            };
+
+            if (new Date().getTime() < unlockDate) {
+                jiggleInterval = setInterval(startJiggle, 3000);
+            } else {
+                 clearInterval(countdownInterval);
+                 unlockPassport();
+            }
+        }
+
+        // --- Run All Initializations ---
+        initializeAppState();
+        setupNavigation(); // Sets up listeners for non-locked items
+        setupAccordions('faq-accordion');
+        setupAccordions('values-accordion');
+        setupPassportBook();
+        setupPassportSurprise(); // Sets up the special logic for the locked item
+
+        // Initial Nav State
+        updateActiveNav(0);
+
+        window.addEventListener('resize', () => {
+            const currentPageIndex = Math.round(pageContainer.scrollLeft / window.innerWidth);
+            updateActiveNav(currentPageIndex);
+        });
+
+        // Add listeners for both mobile and desktop buttons
+        if(letsGoButton) {
+            letsGoButton.addEventListener('click', handleLetsGoClick);
+        }
+        if(letsGoButtonDesktop) {
+            letsGoButtonDesktop.addEventListener('click', handleLetsGoClick);
+        }
+    });
+    </script>
+<!-- TEMPORARILY SKIP ONBOARDING (with nav fix) -->
+<script>
+  const splash = document.getElementById('splashScreen');
+  const onboarding = document.getElementById('onboardingScreen');
+  const pages = document.querySelector('.page-container');
+  const nav = document.querySelector('.floating-nav');
+
+  // When splash is done, skip directly to main site and show nav
+  setTimeout(() => {
+    splash.classList.add('hidden');
+    onboarding.style.display = 'none';
+    if (pages) pages.style.visibility = 'visible';
+    if (nav) nav.classList.remove('hidden-nav'); // show nav if it’s hidden
+  }, 2500); // match your splash duration
+</script>
+
+
 
 </body>
 </html>
